@@ -6,7 +6,7 @@ import AbstractSpruceTest, {
 import LateralizedConnectivityGraph, {
     Graph,
     Network,
-} from '../../LateralizedConnectivityGraph'
+} from '../LateralizedConnectivityGraph'
 
 export default class LateralizedConnectivityGraphTest extends AbstractSpruceTest {
     private static instance: Graph
