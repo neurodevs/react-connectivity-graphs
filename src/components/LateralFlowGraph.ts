@@ -1,7 +1,7 @@
 import { assertOptions } from '@sprucelabs/schema'
 
-export default class LateralizedConnectivityGraph implements Graph {
-    public static Class?: GraphConstructor
+export default class LateralFlowGraph implements FlowGraph {
+    public static Class?: FlowGraphConstructor
 
     protected constructor() {}
 
@@ -11,8 +11,8 @@ export default class LateralizedConnectivityGraph implements Graph {
     }
 }
 
-export interface Graph {}
+export interface FlowGraph {}
 
-export type GraphConstructor = new () => Graph
+export type FlowGraphConstructor = new () => FlowGraph
 
 export interface Network {}
