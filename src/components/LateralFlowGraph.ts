@@ -9,9 +9,15 @@ export default class LateralFlowGraph implements FlowGraph {
         assertOptions({ network }, ['network'])
         return new (this.Class ?? this)()
     }
+
+    public renderJsx() {
+        return '<></>'
+    }
 }
 
-export interface FlowGraph {}
+export interface FlowGraph {
+    renderJsx(): string
+}
 
 export type FlowGraphConstructor = new () => FlowGraph
 

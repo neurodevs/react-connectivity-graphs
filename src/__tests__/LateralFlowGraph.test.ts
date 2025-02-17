@@ -32,9 +32,22 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
         })
     }
 
+    @test()
+    protected static async renderJsxReturnsExpectedTemplate() {
+        const jsx = this.render()
+
+        assert.isEqual(jsx, this.expectedJsx, 'Should return JSX!')
+    }
+
+    private static render() {
+        return this.instance.renderJsx()
+    }
+
     private static get network() {
         return {} as Network
     }
+
+    private static readonly expectedJsx = '<></>'
 
     private static LateralFlowGraph(network = this.network) {
         return LateralFlowGraph.Create(network)
