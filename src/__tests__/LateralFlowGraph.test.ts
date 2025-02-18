@@ -5,7 +5,7 @@ import AbstractSpruceTest, {
 } from '@sprucelabs/test-utils'
 import LateralFlowGraph, {
     FlowGraph,
-    Network,
+    FlowGraphOptions,
 } from '../components/LateralFlowGraph'
 
 export default class LateralFlowGraphTest extends AbstractSpruceTest {
@@ -28,7 +28,7 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
             LateralFlowGraph.Create()
         })
         errorAssert.assertError(err, 'MISSING_PARAMETERS', {
-            parameters: ['network'],
+            parameters: ['nodes', 'edges'],
         })
     }
 
@@ -44,12 +44,15 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
     }
 
     private static get network() {
-        return {} as Network
+        return {
+            nodes: [],
+            edges: [],
+        } as FlowGraphOptions
     }
 
     private static readonly expectedJsx = '<></>'
 
-    private static LateralFlowGraph(network = this.network) {
-        return LateralFlowGraph.Create(network)
+    private static LateralFlowGraph(options = this.network) {
+        return LateralFlowGraph.Create(options)
     }
 }

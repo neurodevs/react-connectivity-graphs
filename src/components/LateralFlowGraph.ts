@@ -5,8 +5,8 @@ export default class LateralFlowGraph implements FlowGraph {
 
     protected constructor() {}
 
-    public static Create(network: Network) {
-        assertOptions({ network }, ['network'])
+    public static Create(options: FlowGraphOptions) {
+        assertOptions(options, ['nodes', 'edges'])
         return new (this.Class ?? this)()
     }
 
@@ -21,4 +21,11 @@ export interface FlowGraph {
 
 export type FlowGraphConstructor = new () => FlowGraph
 
-export interface Network {}
+export interface FlowGraphOptions {
+    nodes: Node[]
+    edges: Edge[]
+}
+
+export interface Node {}
+
+export interface Edge {}
