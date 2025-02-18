@@ -34,12 +34,12 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
 
     @test()
     protected static async renderJsxReturnsExpectedTemplate() {
-        const jsx = this.render()
+        const jsx = this.renderJsx()
 
         assert.isEqual(jsx, this.expectedJsx, 'Should return JSX!')
     }
 
-    private static render() {
+    private static renderJsx() {
         return this.instance.renderJsx()
     }
 
