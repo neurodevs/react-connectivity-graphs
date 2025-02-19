@@ -1,15 +1,34 @@
 import { assertOptions } from '@sprucelabs/schema'
+import SpruceError from '../errors/SpruceError'
 
 export default class LateralFlowGraph implements FlowGraph {
     public static Class?: FlowGraphConstructor
 
-    protected constructor() {}
+    private nodes: Node[]
+    private edges: Edge[]
+
+    protected constructor(options: FlowGraphOptions) {
+        const { nodes, edges } = options
+
+        this.nodes = nodes
+        this.edges = edges
+
+        this.throwIfEdgesWithoutNodes()
+    }
 
     public static Create(options: FlowGraphOptions) {
         assertOptions(options, ['nodes', 'edges'])
-        return new (this.Class ?? this)()
+        return new (this.Class ?? this)(options)
     }
 
+    private throwIfEdgesWithoutNodes() {
+        if (this.nodes.length === 0 && this.edges.length > 0) {
+            throw new SpruceError({
+                code: 'EDGES_WITHOUT_NODES',
+                numEdges: this.edges.length,
+            })
+        }
+    }
     public renderJsx() {
         return '<></>'
     }
