@@ -4,7 +4,7 @@ import AbstractSpruceTest, {
     errorAssert,
 } from '@sprucelabs/test-utils'
 import LateralFlowGraph, {
-    Edge,
+    GraphEdge,
     FlowGraph,
     FlowGraphOptions,
 } from '../components/LateralFlowGraph'
@@ -36,7 +36,7 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
     @test()
     protected static async throwsWithEmptyNodesAndDefinedEdges() {
         const emptyNodes: Node[] = []
-        const oneEdge = [{} as Edge]
+        const oneEdge = [{} as GraphEdge]
 
         const err = assert.doesThrow(() => {
             LateralFlowGraph.Create({ nodes: emptyNodes, edges: oneEdge })

@@ -4,8 +4,8 @@ import SpruceError from '../errors/SpruceError'
 export default class LateralFlowGraph implements FlowGraph {
     public static Class?: FlowGraphConstructor
 
-    private nodes: Node[]
-    private edges: Edge[]
+    private nodes: GraphNode[]
+    private edges: GraphEdge[]
 
     protected constructor(options: FlowGraphOptions) {
         const { nodes, edges } = options
@@ -41,10 +41,10 @@ export interface FlowGraph {
 export type FlowGraphConstructor = new () => FlowGraph
 
 export interface FlowGraphOptions {
-    nodes: Node[]
-    edges: Edge[]
+    nodes: GraphNode[]
+    edges: GraphEdge[]
 }
 
-export interface Node {}
+export interface GraphNode {}
 
-export interface Edge {}
+export interface GraphEdge {}
