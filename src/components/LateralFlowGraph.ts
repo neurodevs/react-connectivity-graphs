@@ -22,12 +22,20 @@ export default class LateralFlowGraph implements FlowGraph {
     }
 
     private throwIfEdgesWithoutNodes() {
-        if (this.nodes.length === 0 && this.edges.length > 0) {
+        if (this.zeroNodes && this.greaterThanZeroEdges) {
             throw new SpruceError({
                 code: 'EDGES_WITHOUT_NODES',
                 numEdges: this.edges.length,
             })
         }
+    }
+
+    private get zeroNodes() {
+        return this.nodes.length === 0
+    }
+
+    private get greaterThanZeroEdges() {
+        return this.edges.length > 0
     }
 
     public renderJsx() {
