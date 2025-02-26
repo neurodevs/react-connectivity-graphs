@@ -34,12 +34,12 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
     }
 
     @test()
-    protected static async throwsWithEmptyNodesAndDefinedEdges() {
-        const emptyNodes: Node[] = []
+    protected static async throwsOnEdgesWithoutNodes() {
+        const zeroNodes: Node[] = []
         const oneEdge = [{} as GraphEdge]
 
         const err = assert.doesThrow(() => {
-            LateralFlowGraph.Create({ nodes: emptyNodes, edges: oneEdge })
+            LateralFlowGraph.Create({ nodes: zeroNodes, edges: oneEdge })
         })
 
         errorAssert.assertError(err, 'EDGES_WITHOUT_NODES', {
