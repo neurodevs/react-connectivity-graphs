@@ -31,6 +31,17 @@ export default class LateralFlowGraph implements FlowGraph {
         return this.zeroNodes && this.greaterThanZeroEdges
     }
 
+    private throwEdgesWithoutNodesError() {
+        throw new SpruceError({
+            code: 'EDGES_WITHOUT_NODES',
+            numEdges: this.numEdges,
+        })
+    }
+
+    public renderJsx() {
+        return '<></>'
+    }
+
     private get zeroNodes() {
         return this.numNodes === 0
     }
@@ -45,17 +56,6 @@ export default class LateralFlowGraph implements FlowGraph {
 
     private get numEdges() {
         return this.edges.length
-    }
-
-    private throwEdgesWithoutNodesError() {
-        throw new SpruceError({
-            code: 'EDGES_WITHOUT_NODES',
-            numEdges: this.numEdges,
-        })
-    }
-
-    public renderJsx() {
-        return '<></>'
     }
 }
 
