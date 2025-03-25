@@ -57,16 +57,20 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
 
     @test()
     protected static async renderJsxCreatesReactFlowProviderElement() {
-        let wasHit = false
+        let passedName = ''
 
         // @ts-ignore
-        LateralFlowGraph.createElement = () => {
-            wasHit = true
+        LateralFlowGraph.createElement = (elementName: string) => {
+            passedName = elementName
         }
 
         this.renderJsx()
 
-        assert.isTrue(wasHit, 'Should create a ReactFlowProvider element!')
+        assert.isEqual(
+            passedName,
+            'ReactFlowProvider',
+            'Should create a ReactFlowProvider element!'
+        )
     }
 
     private static renderJsx() {
