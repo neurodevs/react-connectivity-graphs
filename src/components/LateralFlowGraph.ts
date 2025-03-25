@@ -42,16 +42,16 @@ export default class LateralFlowGraph implements FlowGraph {
         return this.numEdges > 0
     }
 
+    private get numEdges() {
+        return this.edges.length
+    }
+
     private get hasZeroNodes() {
         return this.numNodes === 0
     }
 
     private get numNodes() {
         return this.nodes.length
-    }
-
-    private get numEdges() {
-        return this.edges.length
     }
 
     public renderJsx() {
