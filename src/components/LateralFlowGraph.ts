@@ -28,7 +28,7 @@ export default class LateralFlowGraph implements FlowGraph {
     }
 
     private get hasEdgesWithoutNodes() {
-        return this.zeroNodes && this.greaterThanZeroEdges
+        return this.hasZeroNodes && this.hasAtLeastOneEdge
     }
 
     private throwEdgesWithoutNodesError() {
@@ -42,11 +42,11 @@ export default class LateralFlowGraph implements FlowGraph {
         return '<></>'
     }
 
-    private get zeroNodes() {
+    private get hasZeroNodes() {
         return this.numNodes === 0
     }
 
-    private get greaterThanZeroEdges() {
+    private get hasAtLeastOneEdge() {
         return this.numEdges > 0
     }
 
