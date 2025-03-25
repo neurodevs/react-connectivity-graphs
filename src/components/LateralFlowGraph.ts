@@ -69,7 +69,7 @@ export interface FlowGraph {
     renderJsx(): React.ReactElement
 }
 
-export type FlowGraphConstructor = new () => FlowGraph
+export type FlowGraphConstructor = new (options: FlowGraphOptions) => FlowGraph
 
 export interface FlowGraphOptions {
     nodes: GraphNode[]
