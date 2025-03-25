@@ -28,7 +28,7 @@ export default class LateralFlowGraph implements FlowGraph {
     }
 
     private get hasEdgesWithoutNodes() {
-        return this.hasZeroNodes && this.hasAtLeastOneEdge
+        return this.hasAtLeastOneEdge && this.hasZeroNodes
     }
 
     private throwEdgesWithoutNodes() {
