@@ -38,10 +38,6 @@ export default class LateralFlowGraph implements FlowGraph {
         })
     }
 
-    public renderJsx() {
-        return '<></>'
-    }
-
     private get hasZeroNodes() {
         return this.numNodes === 0
     }
@@ -56,6 +52,10 @@ export default class LateralFlowGraph implements FlowGraph {
 
     private get numEdges() {
         return this.edges.length
+    }
+
+    public renderJsx() {
+        return '<></>'
     }
 }
 
