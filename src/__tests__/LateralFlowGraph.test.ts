@@ -13,6 +13,7 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
     private static instance: FlowGraph
     private static passedType?: string
     private static passedProps?: object
+    private static passedChildren?: React.ReactNode[]
 
     protected static async beforeEach() {
         await super.beforeEach()
@@ -74,14 +75,31 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
         )
     }
 
+    @test()
+    protected static async rendersReactFlowProviderWithCorrectChildren() {
+        this.renderJsx()
+
+        assert.isEqualDeep(
+            this.passedChildren,
+            [],
+            'Should create a ReactFlowProvider element with correct children!'
+        )
+    }
+
     private static fakeCreateElement() {
-        this.passedType = ''
+        this.passedType = undefined
         this.passedProps = undefined
+        this.passedChildren = undefined
 
         // @ts-ignore
-        LateralFlowGraph.createElement = (type: string, props: object) => {
+        LateralFlowGraph.createElement = (
+            type: string,
+            props: object,
+            children: React.ReactNode[]
+        ) => {
             this.passedType = type
             this.passedProps = props
+            this.passedChildren = children
         }
     }
 
