@@ -3,6 +3,7 @@ import AbstractSpruceTest, {
     assert,
     errorAssert,
 } from '@sprucelabs/test-utils'
+import React from 'react'
 import LateralFlowGraph, {
     GraphEdge,
     FlowGraph,
@@ -51,7 +52,21 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
     protected static async renderJsxReturnsExpectedTemplate() {
         const jsx = this.renderJsx()
 
-        assert.isEqual(jsx, this.expectedJsx, 'Should return JSX!')
+        assert.isEqualDeep(jsx, this.expectedJsx, 'Should return JSX!')
+    }
+
+    @test()
+    protected static async renderJsxCreatesReactFlowProviderElement() {
+        let wasHit = false
+
+        // @ts-ignore
+        LateralFlowGraph.createElement = () => {
+            wasHit = true
+        }
+
+        this.renderJsx()
+
+        assert.isTrue(wasHit, 'Should create a ReactFlowProvider element!')
     }
 
     private static renderJsx() {
@@ -65,7 +80,11 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
         } as FlowGraphOptions
     }
 
-    private static readonly expectedJsx = '<></>'
+    private static readonly elementName = 'oias'
+
+    private static readonly expectedJsx = React.createElement(
+        LateralFlowGraphTest.elementName
+    )
 
     private static LateralFlowGraph(options = this.network) {
         return LateralFlowGraph.Create(options)

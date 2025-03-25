@@ -1,8 +1,10 @@
 import { assertOptions } from '@sprucelabs/schema'
+import React from 'react'
 import SpruceError from '../errors/SpruceError'
 
 export default class LateralFlowGraph implements FlowGraph {
     public static Class?: FlowGraphConstructor
+    public static createElement = React.createElement
 
     private nodes: GraphNode[]
     private edges: GraphEdge[]
@@ -55,12 +57,12 @@ export default class LateralFlowGraph implements FlowGraph {
     }
 
     public renderJsx() {
-        return '<></>'
+        return LateralFlowGraph.createElement('oias')
     }
 }
 
 export interface FlowGraph {
-    renderJsx(): string
+    renderJsx(): React.ReactElement
 }
 
 export type FlowGraphConstructor = new () => FlowGraph
