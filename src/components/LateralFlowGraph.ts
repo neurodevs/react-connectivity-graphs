@@ -38,12 +38,12 @@ export default class LateralFlowGraph implements FlowGraph {
         })
     }
 
-    private get hasZeroNodes() {
-        return this.numNodes === 0
-    }
-
     private get hasAtLeastOneEdge() {
         return this.numEdges > 0
+    }
+
+    private get hasZeroNodes() {
+        return this.numNodes === 0
     }
 
     private get numNodes() {
