@@ -80,7 +80,7 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
         } as FlowGraphOptions
     }
 
-    private static readonly elementName = 'oias'
+    private static readonly elementName = 'ReactFlowProvider'
 
     private static readonly expectedJsx = React.createElement(
         LateralFlowGraphTest.elementName
