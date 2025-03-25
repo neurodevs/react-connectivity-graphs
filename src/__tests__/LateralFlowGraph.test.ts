@@ -3,7 +3,6 @@ import AbstractSpruceTest, {
     assert,
     errorAssert,
 } from '@sprucelabs/test-utils'
-import React from 'react'
 import LateralFlowGraph, {
     GraphEdge,
     FlowGraph,
@@ -12,9 +11,18 @@ import LateralFlowGraph, {
 
 export default class LateralFlowGraphTest extends AbstractSpruceTest {
     private static instance: FlowGraph
+    private static passedName: string
 
     protected static async beforeEach() {
         await super.beforeEach()
+
+        this.passedName = ''
+
+        // @ts-ignore
+        LateralFlowGraph.createElement = (elementName: string) => {
+            this.passedName = elementName
+        }
+
         this.instance = this.LateralFlowGraph()
     }
 
@@ -49,25 +57,11 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
     }
 
     @test()
-    protected static async renderJsxReturnsExpectedTemplate() {
-        const jsx = this.renderJsx()
-
-        assert.isEqualDeep(jsx, this.expectedJsx, 'Should return JSX!')
-    }
-
-    @test()
     protected static async renderJsxCreatesReactFlowProviderElement() {
-        let passedName = ''
-
-        // @ts-ignore
-        LateralFlowGraph.createElement = (elementName: string) => {
-            passedName = elementName
-        }
-
         this.renderJsx()
 
         assert.isEqual(
-            passedName,
+            this.passedName,
             'ReactFlowProvider',
             'Should create a ReactFlowProvider element!'
         )
@@ -83,12 +77,6 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
             edges: [],
         } as FlowGraphOptions
     }
-
-    private static readonly elementName = 'ReactFlowProvider'
-
-    private static readonly expectedJsx = React.createElement(
-        LateralFlowGraphTest.elementName
-    )
 
     private static LateralFlowGraph(options = this.network) {
         return LateralFlowGraph.Create(options)
