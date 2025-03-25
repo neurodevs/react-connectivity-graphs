@@ -11,7 +11,7 @@ import LateralFlowGraph, {
 
 export default class LateralFlowGraphTest extends AbstractSpruceTest {
     private static instance: FlowGraph
-    private static passedName: string
+    private static passedType: string
 
     protected static async beforeEach() {
         await super.beforeEach()
@@ -56,18 +56,18 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
         this.renderJsx()
 
         assert.isEqual(
-            this.passedName,
+            this.passedType,
             'ReactFlowProvider',
             'Should create a ReactFlowProvider element!'
         )
     }
 
     private static fakeCreateElement() {
-        this.passedName = ''
+        this.passedType = ''
 
         // @ts-ignore
-        LateralFlowGraph.createElement = (elementName: string) => {
-            this.passedName = elementName
+        LateralFlowGraph.createElement = (type: string) => {
+            this.passedType = type
         }
     }
 
