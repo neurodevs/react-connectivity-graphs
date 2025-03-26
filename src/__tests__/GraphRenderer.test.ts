@@ -1,5 +1,5 @@
 import AbstractSpruceTest, { test, assert } from '@sprucelabs/test-utils'
-import GraphRenderer, { Renderer } from '../../components/GraphRenderer'
+import GraphRenderer, { Renderer } from '../components/GraphRenderer'
 
 export default class GraphRendererTest extends AbstractSpruceTest {
     private static instance: Renderer
