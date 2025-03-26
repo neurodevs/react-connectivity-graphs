@@ -11,7 +11,7 @@ export default class GraphRendererTest extends AbstractSpruceTest {
     }
 
     @test()
-    protected static async canCreateGraphRenderer() {
+    protected static async createsGraphRendererInstance() {
         assert.isTruthy(this.instance, 'Should create an instance!')
     }
 

@@ -24,7 +24,7 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
     }
 
     @test()
-    protected static async canCreateLateralFlowGraph() {
+    protected static async createsLateralFlowGraphInstance() {
         assert.isTruthy(this.instance, 'Should create an instance!')
     }
 
