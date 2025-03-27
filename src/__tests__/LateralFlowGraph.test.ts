@@ -83,6 +83,16 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
         )
     }
 
+    @test()
+    protected static async rendersGraphRendererWithCorrectType() {
+        this.renderJsx()
+
+        assert.isTruthy(
+            this.callForGraphRenderer,
+            'Should create a GraphRenderer element!'
+        )
+    }
+
     private static renderJsx() {
         return this.instance.renderJsx()
     }
@@ -103,6 +113,12 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
     private static get callForReactFlowProvider() {
         return this.callsToCreateElement.find(
             (call) => call.type === 'ReactFlowProvider'
+        )
+    }
+
+    private static get callForGraphRenderer() {
+        return this.callsToCreateElement.find(
+            (call) => call.type === 'GraphRenderer'
         )
     }
 

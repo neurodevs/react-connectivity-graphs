@@ -61,6 +61,7 @@ export default class LateralFlowGraph implements FlowGraph {
     }
 
     public renderJsx() {
+        this.createElement('GraphRenderer')
         return this.createElement('ReactFlowProvider', {}, [])
     }
 }
