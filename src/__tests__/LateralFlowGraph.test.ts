@@ -11,9 +11,7 @@ import LateralFlowGraph, {
 
 export default class LateralFlowGraphTest extends AbstractSpruceTest {
     private static instance: FlowGraph
-    private static passedType?: string
-    private static passedProps?: object
-    private static passedChildren?: React.ReactNode[]
+    private static callsToCreateElement: CallToCreateElement[] = []
 
     protected static async beforeEach() {
         await super.beforeEach()
@@ -57,10 +55,9 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
     protected static async rendersReactFlowProviderWithCorrectType() {
         this.renderJsx()
 
-        assert.isEqual(
-            this.passedType,
-            'ReactFlowProvider',
-            'Should create a ReactFlowProvider element with correct type!'
+        assert.isTruthy(
+            this.callForReactFlowProvider,
+            'Should create a ReactFlowProvider element!'
         )
     }
 
@@ -69,7 +66,7 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
         this.renderJsx()
 
         assert.isEqualDeep(
-            this.passedProps,
+            this.callForReactFlowProvider?.props,
             {},
             'Should create a ReactFlowProvider element with correct props!'
         )
@@ -80,16 +77,18 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
         this.renderJsx()
 
         assert.isEqualDeep(
-            this.passedChildren,
+            this.callForReactFlowProvider?.children,
             [],
             'Should create a ReactFlowProvider element with correct children!'
         )
     }
 
+    private static renderJsx() {
+        return this.instance.renderJsx()
+    }
+
     private static fakeCreateElement() {
-        this.passedType = undefined
-        this.passedProps = undefined
-        this.passedChildren = undefined
+        this.callsToCreateElement = []
 
         // @ts-ignore
         LateralFlowGraph.createElement = (
@@ -97,14 +96,14 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
             props: object,
             children: React.ReactNode[]
         ) => {
-            this.passedType = type
-            this.passedProps = props
-            this.passedChildren = children
+            this.callsToCreateElement.push({ type, props, children })
         }
     }
 
-    private static renderJsx() {
-        return this.instance.renderJsx()
+    private static get callForReactFlowProvider() {
+        return this.callsToCreateElement.find(
+            (call) => call.type === 'ReactFlowProvider'
+        )
     }
 
     private static get network() {
@@ -117,4 +116,10 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
     private static LateralFlowGraph(options = this.network) {
         return LateralFlowGraph.Create(options)
     }
+}
+
+export interface CallToCreateElement {
+    type: string
+    props: object
+    children: React.ReactNode[]
 }
