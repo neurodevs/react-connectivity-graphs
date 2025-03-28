@@ -1,6 +1,7 @@
 import { assertOptions } from '@sprucelabs/schema'
 import React from 'react'
 import SpruceError from '../errors/SpruceError'
+import GraphRenderer from './GraphRenderer'
 
 export default class LateralFlowGraph implements FlowGraph {
     public static Class?: FlowGraphConstructor
@@ -61,8 +62,8 @@ export default class LateralFlowGraph implements FlowGraph {
     }
 
     public renderJsx() {
-        this.createElement('GraphRenderer')
-        return this.createElement('ReactFlowProvider', {}, [])
+        const renderer = this.createElement(GraphRenderer)
+        return this.createElement('ReactFlowProvider', {}, renderer)
     }
 }
 
