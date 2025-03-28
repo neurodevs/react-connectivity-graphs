@@ -1,8 +1,9 @@
-import AbstractSpruceTest, { test, assert } from '@sprucelabs/test-utils'
+import { test, assert } from '@sprucelabs/test-utils'
 import React from 'react'
 import GraphRenderer from '../components/GraphRenderer'
+import AbstractDomTest from './AbstractDomTest'
 
-export default class GraphRendererTest extends AbstractSpruceTest {
+export default class GraphRendererTest extends AbstractDomTest {
     private static element: React.ReactElement
 
     protected static async beforeEach() {
