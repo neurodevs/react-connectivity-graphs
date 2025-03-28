@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+        "jsx": "react",
 		"skipLibCheck": true,
 		"module": "commonjs",
 		"esModuleInterop": true,
@@ -30,7 +31,10 @@
 	"include": [
 		"./src/*.ts",
 		"./src/**/*.ts",
-		"./src/.spruce/**/*"
+		"./src/*.tsx",
+		"./src/**/*.tsx",
+		"./src/.spruce/**/*", 
+		"src/components/GraphRenderer.tsx"	
 	],
 	"exclude": [
 		"build",

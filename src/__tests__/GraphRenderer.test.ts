@@ -1,21 +1,28 @@
 import AbstractSpruceTest, { test, assert } from '@sprucelabs/test-utils'
-import GraphRenderer, { Renderer } from '../components/GraphRenderer'
+import React from 'react'
+import GraphRenderer from '../components/GraphRenderer'
 
 export default class GraphRendererTest extends AbstractSpruceTest {
-    private static instance: Renderer
+    private static element: React.ReactElement
 
     protected static async beforeEach() {
         await super.beforeEach()
 
-        this.instance = this.GraphRenderer()
+        this.element = this.renderGraphRenderer()
     }
 
     @test()
-    protected static async createsGraphRendererInstance() {
-        assert.isTruthy(this.instance, 'Should create an instance!')
+    protected static async rendersGraphRendererElement() {
+        assert.isTruthy(this.element, 'Should create a React element!')
+
+        assert.isEqual(
+            this.element.type,
+            GraphRenderer,
+            'Should render GraphRenderer component!'
+        )
     }
 
-    private static GraphRenderer() {
-        return GraphRenderer.Create()
+    private static renderGraphRenderer() {
+        return React.createElement(GraphRenderer)
     }
 }
