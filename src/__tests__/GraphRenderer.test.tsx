@@ -41,7 +41,7 @@ export default class GraphRendererTest extends AbstractDomTest {
         assert.isEqual(
             div.className,
             'graph-renderer',
-            'Should render a div with class="graph-renderer"!'
+            'Should render div with className="graph-renderer"!'
         )
     }
 
