@@ -8,13 +8,16 @@ export default class GraphRendererTest extends AbstractSpruceTest {
     protected static async beforeEach() {
         await super.beforeEach()
 
-        this.element = this.renderGraphRenderer()
+        this.element = this.createGraphRendererElement()
     }
 
     @test()
-    protected static async rendersGraphRendererElement() {
+    protected static async createsGraphRendererElement() {
         assert.isTruthy(this.element, 'Should create a React element!')
+    }
 
+    @test()
+    protected static async createsElementWithExpectedType() {
         assert.isEqual(
             this.element.type,
             GraphRenderer,
@@ -22,7 +25,7 @@ export default class GraphRendererTest extends AbstractSpruceTest {
         )
     }
 
-    private static renderGraphRenderer() {
+    private static createGraphRendererElement() {
         return React.createElement(GraphRenderer)
     }
 }
