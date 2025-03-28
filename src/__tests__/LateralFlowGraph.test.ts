@@ -3,6 +3,7 @@ import AbstractSpruceTest, {
     assert,
     errorAssert,
 } from '@sprucelabs/test-utils'
+import { ReactFlowProvider } from 'reactflow'
 import GraphRenderer from '../components/GraphRenderer'
 import LateralFlowGraph, {
     GraphEdge,
@@ -118,7 +119,7 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
 
     private static get callForReactFlowProvider() {
         return this.callsToCreateElement.find(
-            (call) => call.type === 'ReactFlowProvider'
+            (call) => call.type === ReactFlowProvider
         )
     }
 
