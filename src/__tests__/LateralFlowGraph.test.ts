@@ -98,7 +98,7 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
     }
 
     private static renderJsx() {
-        return this.instance.renderJsx()
+        return this.instance.render()
     }
 
     private static fakeCreateElement() {
