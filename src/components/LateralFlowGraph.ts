@@ -14,6 +14,7 @@ export default class LateralFlowGraph implements FlowGraph {
     protected onNodeMouseEnter?: () => void
     protected onNodeMouseLeave?: () => void
     protected onEdgeClick?: () => void
+    protected onEdgeMouseEnter?: () => void
 
     protected constructor(options: FlowGraphOptions) {
         const {
@@ -23,6 +24,7 @@ export default class LateralFlowGraph implements FlowGraph {
             onNodeMouseEnter,
             onNodeMouseLeave,
             onEdgeClick,
+            onEdgeMouseEnter,
         } = options
 
         this.nodes = nodes
@@ -31,6 +33,7 @@ export default class LateralFlowGraph implements FlowGraph {
         this.onNodeMouseEnter = onNodeMouseEnter
         this.onNodeMouseLeave = onNodeMouseLeave
         this.onEdgeClick = onEdgeClick
+        this.onEdgeMouseEnter = onEdgeMouseEnter
 
         this.throwIfEdgesWithoutNodes()
     }
@@ -100,6 +103,7 @@ export interface FlowGraphOptions {
     onNodeMouseEnter?: () => void
     onNodeMouseLeave?: () => void
     onEdgeClick?: () => void
+    onEdgeMouseEnter?: () => void
 }
 
 export interface GraphNode {}
