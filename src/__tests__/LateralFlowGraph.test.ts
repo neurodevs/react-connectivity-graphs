@@ -111,7 +111,7 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
     }
 
     @test()
-    protected static async passesOptionalOnNodeClickCallback() {
+    protected static async passesOptionalCallbackForOnNodeClick() {
         this.render()
 
         const cb = this.instance.getOnNodeClick()
@@ -124,7 +124,7 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
     }
 
     @test()
-    protected static async passesOptionalOnEdgeClickCallback() {
+    protected static async passesOptionalCallbackForOnEdgeClick() {
         this.render()
 
         const cb = this.instance.getOnEdgeCallback()
