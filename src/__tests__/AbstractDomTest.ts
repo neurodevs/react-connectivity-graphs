@@ -17,6 +17,14 @@ export default class AbstractDomTest extends AbstractSpruceTest {
         global.HTMLElement = dom.window.HTMLElement
         global.getComputedStyle = dom.window.getComputedStyle
 
+        global.ResizeObserver = class {
+            public observe() {}
+            public unobserve() {}
+            public disconnect() {}
+        }
+
+        global.SVGElement = dom.window.SVGElement
+
         this.jsdom = dom
     }
 
