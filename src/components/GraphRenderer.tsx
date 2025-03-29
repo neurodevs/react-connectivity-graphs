@@ -1,7 +1,14 @@
 import React from 'react'
+import ReactFlow from 'reactflow'
 
-const GraphRenderer: React.FC = () => {
-    return <div className="graph-renderer" data-testid="graph-renderer"></div>
+export interface GraphRendererProps {}
+
+const GraphRenderer: React.FC<GraphRendererProps> = () => {
+    return (
+        <div className="graph-renderer" data-testid="graph-renderer">
+            <ReactFlow />
+        </div>
+    )
 }
 
 export default GraphRenderer

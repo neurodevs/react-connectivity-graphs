@@ -45,6 +45,14 @@ export default class GraphRendererTest extends AbstractDomTest {
         )
     }
 
+    @test()
+    protected static async rendersReactFlowAsChildOfDiv() {
+        const div = this.renderAndGetTopLevelDiv()
+        const reactFlow = div.querySelector('.react-flow')
+
+        assert.isTruthy(reactFlow, 'Should render ReactFlow as child of div!')
+    }
+
     private static renderAndGetTopLevelDiv() {
         const { getByTestId } = this.render()
         return getByTestId('graph-renderer')
