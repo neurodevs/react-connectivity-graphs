@@ -1,7 +1,10 @@
 import React from 'react'
+import ReactFlow, { Node, Edge } from 'reactflow'
+ReactFlow
 
 interface FakeReactFlowProps {
-    nodes?: unknown[]
+    nodes: Node[]
+    edges: Edge[]
 }
 
 export let lastFakeReactFlowProps: FakeReactFlowProps | undefined

@@ -3,7 +3,9 @@ import { render } from '@testing-library/react'
 import React from 'react'
 import ReactFlow from 'reactflow'
 import GraphRenderer from '../components/GraphRenderer'
-import FakeReactFlow from '../testDoubles/FakeReactFlow'
+import FakeReactFlow, {
+    lastFakeReactFlowProps,
+} from '../testDoubles/FakeReactFlow'
 import AbstractDomTest from './AbstractDomTest'
 
 export default class GraphRendererTest extends AbstractDomTest {
@@ -52,6 +54,20 @@ export default class GraphRendererTest extends AbstractDomTest {
         const reactFlow = this.renderAndGetReactFlow(false)
 
         assert.isTruthy(reactFlow, 'Should render ReactFlow as child of div!')
+    }
+
+    @test()
+    protected static async passesPropsToReactFlow() {
+        this.render()
+
+        assert.isEqualDeep(
+            lastFakeReactFlowProps,
+            {
+                nodes: [],
+                edges: [],
+            },
+            'Passed incorrect props to ReactFlow!'
+        )
     }
 
     private static renderAndGetTopLevelDiv(useFake = true) {

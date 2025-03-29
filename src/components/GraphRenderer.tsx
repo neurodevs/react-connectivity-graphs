@@ -10,7 +10,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
 }) => {
     return (
         <div className="graph-renderer" data-testid="graph-renderer">
-            <ReactFlowComponent />
+            <ReactFlowComponent nodes={[]} edges={[]} />
         </div>
     )
 }
