@@ -7,18 +7,27 @@ import { ReactFlowProvider } from 'reactflow'
 import GraphRenderer from '../components/GraphRenderer'
 import LateralFlowGraph, {
     GraphEdge,
-    FlowGraph,
     FlowGraphOptions,
 } from '../components/LateralFlowGraph'
 
 export default class LateralFlowGraphTest extends AbstractSpruceTest {
-    private static instance: FlowGraph
+    private static instance: SpyLateralFlowGraph
     private static callsToCreateElement: CallToCreateElement[] = []
+
+    private static wasHitForCallbacks: {
+        onNodeClick: boolean
+    }
 
     protected static async beforeEach() {
         await super.beforeEach()
 
+        LateralFlowGraph.Class = SpyLateralFlowGraph
+
         this.fakeCreateElement()
+
+        this.wasHitForCallbacks = {
+            onNodeClick: false,
+        }
 
         this.instance = this.LateralFlowGraph()
     }
@@ -98,6 +107,19 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
         )
     }
 
+    @test()
+    protected static async passesOptionalOnNodeClickCallback() {
+        this.renderJsx()
+
+        const cb = this.instance.getOnNodeClick()
+        cb?.()
+
+        assert.isTruthy(
+            this.wasHitForCallbacks.onNodeClick,
+            'Should pass onNodeClick!'
+        )
+    }
+
     private static renderJsx() {
         return this.instance.render()
     }
@@ -129,15 +151,18 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
         )
     }
 
-    private static get network() {
+    private static get options() {
         return {
             nodes: [],
             edges: [],
+            onNodeClick: () => {
+                this.wasHitForCallbacks.onNodeClick = true
+            },
         } as FlowGraphOptions
     }
 
-    private static LateralFlowGraph(options = this.network) {
-        return LateralFlowGraph.Create(options)
+    private static LateralFlowGraph(options = this.options) {
+        return LateralFlowGraph.Create(options) as SpyLateralFlowGraph
     }
 }
 
@@ -145,4 +170,14 @@ export interface CallToCreateElement {
     type: string | React.FC
     props: object
     children: React.ReactNode[]
+}
+
+class SpyLateralFlowGraph extends LateralFlowGraph {
+    public constructor(options: FlowGraphOptions) {
+        super(options)
+    }
+
+    public getOnNodeClick() {
+        return this.onNodeClick
+    }
 }
