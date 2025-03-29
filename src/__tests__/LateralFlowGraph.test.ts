@@ -123,7 +123,7 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
 
         assert.isTruthy(
             this.wasHitForCallbacks.onNodeClick,
-            'Should pass onNodeClick!'
+            'Should pass onNodeClick callback!'
         )
     }
 
@@ -136,7 +136,7 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
 
         assert.isTruthy(
             this.wasHitForCallbacks.onNodeMouseEnter,
-            'Should pass onNodeMouseEnter!'
+            'Should pass onNodeMouseEnter callback!'
         )
     }
 
@@ -149,7 +149,7 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
 
         assert.isTruthy(
             this.wasHitForCallbacks.onNodeMouseLeave,
-            'Should pass onNodeMouseLeave!'
+            'Should pass onNodeMouseLeave callback!'
         )
     }
 
@@ -162,7 +162,7 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
 
         assert.isTruthy(
             this.wasHitForCallbacks.onEdgeClick,
-            'Should pass onEdgeClick!'
+            'Should pass onEdgeClick callback!'
         )
     }
 
