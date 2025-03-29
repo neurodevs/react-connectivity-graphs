@@ -1,6 +1,5 @@
 import React from 'react'
-import ReactFlow, { Node, Edge } from 'reactflow'
-ReactFlow
+import { Node, Edge } from 'reactflow'
 
 interface FakeReactFlowProps {
     nodes: Node[]
