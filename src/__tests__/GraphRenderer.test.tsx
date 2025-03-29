@@ -1,7 +1,7 @@
 import { test, assert } from '@sprucelabs/test-utils'
 import { render } from '@testing-library/react'
 import React from 'react'
-import ReactFlow from 'reactflow'
+import { Edge, Node } from 'reactflow'
 import GraphRenderer from '../components/GraphRenderer'
 import FakeReactFlow, {
     lastFakeReactFlowProps,
@@ -51,7 +51,7 @@ export default class GraphRendererTest extends AbstractDomTest {
 
     @test()
     protected static async rendersReactFlowAsChildOfDiv() {
-        const reactFlow = this.renderAndGetReactFlow(false)
+        const reactFlow = this.renderAndGetReactFlow()
 
         assert.isTruthy(reactFlow, 'Should render ReactFlow as child of div!')
     }
@@ -63,29 +63,37 @@ export default class GraphRendererTest extends AbstractDomTest {
         assert.isEqualDeep(
             lastFakeReactFlowProps,
             {
-                nodes: [],
-                edges: [],
+                nodes: this.oneFakeNode,
+                edges: this.oneFakeEdge,
             },
             'Passed incorrect props to ReactFlow!'
         )
     }
 
-    private static renderAndGetTopLevelDiv(useFake = true) {
-        const { getByTestId } = this.render(useFake)
+    private static renderAndGetTopLevelDiv() {
+        const { getByTestId } = this.render()
         return getByTestId('graph-renderer')
     }
 
-    private static renderAndGetReactFlow(useFake = true) {
-        const div = this.renderAndGetTopLevelDiv(useFake)
+    private static renderAndGetReactFlow() {
+        const div = this.renderAndGetTopLevelDiv()
         return div.querySelector('.react-flow')
     }
 
-    private static render(useFake = true) {
-        const Component = useFake ? FakeReactFlow : ReactFlow
-        return render(<GraphRenderer ReactFlowComponent={Component} />)
+    private static render() {
+        return render(
+            <GraphRenderer
+                nodes={this.oneFakeNode}
+                edges={this.oneFakeEdge}
+                ReactFlowComponent={FakeReactFlow}
+            />
+        )
     }
 
     private static createElement() {
         return React.createElement(GraphRenderer)
     }
+
+    private static readonly oneFakeNode = [{} as Node]
+    private static readonly oneFakeEdge = [{} as Edge]
 }
