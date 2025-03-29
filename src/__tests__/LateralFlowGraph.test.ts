@@ -64,7 +64,7 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
 
     @test()
     protected static async rendersReactFlowProviderWithCorrectType() {
-        this.renderJsx()
+        this.render()
 
         assert.isTruthy(
             this.callForReactFlowProvider,
@@ -74,7 +74,7 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
 
     @test()
     protected static async rendersReactFlowProviderWithCorrectProps() {
-        this.renderJsx()
+        this.render()
 
         assert.isEqualDeep(
             this.callForReactFlowProvider?.props,
@@ -85,7 +85,7 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
 
     @test()
     protected static async rendersReactFlowProviderWithCorrectChildren() {
-        this.renderJsx()
+        this.render()
 
         const isChild = this.callForReactFlowProvider?.children?.some?.(
             (c) => c === this.callForGraphRenderer
@@ -99,7 +99,7 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
 
     @test()
     protected static async rendersGraphRendererWithCorrectType() {
-        this.renderJsx()
+        this.render()
 
         assert.isTruthy(
             this.callForGraphRenderer,
@@ -109,7 +109,7 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
 
     @test()
     protected static async passesOptionalOnNodeClickCallback() {
-        this.renderJsx()
+        this.render()
 
         const cb = this.instance.getOnNodeClick()
         cb?.()
@@ -120,7 +120,7 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
         )
     }
 
-    private static renderJsx() {
+    private static render() {
         return this.instance.render()
     }
 
