@@ -9,6 +9,7 @@ import LateralFlowGraph, {
     GraphEdge,
     FlowGraphOptions,
 } from '../components/LateralFlowGraph'
+import SpyLateralFlowGraph from '../testDoubles/SpyLateralFlowGraph'
 
 export default class LateralFlowGraphTest extends AbstractSpruceTest {
     private static instance: SpyLateralFlowGraph
@@ -188,18 +189,4 @@ export interface CallToCreateElement {
     type: string | React.FC
     props: object
     children: React.ReactNode[]
-}
-
-class SpyLateralFlowGraph extends LateralFlowGraph {
-    public constructor(options: FlowGraphOptions) {
-        super(options)
-    }
-
-    public getOnNodeClick() {
-        return this.onNodeClick
-    }
-
-    public getOnEdgeCallback() {
-        return this.onEdgeClick
-    }
 }
