@@ -16,6 +16,7 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
 
     private static wasHitForCallbacks: {
         onNodeClick: boolean
+        onEdgeClick: boolean
     }
 
     protected static async beforeEach() {
@@ -27,6 +28,7 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
 
         this.wasHitForCallbacks = {
             onNodeClick: false,
+            onEdgeClick: false,
         }
 
         this.instance = this.LateralFlowGraph()
@@ -120,6 +122,19 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
         )
     }
 
+    @test()
+    protected static async passesOptionalOnEdgeClickCallback() {
+        this.render()
+
+        const cb = this.instance.getOnEdgeCallback()
+        cb?.()
+
+        assert.isTruthy(
+            this.wasHitForCallbacks.onEdgeClick,
+            'Should pass onEdgeClick!'
+        )
+    }
+
     private static render() {
         return this.instance.render()
     }
@@ -158,6 +173,9 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
             onNodeClick: () => {
                 this.wasHitForCallbacks.onNodeClick = true
             },
+            onEdgeClick: () => {
+                this.wasHitForCallbacks.onEdgeClick = true
+            },
         } as FlowGraphOptions
     }
 
@@ -179,5 +197,9 @@ class SpyLateralFlowGraph extends LateralFlowGraph {
 
     public getOnNodeClick() {
         return this.onNodeClick
+    }
+
+    public getOnEdgeCallback() {
+        return this.onEdgeClick
     }
 }
