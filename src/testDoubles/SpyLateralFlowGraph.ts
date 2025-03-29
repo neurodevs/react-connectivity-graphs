@@ -26,4 +26,8 @@ export default class SpyLateralFlowGraph extends LateralFlowGraph {
     public getOnEdgeMouseEnter() {
         return this.onEdgeMouseEnter
     }
+
+    public getOnEdgeMouseLeave() {
+        return this.onEdgeMouseLeave
+    }
 }

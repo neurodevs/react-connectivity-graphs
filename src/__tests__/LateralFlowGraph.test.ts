@@ -21,6 +21,7 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
         onNodeMouseLeave: boolean
         onEdgeClick: boolean
         onEdgeMouseEnter: boolean
+        onEdgeMouseLeave: boolean
     }
 
     protected static async beforeEach() {
@@ -36,6 +37,7 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
             onNodeMouseLeave: false,
             onEdgeClick: false,
             onEdgeMouseEnter: false,
+            onEdgeMouseLeave: false,
         }
 
         this.instance = this.LateralFlowGraph()
@@ -168,6 +170,19 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
         )
     }
 
+    @test()
+    protected static async passesOptionalCallbackForOnEdgeMouseLeave() {
+        this.render()
+
+        const cb = this.instance.getOnEdgeMouseLeave()
+        cb?.()
+
+        assert.isTruthy(
+            this.wasHitForCallbacks.onEdgeMouseLeave,
+            'Should pass onEdgeMouseLeave callback!'
+        )
+    }
+
     private static render() {
         return this.instance.render()
     }
@@ -217,6 +232,9 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
             },
             onEdgeMouseEnter: () => {
                 this.wasHitForCallbacks.onEdgeMouseEnter = true
+            },
+            onEdgeMouseLeave: () => {
+                this.wasHitForCallbacks.onEdgeMouseLeave = true
             },
         } as FlowGraphOptions
     }
