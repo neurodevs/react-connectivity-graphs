@@ -1,7 +1,9 @@
 import { test, assert } from '@sprucelabs/test-utils'
 import { render } from '@testing-library/react'
 import React from 'react'
+import ReactFlow from 'reactflow'
 import GraphRenderer from '../components/GraphRenderer'
+import FakeReactFlow from '../testDoubles/FakeReactFlow'
 import AbstractDomTest from './AbstractDomTest'
 
 export default class GraphRendererTest extends AbstractDomTest {
@@ -47,23 +49,24 @@ export default class GraphRendererTest extends AbstractDomTest {
 
     @test()
     protected static async rendersReactFlowAsChildOfDiv() {
-        const reactFlow = this.renderAndGetReactFlow()
+        const reactFlow = this.renderAndGetReactFlow(false)
 
         assert.isTruthy(reactFlow, 'Should render ReactFlow as child of div!')
     }
 
-    private static renderAndGetTopLevelDiv() {
-        const { getByTestId } = this.render()
+    private static renderAndGetTopLevelDiv(useFake = true) {
+        const { getByTestId } = this.render(useFake)
         return getByTestId('graph-renderer')
     }
 
-    private static renderAndGetReactFlow() {
-        const div = this.renderAndGetTopLevelDiv()
+    private static renderAndGetReactFlow(useFake = true) {
+        const div = this.renderAndGetTopLevelDiv(useFake)
         return div.querySelector('.react-flow')
     }
 
-    private static render() {
-        return render(<GraphRenderer />)
+    private static render(useFake = true) {
+        const Component = useFake ? FakeReactFlow : ReactFlow
+        return render(<GraphRenderer ReactFlowComponent={Component} />)
     }
 
     private static createElement() {
