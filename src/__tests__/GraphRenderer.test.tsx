@@ -73,11 +73,11 @@ export default class GraphRendererTest extends AbstractDomTest {
         return div.querySelector('.react-flow')
     }
 
-    private static createElement() {
-        return React.createElement(GraphRenderer)
-    }
-
     private static render() {
         return render(<GraphRenderer />)
+    }
+
+    private static createElement() {
+        return React.createElement(GraphRenderer)
     }
 }
