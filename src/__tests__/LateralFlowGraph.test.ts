@@ -27,18 +27,9 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
     protected static async beforeEach() {
         await super.beforeEach()
 
-        LateralFlowGraph.Class = SpyLateralFlowGraph
-
+        this.setSpyLateralFlowGraph()
         this.fakeCreateElement()
-
-        this.wasHitForCallbacks = {
-            onNodeClick: false,
-            onNodeMouseEnter: false,
-            onNodeMouseLeave: false,
-            onEdgeClick: false,
-            onEdgeMouseEnter: false,
-            onEdgeMouseLeave: false,
-        }
+        this.setWasHitFalseForAllCallbacks()
 
         this.instance = this.LateralFlowGraph()
     }
@@ -237,6 +228,21 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
                 this.wasHitForCallbacks.onEdgeMouseLeave = true
             },
         } as FlowGraphOptions
+    }
+
+    private static setWasHitFalseForAllCallbacks() {
+        this.wasHitForCallbacks = {
+            onNodeClick: false,
+            onNodeMouseEnter: false,
+            onNodeMouseLeave: false,
+            onEdgeClick: false,
+            onEdgeMouseEnter: false,
+            onEdgeMouseLeave: false,
+        }
+    }
+
+    private static setSpyLateralFlowGraph() {
+        LateralFlowGraph.Class = SpyLateralFlowGraph
     }
 
     private static LateralFlowGraph(options = this.options) {
