@@ -81,7 +81,11 @@ export default class LateralFlowGraph implements FlowGraph {
     }
 
     private createRenderer() {
-        return this.createElement(this.GraphRenderer)
+        return this.createElement(this.GraphRenderer, {
+            nodes: [],
+            edges: [],
+            onNodeClick: this.onNodeClick,
+        })
     }
 
     private get GraphRenderer() {

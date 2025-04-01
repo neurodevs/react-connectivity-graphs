@@ -110,15 +110,15 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
     }
 
     @test()
-    protected static async passesOptionalCallbackForOnNodeClick() {
+    protected static async passesOnNodeClickCallbackToRenderer() {
         this.render()
 
-        const cb = this.instance.getOnNodeClick()
+        const cb = this.callForGraphRenderer?.props?.onNodeClick
         cb?.()
 
         assert.isTruthy(
             this.wasHitForCallbacks.onNodeClick,
-            'Should pass onNodeClick callback!'
+            'Should pass onNodeClick callback to GraphRenderer!'
         )
     }
 
@@ -149,7 +149,7 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
     }
 
     @test()
-    protected static async passesOptionalCallbackForOnEdgeClick() {
+    protected static async passesOnEdgeClickCallbackToRenderer() {
         this.render()
 
         const cb = this.instance.getOnEdgeClick()
@@ -265,6 +265,6 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
 
 export interface CallToCreateElement {
     type: string | React.FC
-    props: object
+    props: React.Attributes & Record<string, any>
     children: React.ReactNode[]
 }

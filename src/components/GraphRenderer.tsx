@@ -4,6 +4,7 @@ import ReactFlow, { Edge, Node } from 'reactflow'
 export interface GraphRendererProps {
     nodes: Node[]
     edges: Edge[]
+    onNodeClick?: () => void
     ReactFlowComponent?: React.ComponentType<any>
 }
 
