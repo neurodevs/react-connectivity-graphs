@@ -85,6 +85,7 @@ export default class LateralFlowGraph implements FlowGraph {
             nodes: [],
             edges: [],
             onNodeClick: this.onNodeClick,
+            onNodeMouseEnter: this.onNodeMouseEnter,
         })
     }
 

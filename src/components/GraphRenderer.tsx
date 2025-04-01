@@ -5,6 +5,7 @@ export interface GraphRendererProps {
     nodes: Node[]
     edges: Edge[]
     onNodeClick?: () => void
+    onNodeMouseEnter?: () => void
     ReactFlowComponent?: React.ComponentType<any>
 }
 
