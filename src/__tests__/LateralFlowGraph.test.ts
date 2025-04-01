@@ -8,11 +8,11 @@ import GraphRenderer from '../components/GraphRenderer'
 import LateralFlowGraph, {
     GraphEdge,
     FlowGraphOptions,
+    FlowGraph,
 } from '../components/LateralFlowGraph'
-import SpyLateralFlowGraph from '../testDoubles/SpyLateralFlowGraph'
 
 export default class LateralFlowGraphTest extends AbstractSpruceTest {
-    private static instance: SpyLateralFlowGraph
+    private static instance: FlowGraph
     private static callsToCreateElement: CallToCreateElement[] = []
 
     private static wasHitForCallbacks: {
@@ -27,7 +27,6 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
     protected static async beforeEach() {
         await super.beforeEach()
 
-        this.setSpyLateralFlowGraph()
         this.fakeCreateElement()
         this.setWasHitFalseForAllCallbacks()
 
@@ -254,12 +253,8 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
         }
     }
 
-    private static setSpyLateralFlowGraph() {
-        LateralFlowGraph.Class = SpyLateralFlowGraph
-    }
-
     private static LateralFlowGraph(options = this.options) {
-        return LateralFlowGraph.Create(options) as SpyLateralFlowGraph
+        return LateralFlowGraph.Create(options)
     }
 }
 

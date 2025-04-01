@@ -3,9 +3,6 @@
 export { default as LateralFlowGraph } from './components/LateralFlowGraph'
 export * from './components/LateralFlowGraph'
 
-export { default as SpyLateralFlowGraph } from './testDoubles/SpyLateralFlowGraph'
-export * from './testDoubles/SpyLateralFlowGraph'
-
 // GraphRenderer
 
 export { default as GraphRenderer } from './components/GraphRenderer'
