@@ -3,12 +3,10 @@ import { GraphRendererProps } from '../components/GraphRenderer'
 
 export let lastFakeGraphRendererProps: GraphRendererProps | undefined
 
-const FakeGraphRenderer: React.FC<GraphRendererProps> = ({
-    nodes,
-    edges,
-    ReactFlowComponent,
-}) => {
-    lastFakeGraphRendererProps = { nodes, edges, ReactFlowComponent }
+const FakeGraphRenderer: React.FC<GraphRendererProps> = (
+    props: GraphRendererProps
+) => {
+    lastFakeGraphRendererProps = props
 
     return (
         <div
