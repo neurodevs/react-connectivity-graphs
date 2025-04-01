@@ -152,7 +152,7 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
     protected static async passesOptionalCallbackForOnEdgeClick() {
         this.render()
 
-        const cb = this.instance.getOnEdgeCallback()
+        const cb = this.instance.getOnEdgeClick()
         cb?.()
 
         assert.isTruthy(
