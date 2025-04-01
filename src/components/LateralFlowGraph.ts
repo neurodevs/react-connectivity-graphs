@@ -81,7 +81,19 @@ export default class LateralFlowGraph implements FlowGraph {
     }
 
     private createRenderer() {
-        return this.createElement(this.GraphRenderer, {
+        return this.createElement(this.GraphRenderer, this.graphRendererProps)
+    }
+
+    private get createElement() {
+        return LateralFlowGraph.createElement
+    }
+
+    private get GraphRenderer() {
+        return LateralFlowGraph.GraphRenderer
+    }
+
+    private get graphRendererProps() {
+        return {
             nodes: [],
             edges: [],
             onNodeClick: this.onNodeClick,
@@ -90,15 +102,7 @@ export default class LateralFlowGraph implements FlowGraph {
             onEdgeClick: this.onEdgeClick,
             onEdgeMouseEnter: this.onEdgeMouseEnter,
             onEdgeMouseLeave: this.onEdgeMouseLeave,
-        })
-    }
-
-    private get GraphRenderer() {
-        return LateralFlowGraph.GraphRenderer
-    }
-
-    private get createElement() {
-        return LateralFlowGraph.createElement
+        }
     }
 
     public render() {
