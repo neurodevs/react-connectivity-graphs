@@ -9,6 +9,7 @@ export interface GraphRendererProps {
     onNodeMouseLeave?: () => void
     onEdgeClick?: () => void
     onEdgeMouseEnter?: () => void
+    onEdgeMouseLeave?: () => void
     ReactFlowComponent?: React.ComponentType<any>
 }
 

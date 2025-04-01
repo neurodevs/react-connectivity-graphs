@@ -175,10 +175,10 @@ export default class LateralFlowGraphTest extends AbstractSpruceTest {
     }
 
     @test()
-    protected static async passesOptionalCallbackForOnEdgeMouseLeave() {
+    protected static async passesOnEdgeMouseLeaveCallbackToRenderer() {
         this.render()
 
-        const cb = this.instance.getOnEdgeMouseLeave()
+        const cb = this.callForGraphRenderer?.props?.onEdgeMouseLeave
         cb?.()
 
         assert.isTruthy(
