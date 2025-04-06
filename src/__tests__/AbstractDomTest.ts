@@ -7,9 +7,7 @@ export default class AbstractDomTest extends AbstractSpruceTest {
     protected static async beforeAll() {
         await super.beforeAll()
 
-        const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>', {
-            url: 'http://localhost',
-        })
+        const dom = this.JSDOM()
 
         global.window = dom.window as any
         global.document = dom.window.document
@@ -30,6 +28,13 @@ export default class AbstractDomTest extends AbstractSpruceTest {
 
     protected static async afterAll() {
         await super.afterAll()
+
         this.jsdom.window.close()
+    }
+
+    private static JSDOM() {
+        return new JSDOM('<!DOCTYPE html><html><body></body></html>', {
+            url: 'http://localhost',
+        })
     }
 }
