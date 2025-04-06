@@ -12,6 +12,12 @@ export default class AbstractDomTest extends AbstractSpruceTest {
         this.fakeGlobalWithJsdom()
     }
 
+    protected static async afterAll() {
+        await super.afterAll()
+
+        this.jsdom.window.close()
+    }
+
     private static fakeGlobalWithJsdom() {
         global.window = this.jsdom.window as any
         global.document = this.jsdom.window.document
@@ -26,12 +32,6 @@ export default class AbstractDomTest extends AbstractSpruceTest {
         }
 
         global.SVGElement = this.jsdom.window.SVGElement
-    }
-
-    protected static async afterAll() {
-        await super.afterAll()
-
-        this.jsdom.window.close()
     }
 
     private static readonly html = '<!DOCTYPE html><html><body></body></html>'
