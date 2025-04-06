@@ -7,13 +7,17 @@ export default class AbstractDomTest extends AbstractSpruceTest {
     protected static async beforeAll() {
         await super.beforeAll()
 
-        const dom = this.JSDOM()
+        this.jsdom = this.JSDOM()
 
-        global.window = dom.window as any
-        global.document = dom.window.document
-        global.navigator = dom.window.navigator
-        global.HTMLElement = dom.window.HTMLElement
-        global.getComputedStyle = dom.window.getComputedStyle
+        this.fakeGlobalWithJsdom()
+    }
+
+    private static fakeGlobalWithJsdom() {
+        global.window = this.jsdom.window as any
+        global.document = this.jsdom.window.document
+        global.navigator = this.jsdom.window.navigator
+        global.HTMLElement = this.jsdom.window.HTMLElement
+        global.getComputedStyle = this.jsdom.window.getComputedStyle
 
         global.ResizeObserver = class {
             public observe() {}
@@ -21,9 +25,7 @@ export default class AbstractDomTest extends AbstractSpruceTest {
             public disconnect() {}
         }
 
-        global.SVGElement = dom.window.SVGElement
-
-        this.jsdom = dom
+        global.SVGElement = this.jsdom.window.SVGElement
     }
 
     protected static async afterAll() {
