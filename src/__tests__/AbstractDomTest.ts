@@ -32,9 +32,12 @@ export default class AbstractDomTest extends AbstractSpruceTest {
         this.jsdom.window.close()
     }
 
+    private static readonly html = '<!DOCTYPE html><html><body></body></html>'
+    private static readonly url = 'http://localhost'
+
     private static JSDOM() {
-        return new JSDOM('<!DOCTYPE html><html><body></body></html>', {
-            url: 'http://localhost',
+        return new JSDOM(this.html, {
+            url: this.url,
         })
     }
 }
