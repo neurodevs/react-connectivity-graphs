@@ -81,7 +81,7 @@ export default class LateralFlowGraph implements FlowGraph {
     }
 
     private createRenderer() {
-        return this.createElement(this.GraphRenderer, this.graphRendererProps)
+        return this.createElement(this.GraphRenderer, this.rendererProps)
     }
 
     private get createElement() {
@@ -92,7 +92,7 @@ export default class LateralFlowGraph implements FlowGraph {
         return LateralFlowGraph.GraphRenderer
     }
 
-    private get graphRendererProps() {
+    private get rendererProps() {
         return {
             nodes: [],
             edges: [],
