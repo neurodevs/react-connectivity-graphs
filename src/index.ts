@@ -3,8 +3,8 @@
 export { default as LateralFlowGraph } from './components/LateralFlowGraph'
 export * from './components/LateralFlowGraph'
 
-export { default as FakeFlowGraph } from './testDoubles/FakeLateralFlowGraph'
-export * from './testDoubles/FakeLateralFlowGraph'
+export { default as FakeFlowGraph } from './testDoubles/FakeFlowGraph'
+export * from './testDoubles/FakeFlowGraph'
 
 // GraphRenderer
 
