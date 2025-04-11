@@ -6,7 +6,6 @@ import GraphRenderer from './GraphRenderer'
 
 export default class LateralFlowGraph implements FlowGraph {
     public static Class?: FlowGraphConstructor
-    public static GraphRenderer = GraphRenderer
     public static createElement = React.createElement
 
     private nodes: GraphNode[]
@@ -81,15 +80,11 @@ export default class LateralFlowGraph implements FlowGraph {
     }
 
     private createRenderer() {
-        return this.createElement(this.GraphRenderer, this.rendererProps)
+        return this.createElement(GraphRenderer, this.rendererProps)
     }
 
     private get createElement() {
         return LateralFlowGraph.createElement
-    }
-
-    private get GraphRenderer() {
-        return LateralFlowGraph.GraphRenderer
     }
 
     private get rendererProps() {
