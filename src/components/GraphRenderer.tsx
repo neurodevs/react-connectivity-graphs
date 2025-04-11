@@ -16,11 +16,26 @@ export interface GraphRendererProps {
 const GraphRenderer: React.FC<GraphRendererProps> = ({
     nodes,
     edges,
+    onNodeClick,
+    onNodeMouseEnter,
+    onNodeMouseLeave,
+    onEdgeClick,
+    onEdgeMouseEnter,
+    onEdgeMouseLeave,
     ReactFlowComponent = ReactFlow,
 }) => {
     return (
         <div className="graph-renderer" data-testid="graph-renderer">
-            <ReactFlowComponent nodes={nodes} edges={edges} />
+            <ReactFlowComponent
+                nodes={nodes}
+                edges={edges}
+                onNodeClick={onNodeClick}
+                onNodeMouseEnter={onNodeMouseEnter}
+                onNodeMouseLeave={onNodeMouseLeave}
+                onEdgeClick={onEdgeClick}
+                onEdgeMouseEnter={onEdgeMouseEnter}
+                onEdgeMouseLeave={onEdgeMouseLeave}
+            />
         </div>
     )
 }

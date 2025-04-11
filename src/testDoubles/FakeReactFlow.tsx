@@ -1,14 +1,9 @@
 import React from 'react'
-import { Node, Edge } from 'reactflow'
+import { ReactFlowProps } from 'reactflow'
 
-interface FakeReactFlowProps {
-    nodes: Node[]
-    edges: Edge[]
-}
+export let lastFakeReactFlowProps: ReactFlowProps | undefined
 
-export let lastFakeReactFlowProps: FakeReactFlowProps | undefined
-
-const FakeReactFlow: React.FC<FakeReactFlowProps> = (props) => {
+const FakeReactFlow: React.FC<ReactFlowProps> = (props) => {
     lastFakeReactFlowProps = props
 
     return <div className="react-flow" data-testid="fake-reactflow" />

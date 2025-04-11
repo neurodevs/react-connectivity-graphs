@@ -65,6 +65,12 @@ export default class GraphRendererTest extends AbstractDomTest {
             {
                 nodes: this.oneFakeNode,
                 edges: this.oneFakeEdge,
+                onNodeClick: this.onNodeClick,
+                onNodeMouseEnter: this.onNodeMouseEnter,
+                onNodeMouseLeave: this.onNodeMouseLeave,
+                onEdgeClick: this.onEdgeClick,
+                onEdgeMouseEnter: this.onEdgeMouseEnter,
+                onEdgeMouseLeave: this.onEdgeMouseLeave,
             },
             'Passed incorrect props to ReactFlow!'
         )
@@ -85,10 +91,23 @@ export default class GraphRendererTest extends AbstractDomTest {
             <GraphRenderer
                 nodes={this.oneFakeNode}
                 edges={this.oneFakeEdge}
+                onNodeClick={this.onNodeClick}
+                onNodeMouseEnter={this.onNodeMouseEnter}
+                onNodeMouseLeave={this.onNodeMouseLeave}
+                onEdgeClick={this.onEdgeClick}
+                onEdgeMouseEnter={this.onEdgeMouseEnter}
+                onEdgeMouseLeave={this.onEdgeMouseLeave}
                 ReactFlowComponent={FakeReactFlow}
             />
         )
     }
+
+    private static readonly onNodeClick = () => {}
+    private static readonly onNodeMouseEnter = () => {}
+    private static readonly onNodeMouseLeave = () => {}
+    private static readonly onEdgeClick = () => {}
+    private static readonly onEdgeMouseEnter = () => {}
+    private static readonly onEdgeMouseLeave = () => {}
 
     private static createElement() {
         return React.createElement(GraphRenderer)
