@@ -67,7 +67,10 @@
     ],
     "moduleNameMapper": {
       "^#spruce/(.*)$": "<rootDir>/build/.spruce/$1"
-    }
+    },
+    "setupFiles": [
+      "<rootDir>/build/__tests__/setupTests.js"
+    ]
   },
   "dependencies": {
     "@sprucelabs/error": "^6.0.577",

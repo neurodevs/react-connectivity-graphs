@@ -1,20 +1,19 @@
-import { test, assert } from '@sprucelabs/test-utils'
-import { render } from '@testing-library/react'
+import AbstractSpruceTest, { test, assert } from '@sprucelabs/test-utils'
+import { render, screen } from '@testing-library/react'
 import React from 'react'
-import { Edge, Node } from 'reactflow'
+import ReactFlow, { Edge, Node, ReactFlowProvider } from 'reactflow'
 import GraphRenderer from '../components/GraphRenderer'
 import FakeReactFlow, {
     lastFakeReactFlowProps,
 } from '../testDoubles/FakeReactFlow'
-import AbstractDomTest from './AbstractDomTest'
 
-export default class GraphRendererTest extends AbstractDomTest {
+export default class GraphRendererTest extends AbstractSpruceTest {
     private static element: React.ReactElement
 
     protected static async beforeEach() {
         await super.beforeEach()
 
-        this.element = this.createElement()
+        this.element = this.createRenderer()
     }
 
     @test()
@@ -76,6 +75,19 @@ export default class GraphRendererTest extends AbstractDomTest {
         )
     }
 
+    @test()
+    protected static async rendersOneNodeOnScreen() {
+        this.render(false)
+
+        const renderedNodes = screen.queryAllByTestId(/rf__node-\d/)
+
+        assert.isEqual(
+            renderedNodes.length,
+            1,
+            'Should render one node on screen!'
+        )
+    }
+
     private static renderAndGetTopLevelDiv() {
         const { getByTestId } = this.render()
         return getByTestId('graph-renderer')
@@ -86,19 +98,21 @@ export default class GraphRendererTest extends AbstractDomTest {
         return div.querySelector('.react-flow')
     }
 
-    private static render() {
+    private static render(useFake = true) {
         return render(
-            <GraphRenderer
-                nodes={this.oneFakeNode}
-                edges={this.oneFakeEdge}
-                onNodeClick={this.onNodeClick}
-                onNodeMouseEnter={this.onNodeMouseEnter}
-                onNodeMouseLeave={this.onNodeMouseLeave}
-                onEdgeClick={this.onEdgeClick}
-                onEdgeMouseEnter={this.onEdgeMouseEnter}
-                onEdgeMouseLeave={this.onEdgeMouseLeave}
-                ReactFlowComponent={FakeReactFlow}
-            />
+            <ReactFlowProvider>
+                <GraphRenderer
+                    nodes={this.oneFakeNode}
+                    edges={this.oneFakeEdge}
+                    onNodeClick={this.onNodeClick}
+                    onNodeMouseEnter={this.onNodeMouseEnter}
+                    onNodeMouseLeave={this.onNodeMouseLeave}
+                    onEdgeClick={this.onEdgeClick}
+                    onEdgeMouseEnter={this.onEdgeMouseEnter}
+                    onEdgeMouseLeave={this.onEdgeMouseLeave}
+                    ReactFlowComponent={useFake ? FakeReactFlow : ReactFlow}
+                />
+            </ReactFlowProvider>
         )
     }
 
@@ -109,10 +123,17 @@ export default class GraphRendererTest extends AbstractDomTest {
     private static readonly onEdgeMouseEnter = () => {}
     private static readonly onEdgeMouseLeave = () => {}
 
-    private static createElement() {
+    private static createRenderer() {
         return React.createElement(GraphRenderer)
     }
 
-    private static readonly oneFakeNode = [{} as Node]
-    private static readonly oneFakeEdge = [{} as Edge]
+    private static readonly oneFakeNode: Node[] = [
+        {
+            id: '1',
+            position: { x: 0, y: 0 },
+            data: {},
+        },
+    ]
+
+    private static readonly oneFakeEdge: Edge[] = [{} as Edge]
 }
