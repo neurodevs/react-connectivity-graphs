@@ -99,7 +99,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
         return div.querySelector('.react-flow')
     }
 
-    private static render(useFakeProvider = true) {
+    private static render(useFakeReactFlow = true) {
         return render(
             <ReactFlowProvider>
                 <GraphRenderer
@@ -112,7 +112,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
                     onEdgeMouseEnter={this.onEdgeMouseEnter}
                     onEdgeMouseLeave={this.onEdgeMouseLeave}
                     ReactFlowComponent={
-                        useFakeProvider ? FakeReactFlow : ReactFlow
+                        useFakeReactFlow ? FakeReactFlow : ReactFlow
                     }
                 />
             </ReactFlowProvider>
