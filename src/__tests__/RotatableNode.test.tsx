@@ -1,14 +1,15 @@
-import AbstractSpruceTest, { assert, test } from '@sprucelabs/test-utils'
+import { assert, test } from '@sprucelabs/test-utils'
 import React from 'react'
 import RotatableNode from '../components/RotatableNode'
+import AbstractPackageTest from './AbstractPackageTest'
 
-export default class RotatableNodeTest extends AbstractSpruceTest {
+export default class RotatableNodeTest extends AbstractPackageTest {
     private static element: React.ReactElement
 
     protected static async beforeEach() {
         await super.beforeEach()
 
-        this.element = React.createElement(RotatableNode)
+        this.element = this.createElement(RotatableNode)
     }
 
     @test()
