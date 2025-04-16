@@ -2,11 +2,11 @@ import { test, assert } from '@sprucelabs/test-utils'
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 import ReactFlow, { Edge, Node, ReactFlowProvider } from 'reactflow'
-import GraphRenderer from '../components/GraphRenderer'
+import GraphRenderer from '../../components/GraphRenderer'
 import FakeReactFlow, {
     lastFakeReactFlowProps,
-} from '../testDoubles/FakeReactFlow'
-import AbstractPackageTest from './AbstractPackageTest'
+} from '../../testDoubles/FakeReactFlow'
+import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class GraphRendererTest extends AbstractPackageTest {
     private static element: React.ReactElement

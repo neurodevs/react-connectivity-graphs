@@ -1,12 +1,12 @@
 import { test, assert, errorAssert } from '@sprucelabs/test-utils'
 import { ReactFlowProvider } from 'reactflow'
-import GraphRenderer from '../components/GraphRenderer'
+import GraphRenderer from '../../components/GraphRenderer'
 import LateralFlowGraph, {
     GraphEdge,
     FlowGraphOptions,
     FlowGraph,
-} from '../components/LateralFlowGraph'
-import AbstractPackageTest from './AbstractPackageTest'
+} from '../../components/LateralFlowGraph'
+import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class LateralFlowGraphTest extends AbstractPackageTest {
     private static instance: FlowGraph
