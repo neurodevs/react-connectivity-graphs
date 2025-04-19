@@ -11,7 +11,7 @@ export interface GraphRendererProps {
     onEdgeClick?: () => void
     onEdgeMouseEnter?: () => void
     onEdgeMouseLeave?: () => void
-    ReactFlowComponent?: React.ComponentType<any>
+    ReactFlowComponent?: React.ComponentType
     useMemoFn?: (factory: NodeTypesFactory, deps: DependencyList) => NodeTypes
 }
 
