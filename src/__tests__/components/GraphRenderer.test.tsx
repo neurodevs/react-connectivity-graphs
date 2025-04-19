@@ -17,7 +17,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
     protected static async beforeEach() {
         await super.beforeEach()
 
-        this.fakeUseMemoFn()
+        this.clearFakeUseMemo()
 
         this.element = this.createRenderer()
     }
@@ -152,7 +152,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
         )
     }
 
-    private static fakeUseMemoFn() {
+    private static clearFakeUseMemo() {
         this.useMemoPassedFactory = undefined
         this.useMemoPassedDeps = undefined
     }
