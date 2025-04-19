@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react'
 import React from 'react'
 import ReactFlow, { Edge, Node, ReactFlowProvider } from 'reactflow'
 import GraphRenderer from '../../components/GraphRenderer'
+import RotatableNode from '../../components/RotatableNode'
 import FakeReactFlow, {
     lastFakeReactFlowProps,
 } from '../../testDoubles/FakeReactFlow'
@@ -10,9 +11,13 @@ import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class GraphRendererTest extends AbstractPackageTest {
     private static element: React.ReactElement
+    private static useMemoPassedFactory?: () => any
+    private static useMemoPassedDeps?: React.DependencyList
 
     protected static async beforeEach() {
         await super.beforeEach()
+
+        this.fakeUseMemoFn()
 
         this.element = this.createRenderer()
     }
@@ -65,6 +70,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
             {
                 nodes: this.oneFakeNode,
                 edges: this.oneFakeEdge,
+                nodeTypes: this.nodeTypes,
                 onNodeClick: this.onNodeClick,
                 onNodeMouseEnter: this.onNodeMouseEnter,
                 onNodeMouseLeave: this.onNodeMouseLeave,
@@ -87,6 +93,32 @@ export default class GraphRendererTest extends AbstractPackageTest {
             1,
             'Should render one node on screen!'
         )
+    }
+
+    @test()
+    protected static async passesNodeTypesToUseMemo() {
+        this.render()
+
+        assert.isEqualDeep(
+            this.useMemoPassedFactory?.(),
+            this.nodeTypes,
+            'Should pass correct factory to useMemo!'
+        )
+    }
+
+    @test()
+    protected static async passesEmptyDepsToUseMemo() {
+        this.render()
+
+        assert.isEqualDeep(
+            this.useMemoPassedDeps,
+            [],
+            'Should pass correct deps to useMemo!'
+        )
+    }
+
+    private static createRenderer() {
+        return this.createElement(GraphRenderer)
     }
 
     private static renderAndGetTopLevelDiv() {
@@ -114,9 +146,15 @@ export default class GraphRendererTest extends AbstractPackageTest {
                     onEdgeMouseEnter={this.onEdgeMouseEnter}
                     onEdgeMouseLeave={this.onEdgeMouseLeave}
                     ReactFlowComponent={reactFlowComponent}
+                    useMemoFn={this.fakeUseMemo}
                 />
             </ReactFlowProvider>
         )
+    }
+
+    private static fakeUseMemoFn() {
+        this.useMemoPassedFactory = undefined
+        this.useMemoPassedDeps = undefined
     }
 
     private static readonly onNodeClick = () => {}
@@ -126,8 +164,20 @@ export default class GraphRendererTest extends AbstractPackageTest {
     private static readonly onEdgeMouseEnter = () => {}
     private static readonly onEdgeMouseLeave = () => {}
 
-    private static createRenderer() {
-        return this.createElement(GraphRenderer)
+    private static readonly nodeTypes = {
+        rotatableNode: RotatableNode,
+    }
+
+    private static readonly fakeUseMemo = (
+        factory: () => any,
+        deps: React.DependencyList
+    ) => {
+        this.useMemoPassedFactory = factory
+        this.useMemoPassedDeps = deps
+
+        return {
+            rotatableNode: RotatableNode,
+        }
     }
 
     private static readonly oneFakeNode: Node[] = [
