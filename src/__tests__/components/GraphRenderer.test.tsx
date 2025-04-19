@@ -2,7 +2,7 @@ import { test, assert } from '@sprucelabs/test-utils'
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 import ReactFlow, { Edge, Node, ReactFlowProvider } from 'reactflow'
-import GraphRenderer from '../../components/GraphRenderer'
+import GraphRenderer, { UseMemoFactory } from '../../components/GraphRenderer'
 import RotatableNode from '../../components/RotatableNode'
 import FakeReactFlow, {
     lastFakeReactFlowProps,
@@ -11,7 +11,7 @@ import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class GraphRendererTest extends AbstractPackageTest {
     private static element: React.ReactElement
-    private static useMemoPassedFactory?: () => any
+    private static useMemoPassedFactory?: UseMemoFactory
     private static useMemoPassedDeps?: React.DependencyList
 
     protected static async beforeEach() {
@@ -169,7 +169,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
     }
 
     private static readonly fakeUseMemo = (
-        factory: () => any,
+        factory: UseMemoFactory,
         deps: React.DependencyList
     ) => {
         this.useMemoPassedFactory = factory
