@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react'
-import ReactFlow, { Edge, Node } from 'reactflow'
+import React, { useMemo, DependencyList } from 'react'
+import ReactFlow, { Edge, Node, NodeTypes } from 'reactflow'
 import RotatableNode from './RotatableNode'
 
 export interface GraphRendererProps {
@@ -12,7 +12,7 @@ export interface GraphRendererProps {
     onEdgeMouseEnter?: () => void
     onEdgeMouseLeave?: () => void
     ReactFlowComponent?: React.ComponentType<any>
-    useMemoFn?: (factory: UseMemoFactory, deps: React.DependencyList) => void
+    useMemoFn?: (factory: NodeTypesFactory, deps: DependencyList) => NodeTypes
 }
 
 const GraphRenderer: React.FC<GraphRendererProps> = ({
@@ -27,13 +27,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     ReactFlowComponent = ReactFlow,
     useMemoFn = useMemo,
 }) => {
-    const nodeTypes = {
-        rotatableNode: RotatableNode,
-    }
-
-    useMemoFn(() => {
-        return nodeTypes
-    }, [])
+    const nodeTypes = useMemoFn(() => ({ rotatableNode: RotatableNode }), [])
 
     return (
         <div className="graph-renderer" data-testid="graph-renderer">
@@ -58,4 +52,4 @@ export interface GraphRendererNodeTypes {
     rotatableNode: React.FC<typeof RotatableNode>
 }
 
-export type UseMemoFactory = () => Record<string, React.FC>
+export type NodeTypesFactory = () => GraphRendererNodeTypes
