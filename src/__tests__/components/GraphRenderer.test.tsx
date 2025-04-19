@@ -175,9 +175,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
         this.useMemoPassedFactory = factory
         this.useMemoPassedDeps = deps
 
-        return {
-            rotatableNode: RotatableNode,
-        }
+        return this.nodeTypes
     }
 
     private static readonly oneFakeNode: Node[] = [
