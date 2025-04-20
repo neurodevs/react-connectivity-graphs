@@ -96,24 +96,24 @@ export default class GraphRendererTest extends AbstractPackageTest {
     }
 
     @test()
-    protected static async passesNodeTypesToUseMemo() {
+    protected static async memoizesNodeTypesForEfficiency() {
         this.render()
 
         assert.isEqualDeep(
             this.useMemoPassedFactory?.(),
             this.nodeTypes,
-            'Should pass correct factory to useMemo!'
+            'Should memoize nodeTypes!'
         )
     }
 
     @test()
-    protected static async passesEmptyDepsToUseMemo() {
+    protected static async memoizesNodeTypesWithEmptyDeps() {
         this.render()
 
         assert.isEqualDeep(
             this.useMemoPassedDeps,
             [],
-            'Should pass correct deps to useMemo!'
+            'Should memoize nodeTypes with empty deps!'
         )
     }
 
