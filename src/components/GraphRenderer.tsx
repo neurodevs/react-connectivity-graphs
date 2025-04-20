@@ -12,7 +12,7 @@ export interface GraphRendererProps {
     onEdgeMouseEnter?: () => void
     onEdgeMouseLeave?: () => void
     ReactFlowComponent?: React.ComponentType
-    useMemoFn?: (factory: NodeTypesFactory, deps: DependencyList) => NodeTypes
+    useMemoHook?: (factory: NodeTypesFactory, deps: DependencyList) => NodeTypes
 }
 
 const GraphRenderer: React.FC<GraphRendererProps> = ({
@@ -25,9 +25,9 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     onEdgeMouseEnter,
     onEdgeMouseLeave,
     ReactFlowComponent = ReactFlow,
-    useMemoFn = useMemo,
+    useMemoHook = useMemo,
 }) => {
-    const nodeTypes = useMemoFn(() => ({ rotatableNode: RotatableNode }), [])
+    const nodeTypes = useMemoHook(() => ({ rotatableNode: RotatableNode }), [])
 
     return (
         <div className="graph-renderer" data-testid="graph-renderer">

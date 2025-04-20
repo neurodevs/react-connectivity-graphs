@@ -146,7 +146,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
                     onEdgeMouseEnter={this.onEdgeMouseEnter}
                     onEdgeMouseLeave={this.onEdgeMouseLeave}
                     ReactFlowComponent={reactFlowComponent}
-                    useMemoFn={this.fakeUseMemo}
+                    useMemoHook={this.fakeUseMemo}
                 />
             </ReactFlowProvider>
         )
