@@ -18,3 +18,6 @@ export * from './testDoubles/FakeGraphRenderer'
 
 export { default as FakeReactFlow } from './testDoubles/FakeReactFlow'
 export * from './testDoubles/FakeReactFlow'
+
+export { default as FakeHandle } from './testDoubles/FakeHandle'
+export * from './testDoubles/FakeHandle'
