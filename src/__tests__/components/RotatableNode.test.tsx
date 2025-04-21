@@ -1,4 +1,3 @@
-import { waitForDebugger } from 'node:inspector'
 import { assert, generateId, test } from '@sprucelabs/test-utils'
 import { render } from '@testing-library/react'
 import React from 'react'
