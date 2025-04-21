@@ -1,5 +1,5 @@
 import React, { useMemo, DependencyList } from 'react'
-import ReactFlow, { Edge, Node, NodeTypes } from 'reactflow'
+import ReactFlow, { Edge, Node, NodeProps, NodeTypes } from 'reactflow'
 import RotatableNode from './RotatableNode'
 
 export interface GraphRendererProps {
@@ -49,7 +49,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
 export default GraphRenderer
 
 export interface GraphRendererNodeTypes {
-    rotatableNode: React.FC<typeof RotatableNode>
+    rotatableNode: React.FC<NodeProps>
 }
 
 export type NodeTypesFactory = () => GraphRendererNodeTypes
