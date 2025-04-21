@@ -9,24 +9,29 @@ export function setHandleComponent(handle: React.FC<any>) {
 
 const RotatableNode: React.FC<NodeProps> = ({
     data,
-    targetPosition = 'right',
-    sourcePosition = 'left',
+    targetPosition = 'right' as Position,
+    sourcePosition = 'left' as Position,
 }) => {
+    const targetHandle = createHandle('target', targetPosition)
+    const sourceHandle = createHandle('source', sourcePosition)
+
     return (
         <div className="rotatable-node" data-testid="rotatable-node">
-            <HandleComponent
-                type="target"
-                position={targetPosition as Position}
-                isConnectable={false}
-            ></HandleComponent>
+            {targetHandle}
             {data.label}
-            <HandleComponent
-                type="source"
-                position={sourcePosition as Position}
-                isConnectable={false}
-            ></HandleComponent>
+            {sourceHandle}
         </div>
     )
+
+    function createHandle(type: 'source' | 'target', position: Position) {
+        return (
+            <HandleComponent
+                type={type}
+                position={position}
+                isConnectable={false}
+            ></HandleComponent>
+        )
+    }
 }
 
 export default RotatableNode
