@@ -40,7 +40,7 @@ export default class RotatableNodeTest extends AbstractPackageTest {
 
     @test()
     protected static async rendersReactflowTargetHandle() {
-        this.render()
+        this.render('left')
 
         const { type } = fakeHandleProps[0] ?? {}
         assert.isEqual(type, 'target', 'Should render a target handle!')
@@ -48,7 +48,7 @@ export default class RotatableNodeTest extends AbstractPackageTest {
 
     @test()
     protected static async rendersTargetHandleAsNotConnectable() {
-        this.render()
+        this.render('left')
 
         const { isConnectable } = fakeHandleProps[0] ?? {}
 
@@ -84,7 +84,7 @@ export default class RotatableNodeTest extends AbstractPackageTest {
 
     @test()
     protected static async rendersReactflowSourceHandle() {
-        this.render()
+        this.render('left')
 
         const { type } = fakeHandleProps[1] ?? {}
         assert.isEqual(type, 'source', 'Should render a source handle!')
@@ -92,7 +92,7 @@ export default class RotatableNodeTest extends AbstractPackageTest {
 
     @test()
     protected static async rendersSourceHandleAsNotConnectable() {
-        this.render()
+        this.render('left')
 
         const { isConnectable } = fakeHandleProps[1] ?? {}
 
@@ -131,19 +131,32 @@ export default class RotatableNodeTest extends AbstractPackageTest {
         )
     }
 
+    @test()
+    protected static async defaultsTargetHandlePositionToLeft() {
+        this.render()
+
+        const { position } = fakeHandleProps[0] ?? {}
+
+        assert.isEqual(
+            position,
+            'left' as Position,
+            'Should default target position to left!'
+        )
+    }
+
     private static setFakeHandle() {
         setHandleComponent(FakeHandle)
         resetFakeHandleProps()
     }
 
     private static renderAndGetTopLevelDiv() {
-        const { getByTestId } = this.render()
+        const { getByTestId } = this.render('left')
         return getByTestId('rotatable-node')
     }
 
     private static readonly label = generateId()
 
-    private static render(position = 'left') {
+    private static render(position?: 'left' | 'right') {
         return render(
             <ReactFlowProvider>
                 {/* @ts-ignore - minimal props for tests */}
