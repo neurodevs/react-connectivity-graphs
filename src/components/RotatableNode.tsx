@@ -15,6 +15,10 @@ const RotatableNode: React.FC<NodeProps> = ({ targetPosition }) => {
                 position={targetPosition as Position}
                 isConnectable={false}
             ></HandleComponent>
+            <HandleComponent
+                type="source"
+                position={'left' as Position}
+            ></HandleComponent>
         </div>
     )
 }

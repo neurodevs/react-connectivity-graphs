@@ -75,8 +75,8 @@ export default class RotatableNodeTest extends AbstractPackageTest {
     protected static async rendersSourceHandle() {
         this.render()
 
-        const { type } = fakeHandleProps[0] ?? {}
-        assert.isEqual(type, 'target', 'Should render a target handle!')
+        const { type } = fakeHandleProps[1] ?? {}
+        assert.isEqual(type, 'source', 'Should render a source handle!')
     }
 
     private static setFakeHandle() {
