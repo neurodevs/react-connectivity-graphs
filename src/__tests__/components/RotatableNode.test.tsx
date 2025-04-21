@@ -20,14 +20,21 @@ export default class RotatableNodeTest extends AbstractPackageTest {
 
     @test()
     protected static async rendersDivWithExpectedClassName() {
-        const { getByTestId } = render(<RotatableNode />)
-
-        const div = getByTestId('rotatable-node')
+        const div = this.renderAndGetTopLevelDiv()
 
         assert.isEqual(
             div.className,
             'rotatable-node',
             'Should render div with className="rotatable-node"!'
         )
+    }
+
+    private static renderAndGetTopLevelDiv() {
+        const { getByTestId } = this.render()
+        return getByTestId('rotatable-node')
+    }
+
+    private static render() {
+        return render(<RotatableNode />)
     }
 }
