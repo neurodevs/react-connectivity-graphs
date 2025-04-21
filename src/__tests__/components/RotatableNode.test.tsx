@@ -1,7 +1,11 @@
 import { assert, test } from '@sprucelabs/test-utils'
 import { render } from '@testing-library/react'
 import React from 'react'
-import RotatableNode from '../../components/RotatableNode'
+import { ReactFlowProvider } from 'reactflow'
+import RotatableNode, {
+    setHandleComponent,
+} from '../../components/RotatableNode'
+import FakeHandle, { lastFakeHandleProps } from '../../testDoubles/FakeHandle'
 import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class RotatableNodeTest extends AbstractPackageTest {
@@ -9,6 +13,8 @@ export default class RotatableNodeTest extends AbstractPackageTest {
 
     protected static async beforeEach() {
         await super.beforeEach()
+
+        setHandleComponent(FakeHandle)
 
         this.element = this.createElement(RotatableNode)
     }
@@ -29,12 +35,25 @@ export default class RotatableNodeTest extends AbstractPackageTest {
         )
     }
 
+    @test()
+    protected static async rendersReactflowTargetHandle() {
+        this.render()
+
+        const { type } = lastFakeHandleProps ?? {}
+
+        assert.isEqual(type, 'target', 'Should render a target handle!')
+    }
+
     private static renderAndGetTopLevelDiv() {
         const { getByTestId } = this.render()
         return getByTestId('rotatable-node')
     }
 
     private static render() {
-        return render(<RotatableNode />)
+        return render(
+            <ReactFlowProvider>
+                <RotatableNode />
+            </ReactFlowProvider>
+        )
     }
 }
