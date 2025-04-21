@@ -33,11 +33,7 @@
 		"./src/**/*.ts",
 		"./src/*.tsx",
 		"./src/**/*.tsx",
-		"./src/.spruce/**/*", 
-		"src/modules/*.ts",
-		"src/modules/**/*.ts",
-		"src/ui/*.tsx",
-		"src/ui/**/*.tsx",
+		"./src/.spruce/**/*",
 	],
 	"exclude": [
 		"build",
