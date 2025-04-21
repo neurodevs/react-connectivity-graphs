@@ -9,7 +9,7 @@ export function setHandleComponent(handle: React.FC<any>) {
 
 const RotatableNode: React.FC<NodeProps> = ({
     data,
-    targetPosition = 'left',
+    targetPosition = 'right',
     sourcePosition,
 }) => {
     return (

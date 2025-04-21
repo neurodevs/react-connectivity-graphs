@@ -132,15 +132,15 @@ export default class RotatableNodeTest extends AbstractPackageTest {
     }
 
     @test()
-    protected static async defaultsTargetHandlePositionToLeft() {
+    protected static async defaultsTargetHandlePositionToRight() {
         this.render()
 
         const { position } = fakeHandleProps[0] ?? {}
 
         assert.isEqual(
             position,
-            'left' as Position,
-            'Should default target position to left!'
+            'right' as Position,
+            'Should default target position to right!'
         )
     }
 
