@@ -91,6 +91,19 @@ export default class RotatableNodeTest extends AbstractPackageTest {
         )
     }
 
+    @test()
+    protected static async rendersSourceHandleWithPassedPosition() {
+        this.render('right')
+
+        const { position } = fakeHandleProps[1] ?? {}
+
+        assert.isEqual(
+            position,
+            'right' as Position,
+            'Should pass position to source handle!'
+        )
+    }
+
     private static setFakeHandle() {
         setHandleComponent(FakeHandle)
         resetFakeHandleProps()
@@ -101,11 +114,14 @@ export default class RotatableNodeTest extends AbstractPackageTest {
         return getByTestId('rotatable-node')
     }
 
-    private static render(targetPosition = 'left') {
+    private static render(position = 'left') {
         return render(
             <ReactFlowProvider>
                 {/* @ts-ignore - minimal props for tests */}
-                <RotatableNode targetPosition={targetPosition as Position} />
+                <RotatableNode
+                    targetPosition={position as Position}
+                    sourcePosition={position as Position}
+                />
             </ReactFlowProvider>
         )
     }

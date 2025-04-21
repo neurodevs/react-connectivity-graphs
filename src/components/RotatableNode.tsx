@@ -7,7 +7,10 @@ export function setHandleComponent(handle: React.FC<any>) {
     HandleComponent = handle as unknown as typeof Handle
 }
 
-const RotatableNode: React.FC<NodeProps> = ({ targetPosition }) => {
+const RotatableNode: React.FC<NodeProps> = ({
+    targetPosition,
+    sourcePosition,
+}) => {
     return (
         <div className="rotatable-node" data-testid="rotatable-node">
             <HandleComponent
@@ -17,7 +20,7 @@ const RotatableNode: React.FC<NodeProps> = ({ targetPosition }) => {
             ></HandleComponent>
             <HandleComponent
                 type="source"
-                position={'left' as Position}
+                position={sourcePosition as Position}
                 isConnectable={false}
             ></HandleComponent>
         </div>
