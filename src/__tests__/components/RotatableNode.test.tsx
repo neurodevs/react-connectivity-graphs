@@ -1,7 +1,7 @@
 import { assert, test } from '@sprucelabs/test-utils'
 import { render } from '@testing-library/react'
 import React from 'react'
-import { ReactFlowProvider } from 'reactflow'
+import { Position, ReactFlowProvider } from 'reactflow'
 import RotatableNode, {
     setHandleComponent,
 } from '../../components/RotatableNode'
@@ -55,15 +55,29 @@ export default class RotatableNodeTest extends AbstractPackageTest {
         )
     }
 
+    @test()
+    protected static async rendersTargetHandleWithCorrectPosition() {
+        this.render('right')
+
+        const { position } = lastFakeHandleProps ?? {}
+
+        assert.isEqual(
+            position,
+            'right' as Position,
+            'Should pass position to target handle!'
+        )
+    }
+
     private static renderAndGetTopLevelDiv() {
         const { getByTestId } = this.render()
         return getByTestId('rotatable-node')
     }
 
-    private static render() {
+    private static render(targetPosition = 'left') {
         return render(
             <ReactFlowProvider>
-                <RotatableNode />
+                {/* @ts-ignore - minimal props for tests */}
+                <RotatableNode targetPosition={targetPosition as Position} />
             </ReactFlowProvider>
         )
     }

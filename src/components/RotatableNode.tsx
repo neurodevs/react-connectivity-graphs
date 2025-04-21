@@ -1,5 +1,5 @@
 import React from 'react'
-import { Handle, Position } from 'reactflow'
+import { Handle, NodeProps, Position } from 'reactflow'
 
 let HandleComponent = Handle
 
@@ -7,12 +7,12 @@ export function setHandleComponent(handle: React.FC<any>) {
     HandleComponent = handle as unknown as typeof Handle
 }
 
-const RotatableNode: React.FC = () => {
+const RotatableNode: React.FC<NodeProps> = ({ targetPosition }) => {
     return (
         <div className="rotatable-node" data-testid="rotatable-node">
             <HandleComponent
                 type="target"
-                position={'left' as Position}
+                position={targetPosition as Position}
                 isConnectable={false}
             ></HandleComponent>
         </div>
