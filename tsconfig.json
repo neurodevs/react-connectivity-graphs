@@ -34,7 +34,8 @@
 		"./src/*.tsx",
 		"./src/**/*.tsx",
 		"./src/.spruce/**/*", 
-		"src/components/GraphRenderer.tsx"	
+		"src/modules/**.ts",
+		"src/ui/**.tsx"	
 	],
 	"exclude": [
 		"build",
