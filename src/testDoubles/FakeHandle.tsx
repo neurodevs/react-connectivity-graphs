@@ -5,7 +5,7 @@ export interface TestableProps {
     'data-testid'?: string
 }
 
-type FakeHandleProps = HandleProps & TestableProps
+export type FakeHandleProps = HandleProps & TestableProps
 
 export let fakeHandleProps: FakeHandleProps[] = []
 
