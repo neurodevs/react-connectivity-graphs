@@ -17,8 +17,7 @@ export default class RotatableNodeTest extends AbstractPackageTest {
     protected static async beforeEach() {
         await super.beforeEach()
 
-        setHandleComponent(FakeHandle)
-        resetFakeHandleProps()
+        this.setFakeHandle()
 
         this.element = this.createElement(RotatableNode)
     }
@@ -78,6 +77,11 @@ export default class RotatableNodeTest extends AbstractPackageTest {
 
         const { type } = fakeHandleProps[0] ?? {}
         assert.isEqual(type, 'target', 'Should render a target handle!')
+    }
+
+    private static setFakeHandle() {
+        setHandleComponent(FakeHandle)
+        resetFakeHandleProps()
     }
 
     private static renderAndGetTopLevelDiv() {
