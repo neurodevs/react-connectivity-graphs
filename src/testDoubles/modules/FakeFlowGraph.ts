@@ -1,4 +1,4 @@
-import { FlowGraph, FlowGraphOptions } from '../components/LateralFlowGraph'
+import { FlowGraph, FlowGraphOptions } from '../../modules/LateralFlowGraph'
 
 export default class FakeFlowGraph implements FlowGraph {
     public static callsToConstructor: FlowGraphOptions[] = []

@@ -2,7 +2,7 @@ import { assertOptions } from '@sprucelabs/schema'
 import React from 'react'
 import { ReactFlowProvider } from 'reactflow'
 import SpruceError from '../errors/SpruceError'
-import GraphRenderer from './GraphRenderer'
+import GraphRenderer from '../ui/GraphRenderer'
 
 export default class LateralFlowGraph implements FlowGraph {
     public static Class?: FlowGraphConstructor

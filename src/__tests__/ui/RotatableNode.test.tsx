@@ -2,13 +2,11 @@ import { assert, generateId, test } from '@sprucelabs/test-utils'
 import { render } from '@testing-library/react'
 import React from 'react'
 import { Position, ReactFlowProvider } from 'reactflow'
-import RotatableNode, {
-    setHandleComponent,
-} from '../../components/RotatableNode'
 import FakeHandle, {
     fakeHandleProps,
     resetFakeHandleProps,
-} from '../../testDoubles/FakeHandle'
+} from '../../testDoubles/ui/FakeHandle'
+import RotatableNode, { setHandleComponent } from '../../ui/RotatableNode'
 import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class RotatableNodeTest extends AbstractPackageTest {

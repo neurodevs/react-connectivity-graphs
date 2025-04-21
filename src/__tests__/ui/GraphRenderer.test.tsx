@@ -2,11 +2,11 @@ import { test, assert } from '@sprucelabs/test-utils'
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 import ReactFlow, { Edge, Node, ReactFlowProvider } from 'reactflow'
-import GraphRenderer, { NodeTypesFactory } from '../../components/GraphRenderer'
-import RotatableNode from '../../components/RotatableNode'
 import FakeReactFlow, {
     lastFakeReactFlowProps,
-} from '../../testDoubles/FakeReactFlow'
+} from '../../testDoubles/ui/FakeReactFlow'
+import GraphRenderer, { NodeTypesFactory } from '../../ui/GraphRenderer'
+import RotatableNode from '../../ui/RotatableNode'
 import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class GraphRendererTest extends AbstractPackageTest {
