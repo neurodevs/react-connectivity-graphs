@@ -87,7 +87,7 @@ export default class RotatableNodeTest extends AbstractPackageTest {
 
         assert.isFalse(
             isConnectable,
-            'Target handle should not be connectable!'
+            'Source handle should not be connectable!'
         )
     }
 
