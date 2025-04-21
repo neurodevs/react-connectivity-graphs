@@ -10,7 +10,7 @@ export function setHandleComponent(handle: React.FC<any>) {
 const RotatableNode: React.FC<NodeProps> = ({
     data,
     targetPosition = 'right',
-    sourcePosition,
+    sourcePosition = 'left',
 }) => {
     return (
         <div className="rotatable-node" data-testid="rotatable-node">

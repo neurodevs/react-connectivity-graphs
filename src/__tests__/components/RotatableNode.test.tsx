@@ -144,6 +144,19 @@ export default class RotatableNodeTest extends AbstractPackageTest {
         )
     }
 
+    @test()
+    protected static async defaultsSourceHandlePositionToLeft() {
+        this.render()
+
+        const { position } = fakeHandleProps[1] ?? {}
+
+        assert.isEqual(
+            position,
+            'left' as Position,
+            'Should default target position to right!'
+        )
+    }
+
     private static setFakeHandle() {
         setHandleComponent(FakeHandle)
         resetFakeHandleProps()
