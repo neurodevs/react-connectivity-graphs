@@ -1,4 +1,4 @@
-import { assert, test } from '@sprucelabs/test-utils'
+import { assert, generateId, test } from '@sprucelabs/test-utils'
 import { render } from '@testing-library/react'
 import React from 'react'
 import { Position, ReactFlowProvider } from 'reactflow'
@@ -72,6 +72,17 @@ export default class RotatableNodeTest extends AbstractPackageTest {
     }
 
     @test()
+    protected static async rendersElementWithPassedLabel() {
+        const div = this.renderAndGetTopLevelDiv()
+
+        assert.isEqual(
+            div.textContent,
+            this.label,
+            'Should pass label to source handle!'
+        )
+    }
+
+    @test()
     protected static async rendersReactflowSourceHandle() {
         this.render()
 
@@ -114,11 +125,16 @@ export default class RotatableNodeTest extends AbstractPackageTest {
         return getByTestId('rotatable-node')
     }
 
+    private static readonly label = generateId()
+
     private static render(position = 'left') {
         return render(
             <ReactFlowProvider>
                 {/* @ts-ignore - minimal props for tests */}
                 <RotatableNode
+                    data={{
+                        label: this.label,
+                    }}
                     targetPosition={position as Position}
                     sourcePosition={position as Position}
                 />

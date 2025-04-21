@@ -8,6 +8,7 @@ export function setHandleComponent(handle: React.FC<any>) {
 }
 
 const RotatableNode: React.FC<NodeProps> = ({
+    data,
     targetPosition,
     sourcePosition,
 }) => {
@@ -18,6 +19,7 @@ const RotatableNode: React.FC<NodeProps> = ({
                 position={targetPosition as Position}
                 isConnectable={false}
             ></HandleComponent>
+            {data.label}
             <HandleComponent
                 type="source"
                 position={sourcePosition as Position}
