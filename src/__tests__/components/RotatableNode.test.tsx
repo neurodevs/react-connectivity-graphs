@@ -36,12 +36,23 @@ export default class RotatableNodeTest extends AbstractPackageTest {
     }
 
     @test()
-    protected static async rendersReactflowTargetHandle() {
+    protected static async rendersTargetHandle() {
         this.render()
 
         const { type } = lastFakeHandleProps ?? {}
-
         assert.isEqual(type, 'target', 'Should render a target handle!')
+    }
+
+    @test()
+    protected static async rendersReactflowTargetHandleWithCorrectPosition() {
+        this.render()
+
+        const { isConnectable } = lastFakeHandleProps ?? {}
+
+        assert.isFalse(
+            isConnectable,
+            'Target handle should not be connectable!'
+        )
     }
 
     private static renderAndGetTopLevelDiv() {
