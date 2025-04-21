@@ -1,3 +1,4 @@
+import { waitForDebugger } from 'node:inspector'
 import { assert, generateId, test } from '@sprucelabs/test-utils'
 import { render } from '@testing-library/react'
 import React from 'react'
@@ -112,6 +113,22 @@ export default class RotatableNodeTest extends AbstractPackageTest {
             position,
             'right' as Position,
             'Should pass position to source handle!'
+        )
+    }
+
+    @test()
+    protected static async rendersTargetHandleBeforeSource() {
+        const div = this.renderAndGetTopLevelDiv()
+
+        const targetHandle = div.querySelector('div[data-type="target"]')
+        const sourceHandle = div.querySelector('div[data-type="source"]')
+
+        const expectedOrder = [targetHandle, sourceHandle]
+
+        assert.isEqualDeep(
+            Array.from(div.children),
+            expectedOrder,
+            'Should render target handle before source!'
         )
     }
 
