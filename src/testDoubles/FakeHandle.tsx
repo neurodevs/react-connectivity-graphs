@@ -7,10 +7,14 @@ export interface TestableProps {
 
 type FakeHandleProps = HandleProps & TestableProps
 
-export let lastFakeHandleProps: FakeHandleProps | null
+export let fakeHandleProps: FakeHandleProps[] = []
+
+export function resetFakeHandleProps() {
+    fakeHandleProps = []
+}
 
 const FakeHandle: React.FC<FakeHandleProps> = (props) => {
-    lastFakeHandleProps = props
+    fakeHandleProps.push(props)
 
     const { type, id, 'data-testid': testId } = props
 

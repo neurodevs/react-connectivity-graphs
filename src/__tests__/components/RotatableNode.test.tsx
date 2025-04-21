@@ -5,7 +5,10 @@ import { Position, ReactFlowProvider } from 'reactflow'
 import RotatableNode, {
     setHandleComponent,
 } from '../../components/RotatableNode'
-import FakeHandle, { lastFakeHandleProps } from '../../testDoubles/FakeHandle'
+import FakeHandle, {
+    fakeHandleProps,
+    resetFakeHandleProps,
+} from '../../testDoubles/FakeHandle'
 import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class RotatableNodeTest extends AbstractPackageTest {
@@ -15,6 +18,7 @@ export default class RotatableNodeTest extends AbstractPackageTest {
         await super.beforeEach()
 
         setHandleComponent(FakeHandle)
+        resetFakeHandleProps()
 
         this.element = this.createElement(RotatableNode)
     }
@@ -39,7 +43,7 @@ export default class RotatableNodeTest extends AbstractPackageTest {
     protected static async rendersTargetHandle() {
         this.render()
 
-        const { type } = lastFakeHandleProps ?? {}
+        const { type } = fakeHandleProps[0] ?? {}
         assert.isEqual(type, 'target', 'Should render a target handle!')
     }
 
@@ -47,7 +51,7 @@ export default class RotatableNodeTest extends AbstractPackageTest {
     protected static async rendersReactflowTargetHandleWithCorrectPosition() {
         this.render()
 
-        const { isConnectable } = lastFakeHandleProps ?? {}
+        const { isConnectable } = fakeHandleProps[0] ?? {}
 
         assert.isFalse(
             isConnectable,
@@ -59,13 +63,21 @@ export default class RotatableNodeTest extends AbstractPackageTest {
     protected static async rendersTargetHandleWithCorrectPosition() {
         this.render('right')
 
-        const { position } = lastFakeHandleProps ?? {}
+        const { position } = fakeHandleProps[0] ?? {}
 
         assert.isEqual(
             position,
             'right' as Position,
             'Should pass position to target handle!'
         )
+    }
+
+    @test()
+    protected static async rendersSourceHandle() {
+        this.render()
+
+        const { type } = fakeHandleProps[0] ?? {}
+        assert.isEqual(type, 'target', 'Should render a target handle!')
     }
 
     private static renderAndGetTopLevelDiv() {
