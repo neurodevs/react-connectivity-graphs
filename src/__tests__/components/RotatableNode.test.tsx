@@ -39,7 +39,7 @@ export default class RotatableNodeTest extends AbstractPackageTest {
     }
 
     @test()
-    protected static async rendersTargetHandle() {
+    protected static async rendersReactflowTargetHandle() {
         this.render()
 
         const { type } = fakeHandleProps[0] ?? {}
@@ -47,7 +47,7 @@ export default class RotatableNodeTest extends AbstractPackageTest {
     }
 
     @test()
-    protected static async rendersReactflowTargetHandleWithCorrectPosition() {
+    protected static async rendersTargetHandleAsNotConnectable() {
         this.render()
 
         const { isConnectable } = fakeHandleProps[0] ?? {}
@@ -59,7 +59,7 @@ export default class RotatableNodeTest extends AbstractPackageTest {
     }
 
     @test()
-    protected static async rendersTargetHandleWithCorrectPosition() {
+    protected static async rendersTargetHandleWithPassedPosition() {
         this.render('right')
 
         const { position } = fakeHandleProps[0] ?? {}
@@ -72,7 +72,7 @@ export default class RotatableNodeTest extends AbstractPackageTest {
     }
 
     @test()
-    protected static async rendersSourceHandle() {
+    protected static async rendersReactflowSourceHandle() {
         this.render()
 
         const { type } = fakeHandleProps[1] ?? {}
