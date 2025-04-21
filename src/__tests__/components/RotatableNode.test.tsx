@@ -79,6 +79,18 @@ export default class RotatableNodeTest extends AbstractPackageTest {
         assert.isEqual(type, 'source', 'Should render a source handle!')
     }
 
+    @test()
+    protected static async rendersSourceHandleAsNotConnectable() {
+        this.render()
+
+        const { isConnectable } = fakeHandleProps[1] ?? {}
+
+        assert.isFalse(
+            isConnectable,
+            'Target handle should not be connectable!'
+        )
+    }
+
     private static setFakeHandle() {
         setHandleComponent(FakeHandle)
         resetFakeHandleProps()
