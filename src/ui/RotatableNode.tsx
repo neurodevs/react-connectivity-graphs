@@ -7,6 +7,14 @@ export function setHandleComponent(handle: React.FC<any>) {
     HandleComponent = handle as unknown as typeof Handle
 }
 
+export let useEffect = React.useEffect
+
+export function setUseEffect(
+    fn: (effect: React.EffectCallback, deps?: React.DependencyList) => void
+) {
+    useEffect = fn
+}
+
 const RotatableNode: React.FC<NodeProps> = ({
     data,
     targetPosition = 'right' as Position,
