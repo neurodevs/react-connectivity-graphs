@@ -197,6 +197,32 @@ export default class RotatableNodeTest extends AbstractPackageTest {
         )
     }
 
+    @test()
+    protected static async passesCorrectDepsToUseEffect() {
+        let passedDeps: React.DependencyList | undefined
+
+        const updateNodeInternals = () => {}
+        setUseUpdateNodeInternals(() => updateNodeInternals)
+
+        const useEffect = (
+            fn: React.EffectCallback,
+            deps?: React.DependencyList
+        ) => {
+            passedDeps = deps
+            fn()
+        }
+
+        setUseEffect(useEffect)
+
+        this.render()
+
+        assert.isEqualDeep(
+            passedDeps,
+            [this.dataId, this.dataStyleTransform, updateNodeInternals],
+            'Should pass correct deps to useEffect!'
+        )
+    }
+
     private static setFakeHandle() {
         setHandleComponent(FakeHandle)
         resetFakeHandleProps()
@@ -208,6 +234,8 @@ export default class RotatableNodeTest extends AbstractPackageTest {
     }
 
     private static readonly label = generateId()
+    private static readonly dataId = generateId()
+    private static readonly dataStyleTransform = generateId()
 
     private static render(position?: 'left' | 'right') {
         return render(
@@ -215,7 +243,11 @@ export default class RotatableNodeTest extends AbstractPackageTest {
                 {/* @ts-ignore - minimal props for tests */}
                 <RotatableNode
                     data={{
+                        id: this.dataId,
                         label: this.label,
+                        style: {
+                            transform: this.dataStyleTransform,
+                        },
                     }}
                     targetPosition={position as Position}
                     sourcePosition={position as Position}
