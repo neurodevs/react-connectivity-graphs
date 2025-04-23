@@ -21,6 +21,10 @@ export default class RotatableNodeTest extends AbstractPackageTest {
 
         this.setFakeHandle()
 
+        setUseUpdateNodeInternals(() => {
+            return () => {}
+        })
+
         this.element = this.createElement(RotatableNode)
     }
 
@@ -165,7 +169,7 @@ export default class RotatableNodeTest extends AbstractPackageTest {
 
         const useUpdateNodeInternals = () => {
             calledUseUpdateNodeInternals = true
-            return {} as UpdateNodeInternals
+            return (() => {}) as UpdateNodeInternals
         }
 
         setUseUpdateNodeInternals(useUpdateNodeInternals)
@@ -220,6 +224,24 @@ export default class RotatableNodeTest extends AbstractPackageTest {
             passedDeps,
             [this.dataId, this.dataStyleTransform, updateNodeInternals],
             'Should pass correct deps to useEffect!'
+        )
+    }
+
+    @test()
+    protected static async passeIdToUpdateNodeInternals() {
+        let passedId: string | string[] | undefined
+
+        const updateNodeInternals = (id: string | string[]) => {
+            passedId = id
+        }
+        setUseUpdateNodeInternals(() => updateNodeInternals)
+
+        this.render()
+
+        assert.isEqual(
+            passedId,
+            this.dataId,
+            'Should pass id to updateNodeInternals!'
         )
     }
 
