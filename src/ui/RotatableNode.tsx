@@ -7,26 +7,6 @@ import {
     useUpdateNodeInternals,
 } from 'reactflow'
 
-export let HandleComponent = Handle
-
-export function setHandleComponent(handle: React.FC<any>) {
-    HandleComponent = handle as unknown as typeof Handle
-}
-
-export let useUpdateNodeInternalsFn = useUpdateNodeInternals
-
-export function setUseUpdateNodeInternals(fn: () => UpdateNodeInternals) {
-    useUpdateNodeInternalsFn = fn
-}
-
-export let useEffect = React.useEffect
-
-export function setUseEffect(
-    fn: (effect: React.EffectCallback, deps?: React.DependencyList) => void
-) {
-    useEffect = fn
-}
-
 const RotatableNode: React.FC<NodeProps> = ({
     data,
     targetPosition = 'right' as Position,
@@ -55,3 +35,23 @@ const RotatableNode: React.FC<NodeProps> = ({
 }
 
 export default RotatableNode
+
+export let HandleComponent = Handle
+
+export function setHandleComponent(handle: React.FC<any>) {
+    HandleComponent = handle as unknown as typeof Handle
+}
+
+export let useUpdateNodeInternalsFn = useUpdateNodeInternals
+
+export function setUseUpdateNodeInternals(fn: () => UpdateNodeInternals) {
+    useUpdateNodeInternalsFn = fn
+}
+
+export let useEffect = React.useEffect
+
+export function setUseEffect(
+    fn: (effect: React.EffectCallback, deps?: React.DependencyList) => void
+) {
+    useEffect = fn
+}
