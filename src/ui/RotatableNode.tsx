@@ -12,6 +12,16 @@ const RotatableNode: React.FC<NodeProps> = ({
     targetPosition = 'right' as Position,
     sourcePosition = 'left' as Position,
 }) => {
+    function createHandle(type: 'source' | 'target', position: Position) {
+        return (
+            <HandleComponent
+                type={type}
+                position={position}
+                isConnectable={false}
+            ></HandleComponent>
+        )
+    }
+
     const targetHandle = createHandle('target', targetPosition)
     const sourceHandle = createHandle('source', sourcePosition)
 
@@ -28,16 +38,6 @@ const RotatableNode: React.FC<NodeProps> = ({
             {sourceHandle}
         </div>
     )
-
-    function createHandle(type: 'source' | 'target', position: Position) {
-        return (
-            <HandleComponent
-                type={type}
-                position={position}
-                isConnectable={false}
-            ></HandleComponent>
-        )
-    }
 }
 
 export default RotatableNode
