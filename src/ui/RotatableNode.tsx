@@ -1,10 +1,22 @@
 import React from 'react'
-import { Handle, NodeProps, Position } from 'reactflow'
+import {
+    Handle,
+    NodeProps,
+    Position,
+    UpdateNodeInternals,
+    useUpdateNodeInternals,
+} from 'reactflow'
 
 export let HandleComponent = Handle
 
 export function setHandleComponent(handle: React.FC<any>) {
     HandleComponent = handle as unknown as typeof Handle
+}
+
+export let useUpdateNodeInternalsFn = useUpdateNodeInternals
+
+export function setUseUpdateNodeInternals(fn: () => UpdateNodeInternals) {
+    useUpdateNodeInternalsFn = fn
 }
 
 export let useEffect = React.useEffect
