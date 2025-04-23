@@ -8,6 +8,7 @@ import FakeHandle, {
 } from '../../testDoubles/ui/FakeHandle'
 import RotatableNode, {
     setHandleComponent,
+    setUseEffect,
     setUseUpdateNodeInternals,
 } from '../../ui/RotatableNode'
 import AbstractPackageTest from '../AbstractPackageTest'
@@ -174,6 +175,25 @@ export default class RotatableNodeTest extends AbstractPackageTest {
         assert.isTrue(
             calledUseUpdateNodeInternals,
             'Should call useUpdateNodeInternals()!'
+        )
+    }
+
+    @test()
+    protected static async usesEffectToUpdateNodeInternalsForRotation() {
+        let calledUseEffect = false
+
+        const useEffect = (fn: React.EffectCallback) => {
+            calledUseEffect = true
+            fn()
+        }
+
+        setUseEffect(useEffect)
+
+        this.render()
+
+        assert.isTrue(
+            calledUseEffect,
+            'Should call useEffect() to update node internals!'
         )
     }
 

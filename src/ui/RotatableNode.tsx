@@ -17,6 +17,8 @@ const RotatableNode: React.FC<NodeProps> = ({
 
     useUpdateNodeInternalsFn()
 
+    useEffect(() => {})
+
     return (
         <div className="rotatable-node" data-testid="rotatable-node">
             {targetHandle}
