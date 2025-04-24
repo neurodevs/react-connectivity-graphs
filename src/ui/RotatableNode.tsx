@@ -12,7 +12,7 @@ const RotatableNode: React.FC<NodeProps> = ({
     targetPosition = 'right' as Position,
     sourcePosition = 'left' as Position,
 }) => {
-    function createHandle(type: 'source' | 'target', position: Position) {
+    function renderHandle(type: 'source' | 'target', position: Position) {
         return (
             <HandleComponent
                 type={type}
@@ -22,8 +22,8 @@ const RotatableNode: React.FC<NodeProps> = ({
         )
     }
 
-    const targetHandle = createHandle('target', targetPosition)
-    const sourceHandle = createHandle('source', sourcePosition)
+    const targetHandle = renderHandle('target', targetPosition)
+    const sourceHandle = renderHandle('source', sourcePosition)
 
     const updateNodeInternals = useUpdateNodeInternalsFn()
 
