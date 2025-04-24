@@ -22,9 +22,6 @@ const RotatableNode: React.FC<NodeProps> = ({
         )
     }
 
-    const targetHandle = renderHandle('target', targetPosition)
-    const sourceHandle = renderHandle('source', sourcePosition)
-
     const updateNodeInternals = useUpdateNodeInternalsFn()
 
     useEffect(() => {
@@ -33,9 +30,9 @@ const RotatableNode: React.FC<NodeProps> = ({
 
     return (
         <div className="rotatable-node" data-testid="rotatable-node">
-            {targetHandle}
+            {renderHandle('target', targetPosition)}
             {data.label}
-            {sourceHandle}
+            {renderHandle('source', sourcePosition)}
         </div>
     )
 }
