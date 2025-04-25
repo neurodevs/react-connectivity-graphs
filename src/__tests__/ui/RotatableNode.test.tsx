@@ -1,7 +1,6 @@
 import { assert, generateId, test } from '@sprucelabs/test-utils'
-import { render } from '@testing-library/react'
 import React from 'react'
-import { Position, ReactFlowProvider, UpdateNodeInternals } from 'reactflow'
+import { Position, UpdateNodeInternals } from 'reactflow'
 import FakeHandle, {
     fakeHandleProps,
     resetFakeHandleProps,
@@ -260,21 +259,26 @@ export default class RotatableNodeTest extends AbstractPackageTest {
     private static readonly dataStyleTransform = generateId()
 
     private static render(position?: 'left' | 'right') {
-        return render(
-            <ReactFlowProvider>
-                {/* @ts-ignore - minimal props for tests */}
-                <RotatableNode
-                    data={{
-                        id: this.dataId,
-                        label: this.label,
-                        style: {
-                            transform: this.dataStyleTransform,
-                        },
-                    }}
-                    targetPosition={position as Position}
-                    sourcePosition={position as Position}
-                />
-            </ReactFlowProvider>
+        return this.renderWithProvider(
+            <RotatableNode
+                data={{
+                    id: this.dataId,
+                    label: this.label,
+                    style: {
+                        transform: this.dataStyleTransform,
+                    },
+                }}
+                targetPosition={position as Position}
+                sourcePosition={position as Position}
+                type={''}
+                id={''}
+                selected={false}
+                zIndex={0}
+                isConnectable={false}
+                xPos={0}
+                yPos={0}
+                dragging={false}
+            />
         )
     }
 }

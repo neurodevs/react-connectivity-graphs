@@ -1,7 +1,7 @@
 import { test, assert } from '@sprucelabs/test-utils'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import React from 'react'
-import ReactFlow, { Edge, Node, ReactFlowProvider } from 'reactflow'
+import ReactFlow, { Edge, Node } from 'reactflow'
 import FakeReactFlow, {
     lastFakeReactFlowProps,
 } from '../../testDoubles/ui/FakeReactFlow'
@@ -134,21 +134,19 @@ export default class GraphRendererTest extends AbstractPackageTest {
     private static render(useFakeReactFlow = true) {
         const reactFlowComponent = useFakeReactFlow ? FakeReactFlow : ReactFlow
 
-        return render(
-            <ReactFlowProvider>
-                <GraphRenderer
-                    nodes={this.oneFakeNode}
-                    edges={this.oneFakeEdge}
-                    onNodeClick={this.onNodeClick}
-                    onNodeMouseEnter={this.onNodeMouseEnter}
-                    onNodeMouseLeave={this.onNodeMouseLeave}
-                    onEdgeClick={this.onEdgeClick}
-                    onEdgeMouseEnter={this.onEdgeMouseEnter}
-                    onEdgeMouseLeave={this.onEdgeMouseLeave}
-                    ReactFlowComponent={reactFlowComponent}
-                    useMemoHook={this.fakeUseMemo}
-                />
-            </ReactFlowProvider>
+        return this.renderWithProvider(
+            <GraphRenderer
+                nodes={this.oneFakeNode}
+                edges={this.oneFakeEdge}
+                onNodeClick={this.onNodeClick}
+                onNodeMouseEnter={this.onNodeMouseEnter}
+                onNodeMouseLeave={this.onNodeMouseLeave}
+                onEdgeClick={this.onEdgeClick}
+                onEdgeMouseEnter={this.onEdgeMouseEnter}
+                onEdgeMouseLeave={this.onEdgeMouseLeave}
+                ReactFlowComponent={reactFlowComponent}
+                useMemoHook={this.fakeUseMemo}
+            />
         )
     }
 
