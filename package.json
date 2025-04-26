@@ -35,7 +35,8 @@
     "@testing-library/react": "^16.2.0",
     "@types/jsdom": "^21.1.7",
     "@types/node": "^22.7.5",
-    "@types/react": "^19.0.12",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
     "chokidar-cli": "^3.0.0",
     "eslint": "^9.12.0",
     "eslint-config-spruce": "^11.2.26",
@@ -45,7 +46,7 @@
     "prettier": "^3.3.3",
     "ts-node": "^10.9.2",
     "tsc-watch": "^6.2.0",
-    "typescript": "^5.6.2"
+    "typescript": "^5.8.3"
   },
   "description": "Network connectivity graphs with nodes and edges",
   "skill": {
@@ -77,7 +78,7 @@
     "@sprucelabs/schema": "^31.0.42",
     "@sprucelabs/spruce-core-schemas": "^40.1.632",
     "@sprucelabs/spruce-skill-utils": "^31.2.44",
-    "react": "^19.0.0",
+    "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "reactflow": "^11.11.4"
   }
