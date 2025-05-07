@@ -91,7 +91,7 @@ export default class LateralFlowGraph implements FlowGraph {
         return {
             nodes: [],
             edges: [],
-            ...this.callbacks
+            ...this.callbacks,
         }
     }
 
