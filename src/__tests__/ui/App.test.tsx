@@ -1,7 +1,7 @@
 import { test, assert } from '@sprucelabs/test-utils'
 import React from 'react'
-import AbstractPackageTest from '../AbstractPackageTest'
 import App from '../../ui/App'
+import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class AppTest extends AbstractPackageTest {
     private static element: React.ReactElement
@@ -12,7 +12,6 @@ export default class AppTest extends AbstractPackageTest {
         this.element = this.renderApp()
     }
 
-    
     @test()
     protected static async rendersApp() {
         assert.isTruthy(this.element, 'App failed to render!')
@@ -21,5 +20,4 @@ export default class AppTest extends AbstractPackageTest {
     private static renderApp() {
         return <App />
     }
-
 }
