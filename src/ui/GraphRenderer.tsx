@@ -78,7 +78,7 @@ export function setReactFlowComponent(component: React.FC<ReactFlowProps>) {
 export let useMemoHook: (
     factory: NodeTypesFactory,
     deps: React.DependencyList
-) => ReturnType<NodeTypesFactory> = useMemo
+) => GraphRendererNodeTypes = useMemo
 
 export function setUseMemoHook(hook: UseMemoHook) {
     useMemoHook = hook
