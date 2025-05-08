@@ -26,7 +26,7 @@ const RotatableNode: React.FC<NodeProps> = ({
 
     useEffect(() => {
         updateNodeInternals(data?.id)
-    }, [data?.id, data?.style.transform, updateNodeInternals])
+    }, [data?.id, data?.style?.transform, updateNodeInternals])
 
     return (
         <div className="rotatable-node" data-testid="rotatable-node">
