@@ -5,7 +5,13 @@ import ReactFlow, { Edge, Node } from 'reactflow'
 import FakeReactFlow, {
     lastFakeReactFlowProps,
 } from '../../testDoubles/ui/FakeReactFlow'
-import GraphRenderer, { NodeTypesFactory } from '../../ui/GraphRenderer'
+import FakeReactFlowProvider, {
+    providerWasCreated,
+} from '../../testDoubles/ui/FakeReactFlowProvider'
+import GraphRenderer, {
+    NodeTypesFactory,
+    setProviderComponent,
+} from '../../ui/GraphRenderer'
 import RotatableNode from '../../ui/RotatableNode'
 import AbstractPackageTest from '../AbstractPackageTest'
 
@@ -114,6 +120,18 @@ export default class GraphRendererTest extends AbstractPackageTest {
             this.useMemoPassedDeps,
             [],
             'Should memoize nodeTypes with empty deps!'
+        )
+    }
+
+    @test()
+    protected static async wrapsWithReactFlowProvider() {
+        setProviderComponent(FakeReactFlowProvider)
+
+        this.render()
+
+        assert.isTruthy(
+            providerWasCreated,
+            'Should wrap with ReactFlowProvider!'
         )
     }
 

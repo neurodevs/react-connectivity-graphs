@@ -1,5 +1,11 @@
 import React, { useMemo, DependencyList } from 'react'
-import ReactFlow, { Edge, Node, NodeProps, NodeTypes } from 'reactflow'
+import ReactFlow, {
+    Edge,
+    Node,
+    NodeProps,
+    NodeTypes,
+    ReactFlowProvider,
+} from 'reactflow'
 import RotatableNode from './RotatableNode'
 
 export interface GraphRendererProps {
@@ -31,17 +37,19 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
 
     return (
         <div className="graph-renderer" data-testid="graph-renderer">
-            <ReactFlowComponent
-                nodes={nodes}
-                edges={edges}
-                nodeTypes={nodeTypes}
-                onNodeClick={onNodeClick}
-                onNodeMouseEnter={onNodeMouseEnter}
-                onNodeMouseLeave={onNodeMouseLeave}
-                onEdgeClick={onEdgeClick}
-                onEdgeMouseEnter={onEdgeMouseEnter}
-                onEdgeMouseLeave={onEdgeMouseLeave}
-            />
+            <ProviderComponent>
+                <ReactFlowComponent
+                    nodes={nodes}
+                    edges={edges}
+                    nodeTypes={nodeTypes}
+                    onNodeClick={onNodeClick}
+                    onNodeMouseEnter={onNodeMouseEnter}
+                    onNodeMouseLeave={onNodeMouseLeave}
+                    onEdgeClick={onEdgeClick}
+                    onEdgeMouseEnter={onEdgeMouseEnter}
+                    onEdgeMouseLeave={onEdgeMouseLeave}
+                />
+            </ProviderComponent>
         </div>
     )
 }
@@ -53,3 +61,11 @@ export interface GraphRendererNodeTypes {
 }
 
 export type NodeTypesFactory = () => GraphRendererNodeTypes
+
+// For test doubles
+
+export let ProviderComponent = ReactFlowProvider
+
+export function setProviderComponent(component: React.FC) {
+    ProviderComponent = component
+}
