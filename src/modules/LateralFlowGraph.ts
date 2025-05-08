@@ -1,8 +1,6 @@
 import { assertOptions } from '@sprucelabs/schema'
 import React from 'react'
-import { ReactFlowProvider } from 'reactflow'
 import SpruceError from '../errors/SpruceError'
-import GraphRenderer from '../ui/GraphRenderer'
 
 export default class LateralFlowGraph implements FlowGraph {
     public static Class?: FlowGraphConstructor
@@ -10,33 +8,12 @@ export default class LateralFlowGraph implements FlowGraph {
 
     private nodes: GraphNode[]
     private edges: GraphEdge[]
-    private onNodeClick?: () => void
-    private onNodeMouseEnter?: () => void
-    private onNodeMouseLeave?: () => void
-    private onEdgeClick?: () => void
-    private onEdgeMouseEnter?: () => void
-    private onEdgeMouseLeave?: () => void
 
     protected constructor(options: FlowGraphOptions) {
-        const {
-            nodes,
-            edges,
-            onNodeClick,
-            onNodeMouseEnter,
-            onNodeMouseLeave,
-            onEdgeClick,
-            onEdgeMouseEnter,
-            onEdgeMouseLeave,
-        } = options
+        const { nodes, edges } = options
 
         this.nodes = nodes
         this.edges = edges
-        this.onNodeClick = onNodeClick
-        this.onNodeMouseEnter = onNodeMouseEnter
-        this.onNodeMouseLeave = onNodeMouseLeave
-        this.onEdgeClick = onEdgeClick
-        this.onEdgeMouseEnter = onEdgeMouseEnter
-        this.onEdgeMouseLeave = onEdgeMouseLeave
 
         this.throwIfEdgesWithoutNodes()
     }
@@ -79,41 +56,21 @@ export default class LateralFlowGraph implements FlowGraph {
         return this.nodes.length
     }
 
-    private createRenderer() {
-        return this.createElement(GraphRenderer, this.rendererProps)
-    }
-
-    private get createElement() {
-        return LateralFlowGraph.createElement
-    }
-
-    private get rendererProps() {
+    public toJson() {
         return {
             nodes: [],
             edges: [],
-            ...this.callbacks,
         }
-    }
-
-    private get callbacks() {
-        return {
-            onNodeClick: this.onNodeClick,
-            onNodeMouseEnter: this.onNodeMouseEnter,
-            onNodeMouseLeave: this.onNodeMouseLeave,
-            onEdgeClick: this.onEdgeClick,
-            onEdgeMouseEnter: this.onEdgeMouseEnter,
-            onEdgeMouseLeave: this.onEdgeMouseLeave,
-        }
-    }
-
-    public render() {
-        const renderer = this.createRenderer()
-        return this.createElement(ReactFlowProvider, {}, renderer)
     }
 }
 
 export interface FlowGraph {
-    render(): React.ReactElement
+    toJson(): SerializedFlowGraph
+}
+
+export interface SerializedFlowGraph {
+    nodes: GraphNode[]
+    edges: GraphEdge[]
 }
 
 export type FlowGraphConstructor = new (options: FlowGraphOptions) => FlowGraph
@@ -121,12 +78,6 @@ export type FlowGraphConstructor = new (options: FlowGraphOptions) => FlowGraph
 export interface FlowGraphOptions {
     nodes: GraphNode[]
     edges: GraphEdge[]
-    onNodeClick?: () => void
-    onNodeMouseEnter?: () => void
-    onNodeMouseLeave?: () => void
-    onEdgeClick?: () => void
-    onEdgeMouseEnter?: () => void
-    onEdgeMouseLeave?: () => void
 }
 
 export interface GraphNode {}

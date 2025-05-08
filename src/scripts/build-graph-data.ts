@@ -61,7 +61,7 @@ const graph = LateralFlowGraph.Create({
     ],
 })
 
-const props = graph.toProps()
+const props = graph.toJson()
 
 const outPath = path.join(process.cwd(), 'public/dist', 'graph-data.json')
 fs.writeFileSync(outPath, JSON.stringify(props, null, 2))

@@ -1,31 +1,16 @@
 import { test, assert, errorAssert } from '@sprucelabs/test-utils'
-import { ReactFlowProvider } from 'reactflow'
 import LateralFlowGraph, {
     GraphEdge,
     FlowGraphOptions,
     FlowGraph,
 } from '../../modules/LateralFlowGraph'
-import GraphRenderer from '../../ui/GraphRenderer'
 import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class LateralFlowGraphTest extends AbstractPackageTest {
     private static instance: FlowGraph
-    private static callsToCreateElement: CallToCreateElement[] = []
-
-    private static wasHitForCallbacks: {
-        onNodeClick: boolean
-        onNodeMouseEnter: boolean
-        onNodeMouseLeave: boolean
-        onEdgeClick: boolean
-        onEdgeMouseEnter: boolean
-        onEdgeMouseLeave: boolean
-    }
 
     protected static async beforeEach() {
         await super.beforeEach()
-
-        this.fakeCreateElement()
-        this.setWasHitFalseForAllCallbacks()
 
         this.instance = this.LateralFlowGraph()
     }
@@ -60,194 +45,11 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
         })
     }
 
-    @test()
-    protected static async rendersReactFlowProviderWithCorrectType() {
-        this.render()
-
-        assert.isTruthy(
-            this.callForReactFlowProvider,
-            'Should create a ReactFlowProvider element!'
-        )
-    }
-
-    @test()
-    protected static async rendersReactFlowProviderWithCorrectProps() {
-        this.render()
-
-        assert.isEqualDeep(
-            this.callForReactFlowProvider?.props,
-            {},
-            'Should create a ReactFlowProvider element with correct props!'
-        )
-    }
-
-    @test()
-    protected static async rendersReactFlowProviderWithCorrectChildren() {
-        this.render()
-
-        const isChild = this.callForReactFlowProvider?.children?.some?.(
-            (c) => c === this.callForGraphRenderer
-        )
-
-        assert.isTrue(
-            isChild,
-            'GraphRenderer should be a child of ReactFlowProvider!'
-        )
-    }
-
-    @test()
-    protected static async rendersGraphRendererWithCorrectType() {
-        this.render()
-
-        assert.isTruthy(
-            this.callForGraphRenderer,
-            'Should create a GraphRenderer element!'
-        )
-    }
-
-    @test()
-    protected static async passesOnNodeClickCallbackToRenderer() {
-        this.render()
-
-        const cb = this.callForGraphRenderer?.props?.onNodeClick
-        cb?.()
-
-        assert.isTruthy(
-            this.wasHitForCallbacks.onNodeClick,
-            'Should pass onNodeClick callback to GraphRenderer!'
-        )
-    }
-
-    @test()
-    protected static async passesOnNodeMouseEnterCallbackToRenderer() {
-        this.render()
-
-        const cb = this.callForGraphRenderer?.props?.onNodeMouseEnter
-        cb?.()
-
-        assert.isTruthy(
-            this.wasHitForCallbacks.onNodeMouseEnter,
-            'Should pass onNodeMouseEnter callback to GraphRenderer!'
-        )
-    }
-
-    @test()
-    protected static async passesOnNodeMouseLeaveCallbackToRenderer() {
-        this.render()
-
-        const cb = this.callForGraphRenderer?.props?.onNodeMouseLeave
-        cb?.()
-
-        assert.isTruthy(
-            this.wasHitForCallbacks.onNodeMouseLeave,
-            'Should pass onNodeMouseLeave callback!'
-        )
-    }
-
-    @test()
-    protected static async passesOnEdgeClickCallbackToRenderer() {
-        this.render()
-
-        const cb = this.callForGraphRenderer?.props?.onEdgeClick
-        cb?.()
-
-        assert.isTruthy(
-            this.wasHitForCallbacks.onEdgeClick,
-            'Should pass onEdgeClick callback!'
-        )
-    }
-
-    @test()
-    protected static async passesOnEdgeMouseEnterCallbackToRenderer() {
-        this.render()
-
-        const cb = this.callForGraphRenderer?.props?.onEdgeMouseEnter
-        cb?.()
-
-        assert.isTruthy(
-            this.wasHitForCallbacks.onEdgeMouseEnter,
-            'Should pass onEdgeMouseEnter callback!'
-        )
-    }
-
-    @test()
-    protected static async passesOnEdgeMouseLeaveCallbackToRenderer() {
-        this.render()
-
-        const cb = this.callForGraphRenderer?.props?.onEdgeMouseLeave
-        cb?.()
-
-        assert.isTruthy(
-            this.wasHitForCallbacks.onEdgeMouseLeave,
-            'Should pass onEdgeMouseLeave callback!'
-        )
-    }
-
-    private static render() {
-        return this.instance.render()
-    }
-
-    private static fakeCreateElement() {
-        this.callsToCreateElement = []
-
-        // @ts-ignore
-        LateralFlowGraph.createElement = (
-            type: string,
-            props: object,
-            ...children: React.ReactNode[]
-        ) => {
-            const element = { type, props, children }
-            this.callsToCreateElement.push(element)
-            return element
-        }
-    }
-
-    private static get callForReactFlowProvider() {
-        return this.callsToCreateElement.find(
-            (call) => call.type === ReactFlowProvider
-        )
-    }
-
-    private static get callForGraphRenderer() {
-        return this.callsToCreateElement.find(
-            (call) => call.type === GraphRenderer
-        )
-    }
-
     private static get options() {
         return {
             nodes: [],
             edges: [],
-            onNodeClick: () => {
-                this.wasHitForCallbacks.onNodeClick = true
-            },
-            onNodeMouseEnter: () => {
-                this.wasHitForCallbacks.onNodeMouseEnter = true
-            },
-            onNodeMouseLeave: () => {
-                this.wasHitForCallbacks.onNodeMouseLeave = true
-            },
-            onEdgeClick: () => {
-                this.wasHitForCallbacks.onEdgeClick = true
-            },
-            onEdgeMouseEnter: () => {
-                this.wasHitForCallbacks.onEdgeMouseEnter = true
-            },
-            onEdgeMouseLeave: () => {
-                this.wasHitForCallbacks.onEdgeMouseLeave = true
-            },
         } as FlowGraphOptions
-    }
-
-    private static setWasHitFalseForAllCallbacks() {
-        this.wasHitForCallbacks = {
-            onNodeClick: false,
-            onNodeMouseEnter: false,
-            onNodeMouseLeave: false,
-            onEdgeClick: false,
-            onEdgeMouseEnter: false,
-            onEdgeMouseLeave: false,
-        }
     }
 
     private static LateralFlowGraph(options = this.options) {

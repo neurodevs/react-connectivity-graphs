@@ -1,4 +1,8 @@
-import { FlowGraph, FlowGraphOptions } from '../../modules/LateralFlowGraph'
+import {
+    FlowGraph,
+    FlowGraphOptions,
+    SerializedFlowGraph,
+} from '../../modules/LateralFlowGraph'
 
 export default class FakeFlowGraph implements FlowGraph {
     public static callsToConstructor: FlowGraphOptions[] = []
@@ -8,9 +12,9 @@ export default class FakeFlowGraph implements FlowGraph {
         FakeFlowGraph.callsToConstructor.push(options)
     }
 
-    public render() {
+    public toJson() {
         FakeFlowGraph.numCallsToRender++
-        return {} as React.ReactElement
+        return {} as SerializedFlowGraph
     }
 
     public static resetTestDouble() {
