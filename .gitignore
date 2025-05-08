@@ -130,3 +130,6 @@ dist
 .pnp.*
 
 build/
+
+# Mac system files
+.DS_Store
