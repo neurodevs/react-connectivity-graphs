@@ -39,6 +39,8 @@ const RotatableNode: React.FC<NodeProps> = ({
 
 export default RotatableNode
 
+// For test doubles
+
 export let HandleComponent = Handle
 
 export function setHandleComponent(handle: React.FC<any>) {
