@@ -1,15 +1,17 @@
 import { test, assert } from '@sprucelabs/test-utils'
+import { render, RenderResult } from '@testing-library/react'
 import React from 'react'
-import App from '../../ui/App'
+import { FakeGraphRenderer, lastFakeGraphRendererProps } from '../../exports'
+import App, { setGraphRendererComponent } from '../../ui/App'
 import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class AppTest extends AbstractPackageTest {
-    private static element: React.ReactElement
+    private static element: RenderResult
 
     protected static async beforeEach() {
         await super.beforeEach()
 
-        this.element = this.renderApp()
+        this.element = this.render()
     }
 
     @test()
@@ -17,7 +19,19 @@ export default class AppTest extends AbstractPackageTest {
         assert.isTruthy(this.element, 'App failed to render!')
     }
 
-    private static renderApp() {
-        return <App />
+    @test()
+    protected static async rendersGraphRendererWithProps() {
+        setGraphRendererComponent(FakeGraphRenderer)
+
+        this.render()
+
+        assert.isTruthy(
+            lastFakeGraphRendererProps,
+            'Should render GraphRenderer with props!'
+        )
+    }
+
+    private static render() {
+        return render(<App nodes={[]} edges={[]} />)
     }
 }
