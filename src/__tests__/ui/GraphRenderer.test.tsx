@@ -11,6 +11,8 @@ import FakeReactFlowProvider, {
 import GraphRenderer, {
     NodeTypesFactory,
     setProviderComponent,
+    setReactFlowComponent,
+    setUseMemoHook,
 } from '../../ui/GraphRenderer'
 import RotatableNode from '../../ui/RotatableNode'
 import AbstractPackageTest from '../AbstractPackageTest'
@@ -23,7 +25,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
     protected static async beforeEach() {
         await super.beforeEach()
 
-        this.clearFakeUseMemo()
+        this.fakeUseMemo()
 
         this.element = this.createRenderer()
     }
@@ -150,7 +152,9 @@ export default class GraphRendererTest extends AbstractPackageTest {
     }
 
     private static render(useFakeReactFlow = true) {
-        const reactFlowComponent = useFakeReactFlow ? FakeReactFlow : ReactFlow
+        const reactflow = useFakeReactFlow ? FakeReactFlow : ReactFlow
+
+        setReactFlowComponent(reactflow)
 
         return this.renderWithProvider(
             <GraphRenderer
@@ -162,15 +166,15 @@ export default class GraphRendererTest extends AbstractPackageTest {
                 onEdgeClick={this.onEdgeClick}
                 onEdgeMouseEnter={this.onEdgeMouseEnter}
                 onEdgeMouseLeave={this.onEdgeMouseLeave}
-                ReactFlowComponent={reactFlowComponent}
-                useMemoHook={this.fakeUseMemo}
             />
         )
     }
 
-    private static clearFakeUseMemo() {
+    private static fakeUseMemo() {
         this.useMemoPassedFactory = undefined
         this.useMemoPassedDeps = undefined
+
+        setUseMemoHook(this.useMemoHook)
     }
 
     private static readonly onNodeClick = () => {}
@@ -184,7 +188,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
         rotatableNode: RotatableNode,
     }
 
-    private static readonly fakeUseMemo = (
+    private static readonly useMemoHook = (
         factory: NodeTypesFactory,
         deps: React.DependencyList
     ) => {

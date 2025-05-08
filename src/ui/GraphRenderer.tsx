@@ -1,9 +1,10 @@
-import React, { useMemo, DependencyList } from 'react'
+import React, { useMemo } from 'react'
 import ReactFlow, {
     Edge,
     Node,
     NodeProps,
     NodeTypes,
+    ReactFlowProps,
     ReactFlowProvider,
 } from 'reactflow'
 import RotatableNode from './RotatableNode'
@@ -17,8 +18,6 @@ export interface GraphRendererProps {
     onEdgeClick?: () => void
     onEdgeMouseEnter?: () => void
     onEdgeMouseLeave?: () => void
-    ReactFlowComponent?: React.ComponentType
-    useMemoHook?: (factory: NodeTypesFactory, deps: DependencyList) => NodeTypes
 }
 
 const GraphRenderer: React.FC<GraphRendererProps> = ({
@@ -30,8 +29,6 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     onEdgeClick,
     onEdgeMouseEnter,
     onEdgeMouseLeave,
-    ReactFlowComponent = ReactFlow,
-    useMemoHook = useMemo,
 }) => {
     const nodeTypes = useMemoHook(() => ({ rotatableNode: RotatableNode }), [])
 
@@ -56,7 +53,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
 
 export default GraphRenderer
 
-export interface GraphRendererNodeTypes {
+export type GraphRendererNodeTypes = NodeTypes & {
     rotatableNode: React.FC<NodeProps>
 }
 
@@ -66,6 +63,30 @@ export type NodeTypesFactory = () => GraphRendererNodeTypes
 
 export let ProviderComponent = ReactFlowProvider
 
-export function setProviderComponent(component: React.FC) {
+export function setProviderComponent(
+    component: React.FC<React.PropsWithChildren>
+) {
     ProviderComponent = component
+}
+
+export let ReactFlowComponent: React.FC<ReactFlowProps> = ReactFlow
+
+export function setReactFlowComponent(component: React.FC<ReactFlowProps>) {
+    ReactFlowComponent = component
+}
+
+export let useMemoHook: (
+    factory: NodeTypesFactory,
+    deps: React.DependencyList
+) => ReturnType<NodeTypesFactory> = useMemo
+
+export function setUseMemoHook(hook: UseMemoHook) {
+    useMemoHook = hook
+}
+
+export type UseMemoHook = (
+    factory: NodeTypesFactory,
+    deps: React.DependencyList
+) => {
+    rotatableNode: React.FC<NodeProps>
 }
