@@ -4,7 +4,7 @@ import { GraphRendererProps } from './exports'
 import App from './ui/App'
 
 async function main() {
-    const res = await fetch('/graph-data.json')
+    const res = await fetch('/dist/graph-data.json')
     const props: GraphRendererProps = await res.json()
 
     const root = ReactDOM.createRoot(document.getElementById('root')!)
