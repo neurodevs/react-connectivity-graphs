@@ -9,23 +9,17 @@ import FakeReactFlowProvider, {
     providerWasCreated,
 } from '../../testDoubles/ui/FakeReactFlowProvider'
 import GraphRenderer, {
-    NodeTypesFactory,
     setProviderComponent,
     setReactFlowComponent,
-    setUseMemoHook,
 } from '../../ui/GraphRenderer'
 import RotatableNode from '../../ui/RotatableNode'
 import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class GraphRendererTest extends AbstractPackageTest {
     private static element: React.ReactElement
-    private static useMemoPassedFactory?: NodeTypesFactory
-    private static useMemoPassedDeps?: React.DependencyList
 
     protected static async beforeEach() {
         await super.beforeEach()
-
-        this.fakeUseMemo()
 
         this.element = this.createRenderer()
     }
@@ -104,28 +98,6 @@ export default class GraphRendererTest extends AbstractPackageTest {
     }
 
     @test()
-    protected static async memoizesNodeTypesForEfficiency() {
-        this.render()
-
-        assert.isEqualDeep(
-            this.useMemoPassedFactory?.(),
-            this.nodeTypes,
-            'Should memoize nodeTypes!'
-        )
-    }
-
-    @test()
-    protected static async memoizesNodeTypesWithEmptyDeps() {
-        this.render()
-
-        assert.isEqualDeep(
-            this.useMemoPassedDeps,
-            [],
-            'Should memoize nodeTypes with empty deps!'
-        )
-    }
-
-    @test()
     protected static async wrapsWithReactFlowProvider() {
         setProviderComponent(FakeReactFlowProvider)
 
@@ -185,13 +157,6 @@ export default class GraphRendererTest extends AbstractPackageTest {
         )
     }
 
-    private static fakeUseMemo() {
-        this.useMemoPassedFactory = undefined
-        this.useMemoPassedDeps = undefined
-
-        setUseMemoHook(this.useMemoHook)
-    }
-
     private static readonly onNodeClick = () => {}
     private static readonly onNodeMouseEnter = () => {}
     private static readonly onNodeMouseLeave = () => {}
@@ -201,16 +166,6 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
     private static readonly nodeTypes = {
         rotatableNode: RotatableNode,
-    }
-
-    private static readonly useMemoHook = (
-        factory: NodeTypesFactory,
-        deps: React.DependencyList
-    ) => {
-        this.useMemoPassedFactory = factory
-        this.useMemoPassedDeps = deps
-
-        return this.nodeTypes
     }
 
     private static readonly oneFakeNode: Node[] = [

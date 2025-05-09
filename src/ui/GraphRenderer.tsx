@@ -1,10 +1,8 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import ReactFlow, {
     Background,
     Edge,
     Node,
-    NodeProps,
-    NodeTypes,
     ReactFlowProps,
     ReactFlowProvider,
 } from 'reactflow'
@@ -21,6 +19,8 @@ export interface GraphRendererProps {
     onEdgeMouseLeave?: () => void
 }
 
+export const nodeTypes = { rotatableNode: RotatableNode }
+
 const GraphRenderer: React.FC<GraphRendererProps> = ({
     nodes,
     edges,
@@ -31,8 +31,6 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     onEdgeMouseEnter,
     onEdgeMouseLeave,
 }) => {
-    const nodeTypes = useMemoHook(() => ({ rotatableNode: RotatableNode }), [])
-
     return (
         <div className="graph-renderer" data-testid="graph-renderer">
             <ProviderComponent>
@@ -55,12 +53,6 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
 
 export default GraphRenderer
 
-export type GraphRendererNodeTypes = NodeTypes & {
-    rotatableNode: React.FC<NodeProps>
-}
-
-export type NodeTypesFactory = () => GraphRendererNodeTypes
-
 // For test doubles
 
 export let ProviderComponent = ReactFlowProvider
@@ -75,20 +67,4 @@ export let ReactFlowComponent: React.FC<ReactFlowProps> = ReactFlow
 
 export function setReactFlowComponent(component: React.FC<ReactFlowProps>) {
     ReactFlowComponent = component
-}
-
-export let useMemoHook: (
-    factory: NodeTypesFactory,
-    deps: React.DependencyList
-) => GraphRendererNodeTypes = useMemo
-
-export function setUseMemoHook(hook: UseMemoHook) {
-    useMemoHook = hook
-}
-
-export type UseMemoHook = (
-    factory: NodeTypesFactory,
-    deps: React.DependencyList
-) => {
-    rotatableNode: React.FC<NodeProps>
 }
