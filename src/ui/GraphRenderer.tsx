@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
 import ReactFlow, {
+    Background,
     Edge,
     Node,
     NodeProps,
@@ -46,6 +47,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                     onEdgeMouseEnter={onEdgeMouseEnter}
                     onEdgeMouseLeave={onEdgeMouseLeave}
                 />
+                <Background />
             </ProviderComponent>
         </div>
     )
