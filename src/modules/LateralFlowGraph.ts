@@ -1,5 +1,4 @@
 import { assertOptions } from '@sprucelabs/schema'
-import React from 'react'
 import SpruceError from '../errors/SpruceError'
 import LateralGraphStylizer, {
     EnrichedEdge,
@@ -10,7 +9,6 @@ import LateralGraphStylizer, {
 
 export default class LateralFlowGraph implements FlowGraph {
     public static Class?: FlowGraphConstructor
-    public static createElement = React.createElement
 
     private nodes: GraphNode[]
     private edges: GraphEdge[]
