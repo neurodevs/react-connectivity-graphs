@@ -1,7 +1,9 @@
 import { test, assert } from '@sprucelabs/test-utils'
 import { render, RenderResult } from '@testing-library/react'
 import React from 'react'
-import { FakeGraphRenderer, lastFakeGraphRendererProps } from '../../exports'
+import FakeGraphRenderer, {
+    lastFakeGraphRendererProps,
+} from '../../testDoubles/ui/FakeGraphRenderer'
 import App, { setGraphRendererComponent } from '../../ui/App'
 import AbstractPackageTest from '../AbstractPackageTest'
 

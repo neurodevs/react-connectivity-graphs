@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { GraphRendererProps } from './exports'
 import App from './ui/App'
+import { GraphRendererProps } from './ui/GraphRenderer'
 
 import 'index.css'
 
