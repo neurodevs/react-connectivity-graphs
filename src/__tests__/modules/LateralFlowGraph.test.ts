@@ -1,4 +1,4 @@
-import { test, assert, errorAssert } from '@sprucelabs/test-utils'
+import { test, assert, errorAssert, generateId } from '@sprucelabs/test-utils'
 import LateralFlowGraph, {
     GraphEdge,
     FlowGraphOptions,
@@ -38,7 +38,7 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
 
     @test()
     protected static async throwsOnEdgesWithoutNodes() {
-        const zeroNodes: Node[] = []
+        const zeroNodes: GraphNode[] = []
         const oneEdge = [{} as GraphEdge]
 
         const err = assert.doesThrow(() => {
@@ -73,6 +73,34 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
         )
     }
 
+    @test()
+    protected static async enrichesNodesAndEdgesWithStylizer() {
+        assert.isEqualDeep(
+            FakeGraphStylizer.callsToEnrich[0],
+            {
+                nodes: this.nodes,
+                edges: this.edges,
+            },
+            'Should call enrich with nodes and edges!'
+        )
+    }
+
+    private static generateNode() {
+        return {
+            id: generateId(),
+            label: generateId(),
+            abbreviation: generateId(),
+        }
+    }
+
+    private static generateEdge() {
+        return {
+            id: generateId(),
+            source: this.nodes[0].id,
+            target: this.nodes[1].id,
+        }
+    }
+
     private static setFakeGraphStylizer() {
         LateralGraphStylizer.Class = FakeGraphStylizer
         FakeGraphStylizer.resetTestDouble()
@@ -85,8 +113,11 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
         } as FlowGraphOptions
     }
 
-    private static readonly nodes: GraphNode[] = [{}]
-    private static readonly edges: GraphEdge[] = [{}]
+    private static readonly nodes: GraphNode[] = [
+        this.generateNode(),
+        this.generateNode(),
+    ]
+    private static readonly edges: GraphEdge[] = [this.generateEdge()]
 
     private static LateralFlowGraph(options = this.options) {
         return LateralFlowGraph.Create(options)

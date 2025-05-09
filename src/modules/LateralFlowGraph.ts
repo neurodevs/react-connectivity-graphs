@@ -1,7 +1,7 @@
 import { assertOptions } from '@sprucelabs/schema'
 import React from 'react'
 import SpruceError from '../errors/SpruceError'
-import LateralGraphStylizer from './LateralGraphStylizer'
+import LateralGraphStylizer, { GraphStylizer } from './LateralGraphStylizer'
 
 export default class LateralFlowGraph implements FlowGraph {
     public static Class?: FlowGraphConstructor
@@ -9,22 +9,25 @@ export default class LateralFlowGraph implements FlowGraph {
 
     private nodes: GraphNode[]
     private edges: GraphEdge[]
+    private stylizer: GraphStylizer
 
-    protected constructor(options: FlowGraphOptions) {
-        const { nodes, edges } = options
+    protected constructor(options: FlowGraphConstructorOptions) {
+        const { nodes, edges, stylizer } = options
 
         this.nodes = nodes
         this.edges = edges
+        this.stylizer = stylizer
 
         this.throwIfEdgesWithoutNodes()
+        this.enrichNodesAndEdges()
     }
 
     public static Create(options: FlowGraphOptions) {
         assertOptions(options, ['nodes', 'edges'])
 
-        this.LateralGraphStylizer()
+        const stylizer = this.LateralGraphStylizer()
 
-        return new (this.Class ?? this)(options)
+        return new (this.Class ?? this)({ stylizer, ...options })
     }
 
     private throwIfEdgesWithoutNodes() {
@@ -60,6 +63,10 @@ export default class LateralFlowGraph implements FlowGraph {
         return this.nodes.length
     }
 
+    private enrichNodesAndEdges() {
+        this.stylizer.enrich(this.nodes, this.edges)
+    }
+
     public toJson() {
         return {
             nodes: this.nodes,
@@ -68,7 +75,7 @@ export default class LateralFlowGraph implements FlowGraph {
     }
 
     private static LateralGraphStylizer() {
-        LateralGraphStylizer.Create()
+        return LateralGraphStylizer.Create()
     }
 }
 
@@ -88,6 +95,18 @@ export interface FlowGraphOptions {
     edges: GraphEdge[]
 }
 
-export interface GraphNode {}
+export interface FlowGraphConstructorOptions extends FlowGraphOptions {
+    stylizer: GraphStylizer
+}
 
-export interface GraphEdge {}
+export interface GraphNode {
+    id: string
+    label: string
+    abbreviation: string
+}
+
+export interface GraphEdge {
+    id: string
+    source: string
+    target: string
+}
