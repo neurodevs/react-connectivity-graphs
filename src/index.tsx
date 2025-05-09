@@ -18,5 +18,4 @@ async function main() {
 
 main().catch((error) => {
     console.error('Error loading graph data:', error)
-    process.exit(1)
 })
