@@ -22,7 +22,7 @@ export default class LateralFlowGraph implements FlowGraph {
     public static Create(options: FlowGraphOptions) {
         assertOptions(options, ['nodes', 'edges'])
 
-        LateralNodeStylizer.Create()
+        this.LateralNodeStylizer()
 
         return new (this.Class ?? this)(options)
     }
@@ -65,6 +65,10 @@ export default class LateralFlowGraph implements FlowGraph {
             nodes: this.nodes,
             edges: this.edges,
         }
+    }
+
+    private static LateralNodeStylizer() {
+        LateralNodeStylizer.Create()
     }
 }
 
