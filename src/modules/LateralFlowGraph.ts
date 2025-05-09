@@ -58,8 +58,8 @@ export default class LateralFlowGraph implements FlowGraph {
 
     public toJson() {
         return {
-            nodes: [],
-            edges: [],
+            nodes: this.nodes,
+            edges: this.edges,
         }
     }
 }

@@ -3,6 +3,7 @@ import LateralFlowGraph, {
     GraphEdge,
     FlowGraphOptions,
     FlowGraph,
+    GraphNode,
 } from '../../modules/LateralFlowGraph'
 import AbstractPackageTest from '../AbstractPackageTest'
 
@@ -45,12 +46,29 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
         })
     }
 
+    @test()
+    protected static async toJsonReturnsSerializedGraph() {
+        const json = this.instance.toJson()
+
+        assert.isEqualDeep(
+            json,
+            {
+                nodes: this.nodes,
+                edges: this.edges,
+            },
+            'Should return serialized graph!'
+        )
+    }
+
     private static get options() {
         return {
-            nodes: [],
-            edges: [],
+            nodes: this.nodes,
+            edges: this.edges,
         } as FlowGraphOptions
     }
+
+    private static readonly nodes: GraphNode[] = [{}]
+    private static readonly edges: GraphEdge[] = [{}]
 
     private static LateralFlowGraph(options = this.options) {
         return LateralFlowGraph.Create(options)
