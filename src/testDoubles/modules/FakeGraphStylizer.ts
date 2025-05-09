@@ -1,4 +1,4 @@
-import { GraphNode, GraphEdge } from '../../exports'
+import { GraphEdge, GraphNode } from '../../modules/LateralFlowGraph'
 import {
     EnrichedGraph,
     GraphStylizer,

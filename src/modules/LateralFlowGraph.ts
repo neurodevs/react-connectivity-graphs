@@ -1,7 +1,12 @@
 import { assertOptions } from '@sprucelabs/schema'
 import React from 'react'
 import SpruceError from '../errors/SpruceError'
-import LateralGraphStylizer, { GraphStylizer } from './LateralGraphStylizer'
+import LateralGraphStylizer, {
+    EnrichedEdge,
+    EnrichedGraph,
+    EnrichedNode,
+    GraphStylizer,
+} from './LateralGraphStylizer'
 
 export default class LateralFlowGraph implements FlowGraph {
     public static Class?: FlowGraphConstructor
@@ -10,6 +15,8 @@ export default class LateralFlowGraph implements FlowGraph {
     private nodes: GraphNode[]
     private edges: GraphEdge[]
     private stylizer: GraphStylizer
+    private enrichedNodes!: EnrichedNode[]
+    private enrichedEdges!: EnrichedEdge[]
 
     protected constructor(options: FlowGraphConstructorOptions) {
         const { nodes, edges, stylizer } = options
@@ -64,13 +71,16 @@ export default class LateralFlowGraph implements FlowGraph {
     }
 
     private enrichNodesAndEdges() {
-        this.stylizer.enrich(this.nodes, this.edges)
+        const { nodes, edges } = this.stylizer.enrich(this.nodes, this.edges)
+
+        this.enrichedNodes = nodes
+        this.enrichedEdges = edges
     }
 
     public toJson() {
         return {
-            nodes: this.nodes,
-            edges: this.edges,
+            nodes: this.enrichedNodes,
+            edges: this.enrichedEdges,
         }
     }
 
@@ -80,12 +90,7 @@ export default class LateralFlowGraph implements FlowGraph {
 }
 
 export interface FlowGraph {
-    toJson(): SerializedFlowGraph
-}
-
-export interface SerializedFlowGraph {
-    nodes: GraphNode[]
-    edges: GraphEdge[]
+    toJson(): EnrichedGraph
 }
 
 export type FlowGraphConstructor = new (options: FlowGraphOptions) => FlowGraph

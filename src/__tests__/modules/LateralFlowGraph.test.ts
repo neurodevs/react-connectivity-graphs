@@ -51,20 +51,6 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
     }
 
     @test()
-    protected static async toJsonReturnsSerializedGraph() {
-        const json = this.instance.toJson()
-
-        assert.isEqualDeep(
-            json,
-            {
-                nodes: this.nodes,
-                edges: this.edges,
-            },
-            'Should return serialized graph!'
-        )
-    }
-
-    @test()
     protected static async createsLateralGraphStylizerToEnrichNodes() {
         assert.isEqual(
             FakeGraphStylizer.numCallsToConstructor,
@@ -82,6 +68,27 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
                 edges: this.edges,
             },
             'Should call enrich with nodes and edges!'
+        )
+    }
+
+    @test()
+    protected static async toJsonReturnsEnrichedGraph() {
+        const stylizer = LateralGraphStylizer.Create()
+
+        const json = this.instance.toJson()
+
+        const { nodes: enrichedNodes, edges: enrichedEdges } = stylizer.enrich(
+            this.nodes,
+            this.edges
+        )
+
+        assert.isEqualDeep(
+            json,
+            {
+                nodes: enrichedNodes,
+                edges: enrichedEdges,
+            },
+            'Should return serialized graph!'
         )
     }
 

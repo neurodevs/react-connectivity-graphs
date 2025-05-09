@@ -9,10 +9,14 @@ export default class LateralGraphStylizer {
         return new (this.Class ?? this)()
     }
 
-    public enrich(_nodes: GraphNode[], _edges: GraphEdge[]) {
-        return {} as EnrichedGraph
+    public enrich(nodes: GraphNode[], edges: GraphEdge[]) {
+        return {
+            nodes,
+            edges,
+        } as EnrichedGraph
     }
 }
+
 export interface GraphStylizer {
     enrich(nodes: GraphNode[], edges: GraphEdge[]): EnrichedGraph
 }

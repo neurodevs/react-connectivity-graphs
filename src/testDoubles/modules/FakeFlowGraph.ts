@@ -1,8 +1,5 @@
-import {
-    FlowGraph,
-    FlowGraphOptions,
-    SerializedFlowGraph,
-} from '../../modules/LateralFlowGraph'
+import { FlowGraph, FlowGraphOptions } from '../../modules/LateralFlowGraph'
+import { EnrichedGraph } from '../../modules/LateralGraphStylizer'
 
 export default class FakeFlowGraph implements FlowGraph {
     public static callsToConstructor: FlowGraphOptions[] = []
@@ -14,7 +11,7 @@ export default class FakeFlowGraph implements FlowGraph {
 
     public toJson() {
         FakeFlowGraph.numCallsToRender++
-        return {} as SerializedFlowGraph
+        return {} as EnrichedGraph
     }
 
     public static resetTestDouble() {
