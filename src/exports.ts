@@ -6,9 +6,9 @@ export * from './modules/LateralFlowGraph'
 export { default as FakeFlowGraph } from './testDoubles/modules/FakeFlowGraph'
 export * from './testDoubles/modules/FakeFlowGraph'
 
-// LateralNodeStylizer
-export { default as LateralNodeStylizer } from './modules/LateralNodeStylizer'
-export * from './modules/LateralNodeStylizer'
+// LateralGraphStylizer
+export { default as LateralGraphStylizer } from './modules/LateralGraphStylizer'
+export * from './modules/LateralGraphStylizer'
 
 // GraphRenderer
 

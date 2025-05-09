@@ -1,7 +1,7 @@
 import { assertOptions } from '@sprucelabs/schema'
 import React from 'react'
 import SpruceError from '../errors/SpruceError'
-import LateralNodeStylizer from './LateralNodeStylizer'
+import LateralGraphStylizer from './LateralGraphStylizer'
 
 export default class LateralFlowGraph implements FlowGraph {
     public static Class?: FlowGraphConstructor
@@ -22,7 +22,7 @@ export default class LateralFlowGraph implements FlowGraph {
     public static Create(options: FlowGraphOptions) {
         assertOptions(options, ['nodes', 'edges'])
 
-        this.LateralNodeStylizer()
+        this.LateralGraphStylizer()
 
         return new (this.Class ?? this)(options)
     }
@@ -67,8 +67,8 @@ export default class LateralFlowGraph implements FlowGraph {
         }
     }
 
-    private static LateralNodeStylizer() {
-        LateralNodeStylizer.Create()
+    private static LateralGraphStylizer() {
+        LateralGraphStylizer.Create()
     }
 }
 

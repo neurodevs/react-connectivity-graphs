@@ -1,12 +1,12 @@
 import { test, assert, errorAssert } from '@sprucelabs/test-utils'
-import { LateralNodeStylizer } from '../../exports'
 import LateralFlowGraph, {
     GraphEdge,
     FlowGraphOptions,
     FlowGraph,
     GraphNode,
 } from '../../modules/LateralFlowGraph'
-import FakeNodeStylizer from '../../testDoubles/modules/FakeNodeStylizer'
+import LateralGraphStylizer from '../../modules/LateralGraphStylizer'
+import FakeGraphStylizer from '../../testDoubles/modules/FakeGraphStylizer'
 import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class LateralFlowGraphTest extends AbstractPackageTest {
@@ -15,7 +15,7 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
     protected static async beforeEach() {
         await super.beforeEach()
 
-        this.setFakeNodeStylizer()
+        this.setFakeGraphStylizer()
 
         this.instance = this.LateralFlowGraph()
     }
@@ -65,17 +65,17 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
     }
 
     @test()
-    protected static async createsLateralNodeStylizerToEnrichNodes() {
+    protected static async createsLateralGraphStylizerToEnrichNodes() {
         assert.isEqual(
-            FakeNodeStylizer.numCallsToConstructor,
+            FakeGraphStylizer.numCallsToConstructor,
             1,
-            'Should create a LateralNodeStylizer!'
+            'Should create a LateralGraphStylizer!'
         )
     }
 
-    private static setFakeNodeStylizer() {
-        LateralNodeStylizer.Class = FakeNodeStylizer
-        FakeNodeStylizer.resetTestDouble()
+    private static setFakeGraphStylizer() {
+        LateralGraphStylizer.Class = FakeGraphStylizer
+        FakeGraphStylizer.resetTestDouble()
     }
 
     private static get options() {
