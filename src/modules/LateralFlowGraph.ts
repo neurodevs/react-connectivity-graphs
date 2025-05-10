@@ -10,8 +10,8 @@ import LateralGraphStylizer, {
 export default class LateralFlowGraph implements FlowGraph {
     public static Class?: FlowGraphConstructor
 
-    private nodes: GraphNode[]
-    private edges: GraphEdge[]
+    private nodes: SimpleNode[]
+    private edges: SimpleEdge[]
     private stylizer: GraphStylizer
     private enrichedNodes!: EnrichedNode[]
     private enrichedEdges!: EnrichedEdge[]
@@ -94,21 +94,21 @@ export interface FlowGraph {
 export type FlowGraphConstructor = new (options: FlowGraphOptions) => FlowGraph
 
 export interface FlowGraphOptions {
-    nodes: GraphNode[]
-    edges: GraphEdge[]
+    nodes: SimpleNode[]
+    edges: SimpleEdge[]
 }
 
 export interface FlowGraphConstructorOptions extends FlowGraphOptions {
     stylizer: GraphStylizer
 }
 
-export interface GraphNode {
+export interface SimpleNode {
     id: string
     label: string
     abbreviation: string
 }
 
-export interface GraphEdge {
+export interface SimpleEdge {
     id: string
     source: string
     target: string

@@ -1,4 +1,4 @@
-import { GraphEdge, GraphNode } from './LateralFlowGraph'
+import { SimpleEdge, SimpleNode } from './LateralFlowGraph'
 
 export default class LateralGraphStylizer {
     public static Class?: GraphStylizerConstructor
@@ -9,7 +9,7 @@ export default class LateralGraphStylizer {
         return new (this.Class ?? this)()
     }
 
-    public enrich(nodes: GraphNode[], edges: GraphEdge[]) {
+    public enrich(nodes: SimpleNode[], edges: SimpleEdge[]) {
         return {
             nodes,
             edges,
@@ -18,7 +18,7 @@ export default class LateralGraphStylizer {
 }
 
 export interface GraphStylizer {
-    enrich(nodes: GraphNode[], edges: GraphEdge[]): EnrichedGraph
+    enrich(nodes: SimpleNode[], edges: SimpleEdge[]): EnrichedGraph
 }
 
 export type GraphStylizerConstructor = new () => GraphStylizer
@@ -28,6 +28,6 @@ export interface EnrichedGraph {
     edges: EnrichedEdge[]
 }
 
-export interface EnrichedNode extends GraphNode {}
+export interface EnrichedNode extends SimpleNode {}
 
-export interface EnrichedEdge extends GraphEdge {}
+export interface EnrichedEdge extends SimpleEdge {}

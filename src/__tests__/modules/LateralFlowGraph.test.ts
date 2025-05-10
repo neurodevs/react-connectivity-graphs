@@ -1,9 +1,9 @@
 import { test, assert, errorAssert, generateId } from '@sprucelabs/test-utils'
 import LateralFlowGraph, {
-    GraphEdge,
+    SimpleEdge,
     FlowGraphOptions,
     FlowGraph,
-    GraphNode,
+    SimpleNode,
 } from '../../modules/LateralFlowGraph'
 import LateralGraphStylizer from '../../modules/LateralGraphStylizer'
 import FakeGraphStylizer from '../../testDoubles/modules/FakeGraphStylizer'
@@ -38,8 +38,8 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
 
     @test()
     protected static async throwsOnEdgesWithoutNodes() {
-        const zeroNodes: GraphNode[] = []
-        const oneEdge = [{} as GraphEdge]
+        const zeroNodes: SimpleNode[] = []
+        const oneEdge = [{} as SimpleEdge]
 
         const err = assert.doesThrow(() => {
             LateralFlowGraph.Create({ nodes: zeroNodes, edges: oneEdge })
@@ -120,11 +120,11 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
         } as FlowGraphOptions
     }
 
-    private static readonly nodes: GraphNode[] = [
+    private static readonly nodes: SimpleNode[] = [
         this.generateNode(),
         this.generateNode(),
     ]
-    private static readonly edges: GraphEdge[] = [this.generateEdge()]
+    private static readonly edges: SimpleEdge[] = [this.generateEdge()]
 
     private static LateralFlowGraph(options = this.options) {
         return LateralFlowGraph.Create(options)

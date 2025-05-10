@@ -1,4 +1,4 @@
-import { GraphEdge, GraphNode } from '../../modules/LateralFlowGraph'
+import { SimpleEdge, SimpleNode } from '../../modules/LateralFlowGraph'
 import {
     EnrichedGraph,
     GraphStylizer,
@@ -12,7 +12,7 @@ export default class FakeGraphStylizer implements GraphStylizer {
         FakeGraphStylizer.numCallsToConstructor++
     }
 
-    public enrich(nodes: GraphNode[], edges: GraphEdge[]) {
+    public enrich(nodes: SimpleNode[], edges: SimpleEdge[]) {
         FakeGraphStylizer.callsToEnrich.push({ nodes, edges })
         return {} as EnrichedGraph
     }
@@ -23,6 +23,6 @@ export default class FakeGraphStylizer implements GraphStylizer {
 }
 
 export interface CallToEnrich {
-    nodes: GraphNode[]
-    edges: GraphEdge[]
+    nodes: SimpleNode[]
+    edges: SimpleEdge[]
 }
