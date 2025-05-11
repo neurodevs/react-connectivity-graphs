@@ -77,16 +77,13 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
 
         const json = this.instance.toJson()
 
-        const { nodes: enrichedNodes, edges: enrichedEdges } = stylizer.enrich(
-            this.nodes,
-            this.edges
-        )
+        const { nodes, edges } = stylizer.enrich(this.nodes, this.edges)
 
         assert.isEqualDeep(
             json,
             {
-                nodes: enrichedNodes,
-                edges: enrichedEdges,
+                nodes,
+                edges,
             },
             'Should return serialized graph!'
         )
