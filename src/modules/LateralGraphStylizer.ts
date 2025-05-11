@@ -28,7 +28,7 @@ export default class LateralGraphStylizer {
                 stroke: 'lightgray',
                 strokeWidth: 0.5,
             },
-        }))
+        })) as EnrichedEdge[]
     }
 }
 
