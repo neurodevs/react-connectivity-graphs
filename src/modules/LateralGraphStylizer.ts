@@ -3,6 +3,8 @@ import { SimpleEdge, SimpleNode } from './LateralFlowGraph'
 export default class LateralGraphStylizer {
     public static Class?: GraphStylizerConstructor
 
+    private simpleEdges!: SimpleEdge[]
+
     protected constructor() {}
 
     public static Create() {
@@ -10,10 +12,23 @@ export default class LateralGraphStylizer {
     }
 
     public enrich(nodes: SimpleNode[], edges: SimpleEdge[]) {
+        this.simpleEdges = edges
+
         return {
             nodes,
-            edges,
+            edges: this.enrichedEdges,
         } as EnrichedGraph
+    }
+
+    private get enrichedEdges() {
+        return this.simpleEdges.map((edge) => ({
+            ...edge,
+            animated: true,
+            style: {
+                stroke: 'lightgray',
+                strokeWidth: 0.5,
+            },
+        }))
     }
 }
 

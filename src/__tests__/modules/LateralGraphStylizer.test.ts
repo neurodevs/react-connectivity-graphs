@@ -18,6 +18,27 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
         assert.isTruthy(this.instance, 'Should create an instance!')
     }
 
+    @test()
+    protected static async returnsEnrichedEdges() {
+        const { edges } = this.instance.enrich([], this.simpleEdges)
+
+        assert.isEqualDeep(edges, this.enrichedEdges)
+    }
+
+    private static readonly simpleEdges = [
+        this.generateSimpleEdge(),
+        this.generateSimpleEdge(),
+    ]
+
+    private static readonly enrichedEdges = this.simpleEdges.map((edge) => ({
+        ...edge,
+        animated: true,
+        style: {
+            stroke: 'lightgray',
+            strokeWidth: 0.5,
+        },
+    }))
+
     protected static LateralGraphStylizer() {
         return LateralGraphStylizer.Create()
     }
