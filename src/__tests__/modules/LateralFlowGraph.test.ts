@@ -1,4 +1,4 @@
-import { test, assert, errorAssert, generateId } from '@sprucelabs/test-utils'
+import { test, assert, errorAssert } from '@sprucelabs/test-utils'
 import LateralFlowGraph, {
     SimpleEdge,
     FlowGraphOptions,
@@ -64,8 +64,8 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
         assert.isEqualDeep(
             FakeGraphStylizer.callsToEnrich[0],
             {
-                nodes: this.nodes,
-                edges: this.edges,
+                nodes: this.twoSimpleNodes,
+                edges: this.twoSimpleEdges,
             },
             'Should call enrich with nodes and edges!'
         )
@@ -73,11 +73,14 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
 
     @test()
     protected static async toJsonReturnsEnrichedGraph() {
-        const stylizer = LateralGraphStylizer.Create()
-
         const json = this.instance.toJson()
 
-        const { nodes, edges } = stylizer.enrich(this.nodes, this.edges)
+        const stylizer = LateralGraphStylizer.Create()
+
+        const { nodes, edges } = stylizer.enrich(
+            this.twoSimpleNodes,
+            this.twoSimpleEdges
+        )
 
         assert.isEqualDeep(
             json,
@@ -89,22 +92,6 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
         )
     }
 
-    private static generateNode() {
-        return {
-            id: generateId(),
-            label: generateId(),
-            abbreviation: generateId(),
-        }
-    }
-
-    private static generateEdge() {
-        return {
-            id: generateId(),
-            source: this.nodes[0].id,
-            target: this.nodes[1].id,
-        }
-    }
-
     private static setFakeGraphStylizer() {
         LateralGraphStylizer.Class = FakeGraphStylizer
         FakeGraphStylizer.resetTestDouble()
@@ -112,16 +99,10 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
 
     private static get options() {
         return {
-            nodes: this.nodes,
-            edges: this.edges,
+            nodes: this.twoSimpleNodes,
+            edges: this.twoSimpleEdges,
         } as FlowGraphOptions
     }
-
-    private static readonly nodes: SimpleNode[] = [
-        this.generateNode(),
-        this.generateNode(),
-    ]
-    private static readonly edges: SimpleEdge[] = [this.generateEdge()]
 
     private static LateralFlowGraph(options = this.options) {
         return LateralFlowGraph.Create(options)

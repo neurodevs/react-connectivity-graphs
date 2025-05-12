@@ -20,27 +20,17 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
 
     @test()
     protected static async returnsEnrichedNodes() {
-        const { nodes } = this.instance.enrich(this.simpleNodes, [])
+        const { nodes } = this.instance.enrich(this.twoSimpleNodes, [])
         assert.isEqualDeep(nodes, this.enrichedNodes)
     }
 
     @test()
     protected static async returnsEnrichedEdges() {
-        const { edges } = this.instance.enrich([], this.simpleEdges)
+        const { edges } = this.instance.enrich([], this.twoSimpleEdges)
         assert.isEqualDeep(edges, this.enrichedEdges)
     }
 
-    private static simpleNodes = [
-        this.generateSimpleNode(),
-        this.generateSimpleNode(),
-    ]
-
-    private static readonly simpleEdges = [
-        this.generateSimpleEdge(),
-        this.generateSimpleEdge(),
-    ]
-
-    private static readonly enrichedNodes = this.simpleNodes.map((node) => ({
+    private static readonly enrichedNodes = this.twoSimpleNodes.map((node) => ({
         ...node,
         type: 'rotatableNode',
         position: { x: 100, y: 100 },
@@ -61,7 +51,7 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
         },
     }))
 
-    private static readonly enrichedEdges = this.simpleEdges.map((edge) => ({
+    private static readonly enrichedEdges = this.twoSimpleEdges.map((edge) => ({
         ...edge,
         animated: true,
         style: {
