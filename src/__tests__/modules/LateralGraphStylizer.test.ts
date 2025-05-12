@@ -30,35 +30,42 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
         assert.isEqualDeep(edges, this.enrichedEdges)
     }
 
-    private static readonly enrichedNodes = this.twoSimpleNodes.map((node) => ({
-        ...node,
-        type: 'rotatableNode',
-        position: { x: 100, y: 100 },
-        data: {
-            id: node.id,
-            label: node.abbreviation,
-            sourcePosition: 'left',
-            targetPosition: 'right',
-            style: {
-                width: 500,
-                fontSize: '0.7em',
-                fontWeight: 100,
-                color: '#404040',
-                borderStyle: 'solid',
-                borderColor: 'lightgray',
-                backgroundColor: '#eee',
-            },
-        },
-    }))
+    private static enrichedNodes = this.stylizeNodes()
+    private static enrichedEdges = this.stylizeEdges()
 
-    private static readonly enrichedEdges = this.twoSimpleEdges.map((edge) => ({
-        ...edge,
-        animated: true,
-        style: {
-            stroke: 'lightgray',
-            strokeWidth: 0.5,
-        },
-    }))
+    private static stylizeNodes() {
+        return this.twoSimpleNodes.map((node) => ({
+            ...node,
+            type: 'rotatableNode',
+            position: { x: 100, y: 100 },
+            data: {
+                id: node.id,
+                label: node.abbreviation,
+                sourcePosition: 'left',
+                targetPosition: 'right',
+                style: {
+                    width: 500,
+                    fontSize: '0.7em',
+                    fontWeight: 100,
+                    color: '#404040',
+                    borderStyle: 'solid',
+                    borderColor: 'lightgray',
+                    backgroundColor: '#eee',
+                },
+            },
+        }))
+    }
+
+    private static stylizeEdges() {
+        return this.twoSimpleEdges.map((edge) => ({
+            ...edge,
+            animated: true,
+            style: {
+                stroke: 'lightgray',
+                strokeWidth: 0.5,
+            },
+        }))
+    }
 
     protected static LateralGraphStylizer() {
         return LateralGraphStylizer.Create()
