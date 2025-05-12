@@ -68,6 +68,41 @@ export interface EnrichedGraph {
     edges: EnrichedEdge[]
 }
 
-export interface EnrichedNode extends SimpleNode {}
+export interface EnrichedNode extends SimpleNode {
+    type: string
+    position: PositionXY
+    data: EnrichedNodeData
+}
 
-export interface EnrichedEdge extends SimpleEdge {}
+export interface EnrichedNodeData {
+    id: string
+    label: string
+    sourcePosition: string
+    targetPosition: string
+    style: EnrichedNodeStyle
+}
+
+export interface EnrichedNodeStyle {
+    width: number
+    fontSize: string
+    fontWeight: number
+    color: string
+    borderStyle: string
+    borderColor: string
+    backgroundColor: string
+}
+
+export interface PositionXY {
+    x: number
+    y: number
+}
+
+export interface EnrichedEdge extends SimpleEdge {
+    animated: boolean
+    style: EnrichedEdgeStyle
+}
+
+export interface EnrichedEdgeStyle {
+    stroke: string
+    strokeWidth: number
+}
