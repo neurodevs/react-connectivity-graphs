@@ -83,7 +83,31 @@ export default class RotatableNodeTest extends AbstractPackageTest {
         assert.isEqual(
             div.textContent,
             this.label,
-            'Should pass label to source handle!'
+            'Should pass label to element!'
+        )
+    }
+
+    @test()
+    protected static async rendersElementWithAriaLabel() {
+        const div = this.renderAndGetTopLevelDiv()
+
+        assert.isEqual(
+            div.ariaLabel,
+            this.label,
+            'Should pass aria-label to element!'
+        )
+    }
+
+    @test()
+    protected static async rendersElementWithPassedStyle() {
+        const div = this.renderAndGetTopLevelDiv()
+
+        debugger
+
+        assert.isEqualDeep(
+            this.extractInlineStyles(div.style),
+            this.style,
+            'Should pass style to element!'
         )
     }
 
@@ -221,7 +245,7 @@ export default class RotatableNodeTest extends AbstractPackageTest {
 
         assert.isEqualDeep(
             passedDeps,
-            [this.dataId, this.dataStyleTransform, updateNodeInternals],
+            [this.id, this.transform, updateNodeInternals],
             'Should pass correct deps to useEffect!'
         )
     }
@@ -239,7 +263,7 @@ export default class RotatableNodeTest extends AbstractPackageTest {
 
         assert.isEqual(
             passedId,
-            this.dataId,
+            this.id,
             'Should pass id to updateNodeInternals!'
         )
     }
@@ -254,19 +278,33 @@ export default class RotatableNodeTest extends AbstractPackageTest {
         return getByTestId('rotatable-node')
     }
 
+    private static extractInlineStyles(style: CSSStyleDeclaration) {
+        const result: Record<string, string> = {}
+
+        // eslint-disable-next-line @typescript-eslint/prefer-for-of
+        for (let i = 0; i < style.length; i++) {
+            const key = style[i]
+            result[key] = style.getPropertyValue(key)
+        }
+
+        return result
+    }
+
+    private static readonly id = generateId()
     private static readonly label = generateId()
-    private static readonly dataId = generateId()
-    private static readonly dataStyleTransform = generateId()
+    private static readonly transform = generateId()
+
+    private static readonly style = {
+        transform: this.transform,
+    }
 
     private static render(position?: 'left' | 'right') {
         return this.renderWithProvider(
             <RotatableNode
                 data={{
-                    id: this.dataId,
+                    id: this.id,
                     label: this.label,
-                    style: {
-                        transform: this.dataStyleTransform,
-                    },
+                    style: this.style,
                 }}
                 targetPosition={position as Position}
                 sourcePosition={position as Position}

@@ -29,7 +29,12 @@ const RotatableNode: React.FC<NodeProps> = ({
     }, [data?.id, data?.style?.transform, updateNodeInternals])
 
     return (
-        <div className="rotatable-node" data-testid="rotatable-node">
+        <div
+            className="rotatable-node"
+            data-testid="rotatable-node"
+            aria-label={data?.label}
+            style={data.style}
+        >
             {renderHandle('target', targetPosition)}
             {data.label}
             {renderHandle('source', sourcePosition)}
