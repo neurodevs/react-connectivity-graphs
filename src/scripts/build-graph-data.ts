@@ -14,6 +14,46 @@ const graph = LateralFlowGraph.Create({
             label: 'Node 2',
             abbreviation: 'N2',
         },
+        {
+            id: '3',
+            label: 'Node 3',
+            abbreviation: 'N3',
+        },
+        {
+            id: '4',
+            label: 'Node 4',
+            abbreviation: 'N4',
+        },
+        {
+            id: '5',
+            label: 'Node 5',
+            abbreviation: 'N5',
+        },
+        {
+            id: '6',
+            label: 'Node 6',
+            abbreviation: 'N6',
+        },
+        {
+            id: '7',
+            label: 'Node 7',
+            abbreviation: 'N7',
+        },
+        {
+            id: '8',
+            label: 'Node 8',
+            abbreviation: 'N8',
+        },
+        {
+            id: '9',
+            label: 'Node 9',
+            abbreviation: 'N9',
+        },
+        {
+            id: '10',
+            label: 'Node 10',
+            abbreviation: 'N10',
+        },
     ],
     edges: [
         {
@@ -25,6 +65,46 @@ const graph = LateralFlowGraph.Create({
             id: 'e2-1',
             source: '2',
             target: '1',
+        },
+        {
+            id: 'e2-3',
+            source: '2',
+            target: '3',
+        },
+        {
+            id: 'e3-4',
+            source: '3',
+            target: '4',
+        },
+        {
+            id: 'e4-5',
+            source: '4',
+            target: '5',
+        },
+        {
+            id: 'e5-6',
+            source: '5',
+            target: '6',
+        },
+        {
+            id: 'e6-7',
+            source: '6',
+            target: '7',
+        },
+        {
+            id: 'e7-8',
+            source: '7',
+            target: '8',
+        },
+        {
+            id: 'e8-9',
+            source: '8',
+            target: '9',
+        },
+        {
+            id: 'e9-10',
+            source: '9',
+            target: '10',
         },
     ],
 })
