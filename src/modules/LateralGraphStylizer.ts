@@ -23,6 +23,10 @@ export default class LateralGraphStylizer {
     }
 
     private get enrichedNodes() {
+        return [...this.mapSimpleNodes(), ...this.mapSimpleNodes()]
+    }
+
+    private mapSimpleNodes() {
         return this.simpleNodes.map((node) => ({
             ...node,
             type: 'rotatableNode',

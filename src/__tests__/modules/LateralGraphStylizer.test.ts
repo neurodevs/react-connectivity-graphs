@@ -34,6 +34,10 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
     private static enrichedEdges = this.stylizeEdges()
 
     private static stylizeNodes() {
+        return [...this.mapSimpleNodes(), ...this.mapSimpleNodes()]
+    }
+
+    private static mapSimpleNodes() {
         return this.twoSimpleNodes.map((node) => ({
             ...node,
             type: 'rotatableNode',
