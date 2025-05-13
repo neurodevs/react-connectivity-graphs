@@ -32,23 +32,18 @@ export default class LateralGraphStylizer {
         const invertedSide = onLeftSide ? 'right' : 'left'
         const flex = onLeftSide ? 'flex-end' : 'flex-start'
 
-        const graphRadius = 200
-
-        const radiusBottomDegrees = 90
-        const gapDegrees = 40
-        const degreesPerSide = 180 - gapDegrees
-        const degreesPerNode = degreesPerSide / (this.numNodes - 1)
+        const degreesPerNode = this.degreesPerSide / (this.numNodes - 1)
 
         return this.simpleNodes.map((node, idx) => {
             const sign = onLeftSide ? 1 : -1
-            const startDegrees = radiusBottomDegrees + (gapDegrees / 2) * sign
+            const startDegrees = this.bottomDegrees + this.halfDegrees * sign
             const degrees = startDegrees + degreesPerNode * idx * sign
             const radians = (Math.PI * degrees) / 180
 
-            const positionX = graphRadius * Math.cos(radians)
+            const positionX = this.graphRadius * Math.cos(radians)
             const positionY = onLeftSide
-                ? graphRadius * Math.sin(radians)
-                : graphRadius * Math.sin(radians) - 36
+                ? this.graphRadius * Math.sin(radians)
+                : this.graphRadius * Math.sin(radians) - 36
 
             const sidedId = `${node.id}-${side}`
 
@@ -100,6 +95,12 @@ export default class LateralGraphStylizer {
             },
         })) as EnrichedEdge[]
     }
+
+    private readonly graphRadius = 200
+    private readonly bottomDegrees = 90
+    private readonly gapDegrees = 40
+    private readonly halfDegrees = this.gapDegrees / 2
+    private readonly degreesPerSide = 180 - this.gapDegrees
 }
 
 export interface GraphStylizer {
