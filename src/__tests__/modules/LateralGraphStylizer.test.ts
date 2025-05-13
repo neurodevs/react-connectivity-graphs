@@ -21,13 +21,13 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
 
     @test()
     protected static async returnsEnrichedNodes() {
-        const { nodes } = this.instance.enrich(this.twoSimpleNodes, [])
+        const { nodes } = this.instance.enrich(this.simpleNodes, [])
         assert.isEqualDeep(nodes, this.enrichedNodes)
     }
 
     @test()
     protected static async returnsEnrichedEdges() {
-        const { edges } = this.instance.enrich([], this.twoSimpleEdges)
+        const { edges } = this.instance.enrich([], this.simpleEdges)
         assert.isEqualDeep(edges, this.enrichedEdges)
     }
 
@@ -51,7 +51,7 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
         const degreesPerSide = 180 - gapDegrees
         const degreesPerNode = degreesPerSide / (this.numNodes - 1)
 
-        return this.twoSimpleNodes.map((node, idx) => {
+        return this.simpleNodes.map((node, idx) => {
             const sign = onLeftSide ? 1 : -1
             const startDegrees = radiusBottomDegrees + (gapDegrees / 2) * sign
             const degrees = startDegrees + degreesPerNode * idx * sign
@@ -97,7 +97,7 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
     }
 
     private static stylizeEdges() {
-        return this.twoSimpleEdges.map((edge) => ({
+        return this.simpleEdges.map((edge) => ({
             ...edge,
             animated: true,
             style: {
@@ -108,7 +108,7 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
     }
 
     private static get numNodes() {
-        return this.twoSimpleNodes.length
+        return this.simpleNodes.length
     }
 
     protected static LateralGraphStylizer() {

@@ -5,8 +5,8 @@ import { ReactFlowProvider } from 'reactflow'
 import { SimpleEdge, SimpleNode } from '../modules/LateralFlowGraph'
 
 export default class AbstractPackageTest extends AbstractSpruceTest {
-    protected static twoSimpleNodes: SimpleNode[] = this.generateSimpleNodes(2)
-    protected static twoSimpleEdges: SimpleEdge[] = this.generateSimpleEdges(2)
+    protected static simpleNodes: SimpleNode[] = this.generateSimpleNodes(2)
+    protected static simpleEdges: SimpleEdge[] = this.generateSimpleEdges(2)
 
     protected static async beforeEach() {
         await super.beforeEach()

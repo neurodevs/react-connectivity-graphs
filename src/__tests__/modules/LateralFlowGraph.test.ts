@@ -64,8 +64,8 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
         assert.isEqualDeep(
             FakeGraphStylizer.callsToEnrich[0],
             {
-                nodes: this.twoSimpleNodes,
-                edges: this.twoSimpleEdges,
+                nodes: this.simpleNodes,
+                edges: this.simpleEdges,
             },
             'Should call enrich with nodes and edges!'
         )
@@ -78,8 +78,8 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
         const stylizer = LateralGraphStylizer.Create()
 
         const { nodes, edges } = stylizer.enrich(
-            this.twoSimpleNodes,
-            this.twoSimpleEdges
+            this.simpleNodes,
+            this.simpleEdges
         )
 
         assert.isEqualDeep(
@@ -99,8 +99,8 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
 
     private static get options() {
         return {
-            nodes: this.twoSimpleNodes,
-            edges: this.twoSimpleEdges,
+            nodes: this.simpleNodes,
+            edges: this.simpleEdges,
         } as FlowGraphOptions
     }
 
