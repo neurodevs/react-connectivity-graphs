@@ -86,9 +86,9 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
                         justifyContent: flex,
                         WebkitJustifyContent: flex,
                         transform: `
-                        translateX(${positionX.toFixed(1)}px) 
-                        translateY(${positionY.toFixed(1)}px) 
-                        rotate(${onLeftSide ? degrees + 180 : degrees}deg) 
+                            translateX(${positionX.toFixed(1)}px) 
+                            translateY(${positionY.toFixed(1)}px) 
+                            rotate(${onLeftSide ? degrees + 180 : degrees}deg) 
                         `,
                     },
                 },
