@@ -119,6 +119,16 @@ export default class GraphRendererTest extends AbstractPackageTest {
         )
     }
 
+    @test()
+    protected static async rendersControls() {
+        const control = this.renderAndGetControls()
+
+        assert.isTruthy(
+            control,
+            'Should render a background as child of ReactFlow!'
+        )
+    }
+
     private static createRenderer() {
         return this.createElement(GraphRenderer)
     }
@@ -136,6 +146,11 @@ export default class GraphRendererTest extends AbstractPackageTest {
     private static renderAndGetBackground() {
         const div = this.renderAndGetTopLevelDiv()
         return div.querySelector('.react-flow__background')
+    }
+
+    private static renderAndGetControls() {
+        const div = this.renderAndGetTopLevelDiv()
+        return div.querySelector('.react-flow__controls')
     }
 
     private static render(useFakeReactFlow = true) {

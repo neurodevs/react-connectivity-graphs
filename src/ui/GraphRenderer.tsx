@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactFlow, {
     Background,
+    Controls,
     Edge,
     Node,
     ReactFlowProps,
@@ -46,6 +47,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                     onEdgeMouseLeave={onEdgeMouseLeave}
                 />
                 <Background />
+                <Controls />
             </ProviderComponent>
         </div>
     )
