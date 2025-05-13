@@ -23,10 +23,15 @@ export default class LateralGraphStylizer {
     }
 
     private get enrichedNodes() {
-        return [...this.mapSimpleNodes(), ...this.mapSimpleNodes()]
+        return [...this.mapSimpleNodes('left'), ...this.mapSimpleNodes('right')]
     }
 
-    private mapSimpleNodes() {
+    private mapSimpleNodes(side: 'left' | 'right') {
+        const onLeftSide = side == 'left'
+
+        const invertedSide = onLeftSide ? 'right' : 'left'
+        const flex = onLeftSide ? 'flex-end' : 'flex-start'
+
         return this.simpleNodes.map((node) => ({
             ...node,
             type: 'rotatableNode',
@@ -34,16 +39,21 @@ export default class LateralGraphStylizer {
             data: {
                 id: node.id,
                 label: node.abbreviation,
-                sourcePosition: 'left',
-                targetPosition: 'right',
+                sourcePosition: invertedSide,
+                targetPosition: invertedSide,
                 style: {
                     width: 500,
                     fontSize: '0.7em',
                     fontWeight: 100,
                     color: '#404040',
+                    borderWidth: `0 ${onLeftSide ? '1px' : 0} 0 ${onLeftSide ? 0 : '1px'}`,
+                    padding: `6px ${onLeftSide ? '12px' : 0} 6px ${onLeftSide ? 0 : '12px'}`,
                     borderStyle: 'solid',
                     borderColor: 'lightgray',
                     backgroundColor: '#eee',
+                    textAlign: onLeftSide ? 'right' : 'left',
+                    justifyContent: flex,
+                    WebkitJustifyContent: flex,
                 },
             },
         })) as EnrichedNode[]

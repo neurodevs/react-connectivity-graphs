@@ -34,10 +34,15 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
     private static enrichedEdges = this.stylizeEdges()
 
     private static stylizeNodes() {
-        return [...this.mapSimpleNodes(), ...this.mapSimpleNodes()]
+        return [...this.mapSimpleNodes('left'), ...this.mapSimpleNodes('right')]
     }
 
-    private static mapSimpleNodes() {
+    private static mapSimpleNodes(side: 'left' | 'right' = 'left') {
+        const onLeftSide = side == 'left'
+
+        const invertedSide = onLeftSide ? 'right' : 'left'
+        const flex = onLeftSide ? 'flex-end' : 'flex-start'
+
         return this.twoSimpleNodes.map((node) => ({
             ...node,
             type: 'rotatableNode',
@@ -45,16 +50,21 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
             data: {
                 id: node.id,
                 label: node.abbreviation,
-                sourcePosition: 'left',
-                targetPosition: 'right',
+                sourcePosition: invertedSide,
+                targetPosition: invertedSide,
                 style: {
                     width: 500,
                     fontSize: '0.7em',
                     fontWeight: 100,
                     color: '#404040',
+                    borderWidth: `0 ${onLeftSide ? '1px' : 0} 0 ${onLeftSide ? 0 : '1px'}`,
+                    padding: `6px ${onLeftSide ? '12px' : 0} 6px ${onLeftSide ? 0 : '12px'}`,
                     borderStyle: 'solid',
                     borderColor: 'lightgray',
                     backgroundColor: '#eee',
+                    textAlign: onLeftSide ? 'right' : 'left',
+                    justifyContent: flex,
+                    WebkitJustifyContent: flex,
                 },
             },
         }))
