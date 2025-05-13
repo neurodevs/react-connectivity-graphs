@@ -58,9 +58,7 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
             const radians = (Math.PI * degrees) / 180
 
             const positionX = graphRadius * Math.cos(radians)
-            const positionY = onLeftSide
-                ? graphRadius * Math.sin(radians)
-                : graphRadius * Math.sin(radians) - 36
+            const positionY = graphRadius * Math.sin(radians)
 
             const sidedId = `${node.id}-${side}`
 

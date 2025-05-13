@@ -41,9 +41,7 @@ export default class LateralGraphStylizer {
             const radians = (Math.PI * degrees) / 180
 
             const positionX = this.graphRadius * Math.cos(radians)
-            const positionY = onLeftSide
-                ? this.graphRadius * Math.sin(radians)
-                : this.graphRadius * Math.sin(radians) - 36
+            const positionY = this.graphRadius * Math.sin(radians)
 
             const sidedId = `${node.id}-${side}`
 
