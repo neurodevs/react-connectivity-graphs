@@ -1,5 +1,6 @@
 import { test, assert } from '@sprucelabs/test-utils'
 import LateralGraphStylizer, {
+    EnrichedNode,
     GraphStylizer,
 } from '../../modules/LateralGraphStylizer'
 import AbstractPackageTest from '../AbstractPackageTest'
@@ -43,31 +44,58 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
         const invertedSide = onLeftSide ? 'right' : 'left'
         const flex = onLeftSide ? 'flex-end' : 'flex-start'
 
-        return this.twoSimpleNodes.map((node) => ({
-            ...node,
-            type: 'rotatableNode',
-            position: { x: 100, y: 100 },
-            data: {
-                id: node.id,
-                label: node.abbreviation,
-                sourcePosition: invertedSide,
-                targetPosition: invertedSide,
-                style: {
-                    width: 500,
-                    fontSize: '0.7em',
-                    fontWeight: 100,
-                    color: '#404040',
-                    borderWidth: `0 ${onLeftSide ? '1px' : 0} 0 ${onLeftSide ? 0 : '1px'}`,
-                    padding: `6px ${onLeftSide ? '12px' : 0} 6px ${onLeftSide ? 0 : '12px'}`,
-                    borderStyle: 'solid',
-                    borderColor: 'lightgray',
-                    backgroundColor: '#eee',
-                    textAlign: onLeftSide ? 'right' : 'left',
-                    justifyContent: flex,
-                    WebkitJustifyContent: flex,
+        const graphRadius = 200
+
+        const radiusBottomDegrees = 90
+        const gapDegrees = 40
+        const degreesPerSide = 180 - gapDegrees
+        const degreesPerNode = degreesPerSide / (this.numNodes - 1)
+
+        return this.twoSimpleNodes.map((node, idx) => {
+            const sign = onLeftSide ? 1 : -1
+            const startDegrees = radiusBottomDegrees + (gapDegrees / 2) * sign
+            const degrees = startDegrees + degreesPerNode * idx * sign
+            const radians = (Math.PI * degrees) / 180
+
+            const positionX = graphRadius * Math.cos(radians)
+            const positionY = onLeftSide
+                ? graphRadius * Math.sin(radians)
+                : graphRadius * Math.sin(radians) - 36
+
+            const sidedId = `${node.id}-${side}`
+
+            return {
+                ...node,
+                id: sidedId,
+                type: 'rotatableNode',
+                position: { x: positionX, y: positionY },
+                data: {
+                    id: sidedId,
+                    label: node.abbreviation,
+                    sourcePosition: invertedSide,
+                    targetPosition: invertedSide,
+                    style: {
+                        width: 500,
+                        fontSize: '0.7em',
+                        fontWeight: 100,
+                        color: '#404040',
+                        borderWidth: `0 ${onLeftSide ? '1px' : 0} 0 ${onLeftSide ? 0 : '1px'}`,
+                        padding: `6px ${onLeftSide ? '12px' : 0} 6px ${onLeftSide ? 0 : '12px'}`,
+                        borderStyle: 'solid',
+                        borderColor: 'lightgray',
+                        backgroundColor: '#eee',
+                        textAlign: onLeftSide ? 'right' : 'left',
+                        justifyContent: flex,
+                        WebkitJustifyContent: flex,
+                        transform: `
+                        translateX(${positionX.toFixed(1)}px) 
+                        translateY(${positionY.toFixed(1)}px) 
+                        rotate(${onLeftSide ? degrees + 180 : degrees}deg) 
+                        `,
+                    },
                 },
-            },
-        }))
+            }
+        }) as EnrichedNode[]
     }
 
     private static stylizeEdges() {
@@ -79,6 +107,10 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
                 strokeWidth: 0.5,
             },
         }))
+    }
+
+    private static get numNodes() {
+        return this.twoSimpleNodes.length
     }
 
     protected static LateralGraphStylizer() {
