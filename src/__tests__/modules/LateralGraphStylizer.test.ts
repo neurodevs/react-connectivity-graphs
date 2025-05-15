@@ -69,7 +69,7 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
                 position: { x: positionX, y: positionY },
                 data: {
                     id: sidedId,
-                    label: node.abbreviation,
+                    label: `${side.charAt(0).toUpperCase() + side.slice(1)} ${node.abbreviation}`,
                     sourcePosition: invertedSide,
                     targetPosition: invertedSide,
                     style: {

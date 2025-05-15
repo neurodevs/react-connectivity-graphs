@@ -44,6 +44,7 @@ export default class LateralGraphStylizer {
             const positionY = this.graphRadius * Math.sin(radians)
 
             const sidedId = `${node.id}-${side}`
+            const capitalizedSide = this.capitalize(side)
 
             return {
                 ...node,
@@ -52,7 +53,7 @@ export default class LateralGraphStylizer {
                 position: { x: positionX, y: positionY },
                 data: {
                     id: sidedId,
-                    label: node.abbreviation,
+                    label: `${capitalizedSide} ${node.abbreviation}`,
                     sourcePosition: invertedSide,
                     targetPosition: invertedSide,
                     style: {
@@ -77,6 +78,10 @@ export default class LateralGraphStylizer {
                 },
             }
         }) as EnrichedNode[]
+    }
+
+    private capitalize(side: string) {
+        return side.charAt(0).toUpperCase() + side.slice(1)
     }
 
     private get numNodes() {
