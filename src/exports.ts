@@ -26,5 +26,8 @@ export * from './testDoubles/ui/FakeGraphRenderer'
 export { default as FakeReactFlow } from './testDoubles/ui/FakeReactFlow'
 export * from './testDoubles/ui/FakeReactFlow'
 
+export { default as FakeReactFlowProvider } from './testDoubles/ui/FakeReactFlowProvider'
+export * from './testDoubles/ui/FakeReactFlowProvider'
+
 export { default as FakeHandle } from './testDoubles/ui/FakeHandle'
 export * from './testDoubles/ui/FakeHandle'
