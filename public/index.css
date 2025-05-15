@@ -9,3 +9,13 @@ html, body, #root, #app {
     height: 100%;
     width: 100%;
 }
+
+.rotatable-node {
+    display: flex;
+    height: 18px;
+    box-shadow: none;
+    padding: 10px;
+    background: white;
+    justify-content: left;
+    align-items: center;
+}
