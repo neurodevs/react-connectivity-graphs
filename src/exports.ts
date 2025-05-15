@@ -10,6 +10,9 @@ export * from './testDoubles/modules/FakeFlowGraph'
 export { default as LateralGraphStylizer } from './modules/LateralGraphStylizer'
 export * from './modules/LateralGraphStylizer'
 
+export { default as FakeGraphStylizer } from './testDoubles/modules/FakeGraphStylizer'
+export * from './testDoubles/modules/FakeGraphStylizer'
+
 // GraphRenderer
 
 export { default as GraphRenderer } from './ui/GraphRenderer'
