@@ -97,8 +97,15 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
     }
 
     private static stylizeEdges() {
+        return [...this.mapSimpleEdges('left'), ...this.mapSimpleEdges('right')]
+    }
+
+    private static mapSimpleEdges(side: 'left' | 'right') {
         return this.simpleEdges.map((edge) => ({
             ...edge,
+            id: `${edge.id}-${side}`,
+            source: `${edge.source}-${side}`,
+            target: `${edge.target}-${side}`,
             animated: true,
             style: {
                 stroke: 'lightgray',

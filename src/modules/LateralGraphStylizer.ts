@@ -84,8 +84,15 @@ export default class LateralGraphStylizer {
     }
 
     private get enrichedEdges() {
+        return [...this.mapSimpleEdges('left'), ...this.mapSimpleEdges('right')]
+    }
+
+    private mapSimpleEdges(side: 'left' | 'right') {
         return this.simpleEdges.map((edge) => ({
             ...edge,
+            id: `${edge.id}-${side}`,
+            source: `${edge.source}-${side}`,
+            target: `${edge.target}-${side}`,
             animated: true,
             style: {
                 stroke: 'lightgray',
