@@ -60,17 +60,13 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
             const positionX = graphRadius * Math.cos(radians)
             const positionY = graphRadius * Math.sin(radians)
 
-            const adjustedY = onLeftSide
-                ? positionY - idx * 18
-                : positionY - (idx + this.numNodes - 1) * 18
-
             const sidedId = `${node.id}-${side}`
 
             return {
                 ...node,
                 id: sidedId,
                 type: 'rotatableNode',
-                position: { x: positionX, y: adjustedY },
+                position: { x: positionX, y: positionY },
                 data: {
                     id: sidedId,
                     label: `${side.charAt(0).toUpperCase() + side.slice(1)} ${node.abbreviation}`,
@@ -81,7 +77,7 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
                         fontSize: '0.7em',
                         fontWeight: 100,
                         color: '#404040',
-                        borderWidth: `0 ${onLeftSide ? '1px' : 0} 0 ${onLeftSide ? 0 : '1px'}`,
+                        borderWidth: `0 ${onLeftSide ? '2px' : 0} 0 ${onLeftSide ? 0 : '2px'}`,
                         padding: `6px ${onLeftSide ? '12px' : 0} 6px ${onLeftSide ? 0 : '12px'}`,
                         borderStyle: 'solid',
                         borderColor: 'lightgray',
@@ -91,7 +87,7 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
                         WebkitJustifyContent: flex,
                         transform: `
                             translateX(${positionX.toFixed(1)}px) 
-                            translateY(${adjustedY.toFixed(1)}px) 
+                            translateY(${positionY.toFixed(1)}px) 
                             rotate(${onLeftSide ? degrees + 180 : degrees}deg) 
                         `,
                     },
@@ -113,7 +109,7 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
             animated: true,
             style: {
                 stroke: 'lightgray',
-                strokeWidth: 0.5,
+                strokeWidth: 2,
             },
         }))
     }
