@@ -1,7 +1,7 @@
 import { test, assert } from '@sprucelabs/test-utils'
 import { screen } from '@testing-library/react'
+import { Edge, Node, ReactFlow, ReactFlowProvider } from '@xyflow/react'
 import React from 'react'
-import ReactFlow, { Edge, Node } from 'reactflow'
 import FakeReactFlow, {
     lastFakeReactFlowProps,
 } from '../../testDoubles/ui/FakeReactFlow'
@@ -99,7 +99,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
     @test()
     protected static async wrapsWithReactFlowProvider() {
-        setProviderComponent(FakeReactFlowProvider)
+        setProviderComponent(FakeReactFlowProvider as typeof ReactFlowProvider)
 
         this.render()
 

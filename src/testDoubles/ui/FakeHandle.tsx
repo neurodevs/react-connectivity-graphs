@@ -1,5 +1,5 @@
+import { HandleProps } from '@xyflow/react'
 import React from 'react'
-import { HandleProps } from 'reactflow'
 
 export interface TestableProps {
     'data-testid'?: string

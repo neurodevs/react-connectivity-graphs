@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client'
 import App from './ui/App'
 import { GraphRendererProps } from './ui/GraphRenderer'
 
+import '@xyflow/react/dist/style.css'
+
 async function main() {
     const res = await fetch('/dist/graph-data.json')
     const props: GraphRendererProps = await res.json()

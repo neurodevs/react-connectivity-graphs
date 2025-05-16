@@ -1,13 +1,7 @@
+import { Handle, Position, useUpdateNodeInternals } from '@xyflow/react'
 import React from 'react'
-import {
-    Handle,
-    NodeProps,
-    Position,
-    UpdateNodeInternals,
-    useUpdateNodeInternals,
-} from 'reactflow'
 
-const RotatableNode: React.FC<NodeProps> = ({
+const RotatableNode: React.FC<any> = ({
     data,
     targetPosition = 'right' as Position,
     sourcePosition = 'left' as Position,
@@ -54,7 +48,7 @@ export function setHandleComponent(handle: React.FC<any>) {
 
 export let useUpdateNodeInternalsFn = useUpdateNodeInternals
 
-export function setUseUpdateNodeInternals(fn: () => UpdateNodeInternals) {
+export function setUseUpdateNodeInternals(fn: () => any) {
     useUpdateNodeInternalsFn = fn
 }
 

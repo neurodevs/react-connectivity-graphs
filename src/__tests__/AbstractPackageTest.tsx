@@ -1,7 +1,7 @@
 import AbstractSpruceTest, { generateId } from '@sprucelabs/test-utils'
 import { render } from '@testing-library/react'
+import { ReactFlowProvider } from '@xyflow/react'
 import React from 'react'
-import { ReactFlowProvider } from 'reactflow'
 import { SimpleEdge, SimpleNode } from '../modules/LateralFlowGraph'
 
 export default class AbstractPackageTest extends AbstractSpruceTest {

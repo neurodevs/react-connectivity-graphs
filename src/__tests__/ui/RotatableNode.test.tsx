@@ -1,6 +1,6 @@
 import { assert, generateId, test } from '@sprucelabs/test-utils'
+import { Position } from '@xyflow/react'
 import React from 'react'
-import { Position, UpdateNodeInternals } from 'reactflow'
 import FakeHandle, {
     fakeHandleProps,
     resetFakeHandleProps,
@@ -192,7 +192,7 @@ export default class RotatableNodeTest extends AbstractPackageTest {
 
         const useUpdateNodeInternals = () => {
             calledUseUpdateNodeInternals = true
-            return (() => {}) as UpdateNodeInternals
+            return (() => {}) as any
         }
 
         setUseUpdateNodeInternals(useUpdateNodeInternals)
@@ -313,9 +313,10 @@ export default class RotatableNodeTest extends AbstractPackageTest {
                 selected={false}
                 zIndex={0}
                 isConnectable={false}
-                xPos={0}
-                yPos={0}
                 dragging={false}
+                selectable={false}
+                draggable={false}
+                deletable={false}
             />
         )
     }

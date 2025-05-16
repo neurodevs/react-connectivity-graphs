@@ -1,12 +1,13 @@
-import React from 'react'
-import ReactFlow, {
+import {
     Background,
     Controls,
     Edge,
     Node,
+    ReactFlow,
     ReactFlowProps,
     ReactFlowProvider,
-} from 'reactflow'
+} from '@xyflow/react'
+import React from 'react'
 import RotatableNode from './RotatableNode'
 
 export interface GraphRendererProps {
@@ -59,9 +60,7 @@ export default GraphRenderer
 
 export let ProviderComponent = ReactFlowProvider
 
-export function setProviderComponent(
-    component: React.FC<React.PropsWithChildren>
-) {
+export function setProviderComponent(component: typeof ReactFlowProvider) {
     ProviderComponent = component
 }
 
