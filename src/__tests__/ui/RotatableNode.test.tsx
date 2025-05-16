@@ -159,28 +159,28 @@ export default class RotatableNodeTest extends AbstractPackageTest {
     }
 
     @test()
-    protected static async defaultsTargetHandlePositionToRight() {
-        this.render()
+    protected static async defaultsTargetHandlePositionToRightOnLeftSide() {
+        this.renderOnSide('left')
 
         const { position } = fakeHandleProps[0] ?? {}
 
         assert.isEqual(
             position,
             'right' as Position,
-            'Should default target position to right!'
+            'Should default target position to right on left-side!'
         )
     }
 
     @test()
-    protected static async defaultsSourceHandlePositionToLeft() {
-        this.render()
+    protected static async defaultsSourceHandlePositionToRightOnLeftSide() {
+        this.renderOnSide('left')
 
         const { position } = fakeHandleProps[1] ?? {}
 
         assert.isEqual(
             position,
-            'left' as Position,
-            'Should default target position to right!'
+            'right' as Position,
+            'Should default source position to right on left-side!'
         )
     }
 
@@ -296,6 +296,10 @@ export default class RotatableNodeTest extends AbstractPackageTest {
         transform: this.transform,
     }
 
+    private static renderOnSide(side: 'left' | 'right') {
+        return this.render(side === 'left' ? 'right' : 'left')
+    }
+
     private static render(position?: 'left' | 'right') {
         return this.renderWithProvider(
             <RotatableNode
@@ -303,9 +307,9 @@ export default class RotatableNodeTest extends AbstractPackageTest {
                     id: this.id,
                     label: this.label,
                     style: this.style,
+                    targetPosition: position,
+                    sourcePosition: position,
                 }}
-                targetPosition={position as Position}
-                sourcePosition={position as Position}
                 type={''}
                 id={''}
                 selected={false}

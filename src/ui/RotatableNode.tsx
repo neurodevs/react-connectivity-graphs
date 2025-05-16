@@ -1,11 +1,7 @@
 import { Handle, Position, useUpdateNodeInternals } from '@xyflow/react'
 import React from 'react'
 
-const RotatableNode: React.FC<any> = ({
-    data,
-    targetPosition = 'right' as Position,
-    sourcePosition = 'left' as Position,
-}) => {
+const RotatableNode: React.FC<any> = ({ data }) => {
     function renderHandle(type: 'source' | 'target', position: Position) {
         return (
             <HandleComponent
@@ -29,9 +25,9 @@ const RotatableNode: React.FC<any> = ({
             aria-label={data?.label}
             style={data.style}
         >
-            {renderHandle('target', targetPosition)}
+            {renderHandle('target', data.targetPosition)}
             {data.label}
-            {renderHandle('source', sourcePosition)}
+            {renderHandle('source', data.sourcePosition)}
         </div>
     )
 }
