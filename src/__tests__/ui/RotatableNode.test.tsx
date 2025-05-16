@@ -159,7 +159,7 @@ export default class RotatableNodeTest extends AbstractPackageTest {
     }
 
     @test()
-    protected static async defaultsTargetHandlePositionToRightOnLeftSide() {
+    protected static async leftNodeHasRightTargetPosition() {
         this.renderOnSide('left')
 
         const { position } = fakeHandleProps[0] ?? {}
@@ -167,12 +167,12 @@ export default class RotatableNodeTest extends AbstractPackageTest {
         assert.isEqual(
             position,
             'right' as Position,
-            'Should default target position to right on left-side!'
+            'Left node should have right target position!'
         )
     }
 
     @test()
-    protected static async defaultsSourceHandlePositionToRightOnLeftSide() {
+    protected static async leftNodeHasRightSourcePosition() {
         this.renderOnSide('left')
 
         const { position } = fakeHandleProps[1] ?? {}
@@ -180,7 +180,33 @@ export default class RotatableNodeTest extends AbstractPackageTest {
         assert.isEqual(
             position,
             'right' as Position,
-            'Should default source position to right on left-side!'
+            'Left node should have right source position!'
+        )
+    }
+
+    @test()
+    protected static async rightNodeHasLeftTargetPosition() {
+        this.renderOnSide('right')
+
+        const { position } = fakeHandleProps[0] ?? {}
+
+        assert.isEqual(
+            position,
+            'left' as Position,
+            'Right node should have left target position!'
+        )
+    }
+
+    @test()
+    protected static async rightNodeHasLeftSourcePosition() {
+        this.renderOnSide('right')
+
+        const { position } = fakeHandleProps[1] ?? {}
+
+        assert.isEqual(
+            position,
+            'left' as Position,
+            'Right node should have left source position!'
         )
     }
 
