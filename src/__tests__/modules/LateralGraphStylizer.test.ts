@@ -62,7 +62,7 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
 
             const adjustedY = onLeftSide
                 ? positionY - idx * 18
-                : positionY - (idx + 2) * 18
+                : positionY - (idx + this.numNodes - 1) * 18
 
             const sidedId = `${node.id}-${side}`
 

@@ -45,7 +45,7 @@ export default class LateralGraphStylizer {
 
             const adjustedY = onLeftSide
                 ? positionY - idx * 18
-                : positionY - (idx + 2) * 18
+                : positionY - (idx + this.numNodes - 1) * 18
 
             const sidedId = `${node.id}-${side}`
             const capitalizedSide = this.capitalize(side)
