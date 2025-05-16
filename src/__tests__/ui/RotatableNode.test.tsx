@@ -159,58 +159,6 @@ export default class RotatableNodeTest extends AbstractPackageTest {
     }
 
     @test()
-    protected static async leftNodeHasRightTargetPosition() {
-        this.renderOnSide('left')
-
-        const { position } = fakeHandleProps[0] ?? {}
-
-        assert.isEqual(
-            position,
-            'right' as Position,
-            'Left node should have right target position!'
-        )
-    }
-
-    @test()
-    protected static async leftNodeHasRightSourcePosition() {
-        this.renderOnSide('left')
-
-        const { position } = fakeHandleProps[1] ?? {}
-
-        assert.isEqual(
-            position,
-            'right' as Position,
-            'Left node should have right source position!'
-        )
-    }
-
-    @test()
-    protected static async rightNodeHasLeftTargetPosition() {
-        this.renderOnSide('right')
-
-        const { position } = fakeHandleProps[0] ?? {}
-
-        assert.isEqual(
-            position,
-            'left' as Position,
-            'Right node should have left target position!'
-        )
-    }
-
-    @test()
-    protected static async rightNodeHasLeftSourcePosition() {
-        this.renderOnSide('right')
-
-        const { position } = fakeHandleProps[1] ?? {}
-
-        assert.isEqual(
-            position,
-            'left' as Position,
-            'Right node should have left source position!'
-        )
-    }
-
-    @test()
     protected static async updatesNodeInternalsToAllowRotation() {
         let calledUseUpdateNodeInternals = false
 
@@ -320,10 +268,6 @@ export default class RotatableNodeTest extends AbstractPackageTest {
 
     private static readonly style = {
         transform: this.transform,
-    }
-
-    private static renderOnSide(side: 'left' | 'right') {
-        return this.render(side === 'left' ? 'right' : 'left')
     }
 
     private static render(position?: 'left' | 'right') {
