@@ -1,7 +1,10 @@
 import { test, assert } from '@sprucelabs/test-utils'
+import { SimpleEdge } from '../../modules/LateralFlowGraph'
 import LateralGraphStylizer, {
+    EnrichedEdge,
     EnrichedNode,
     GraphStylizer,
+    Side,
 } from '../../modules/LateralGraphStylizer'
 import AbstractPackageTest from '../AbstractPackageTest'
 
@@ -101,17 +104,29 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
     }
 
     private static mapSimpleEdges(side: 'left' | 'right') {
-        return this.simpleEdges.map((edge) => ({
+        return this.simpleEdges.map((edge) => {
+            return edge.side == 'ipsilateral'
+                ? this.enrichEdge(edge, side, side)
+                : this.enrichEdge(edge, side, side == 'left' ? 'right' : 'left')
+        })
+    }
+
+    private static enrichEdge(
+        edge: SimpleEdge,
+        sourceSide: Side,
+        targetSide: Side
+    ) {
+        return {
             ...edge,
-            id: `${edge.id}-${side}`,
-            source: `${edge.source}-${side}`,
-            target: `${edge.target}-${side}`,
+            id: `${edge.id}-${targetSide}`,
+            source: `${edge.source}-${sourceSide}`,
+            target: `${edge.target}-${targetSide}`,
             animated: true,
             style: {
                 stroke: 'lightgray',
                 strokeWidth: 2,
             },
-        }))
+        } as EnrichedEdge
     }
 
     private static get numNodes() {

@@ -115,4 +115,5 @@ export interface SimpleEdge {
     id: string
     source: string
     target: string
+    side: 'ipsilateral' | 'contralateral' | 'bilateral'
 }

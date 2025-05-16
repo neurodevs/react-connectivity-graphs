@@ -93,17 +93,25 @@ export default class LateralGraphStylizer {
     }
 
     private mapSimpleEdges(side: 'left' | 'right') {
-        return this.simpleEdges.map((edge) => ({
+        return this.simpleEdges.map((edge) => {
+            return edge.side == 'ipsilateral'
+                ? this.enrichEdge(edge, side, side)
+                : this.enrichEdge(edge, side, side == 'left' ? 'right' : 'left')
+        })
+    }
+
+    private enrichEdge(edge: SimpleEdge, sourceSide: Side, targetSide: Side) {
+        return {
             ...edge,
-            id: `${edge.id}-${side}`,
-            source: `${edge.source}-${side}`,
-            target: `${edge.target}-${side}`,
+            id: `${edge.id}-${targetSide}`,
+            source: `${edge.source}-${sourceSide}`,
+            target: `${edge.target}-${targetSide}`,
             animated: true,
             style: {
                 stroke: 'lightgray',
                 strokeWidth: 2,
             },
-        })) as EnrichedEdge[]
+        } as EnrichedEdge
     }
 
     private readonly graphRadius = 200
@@ -162,3 +170,5 @@ export interface EnrichedEdgeStyle {
     stroke: string
     strokeWidth: number
 }
+
+export type Side = 'left' | 'right'
