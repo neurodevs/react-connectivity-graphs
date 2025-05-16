@@ -18,3 +18,7 @@ html, body, #root, #app {
     justify-content: left;
     align-items: center;
 }
+
+.react-flow__handle {
+    opacity: 0;
+  }
