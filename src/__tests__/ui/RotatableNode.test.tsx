@@ -102,8 +102,6 @@ export default class RotatableNodeTest extends AbstractPackageTest {
     protected static async rendersElementWithPassedStyle() {
         const div = this.renderAndGetTopLevelDiv()
 
-        debugger
-
         assert.isEqualDeep(
             this.extractInlineStyles(div.style),
             this.style,
