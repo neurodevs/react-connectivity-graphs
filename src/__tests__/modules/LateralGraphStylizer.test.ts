@@ -60,13 +60,17 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
             const positionX = graphRadius * Math.cos(radians)
             const positionY = graphRadius * Math.sin(radians)
 
+            const adjustedY = onLeftSide
+                ? positionY - idx * 18
+                : positionY - (idx + 2) * 18
+
             const sidedId = `${node.id}-${side}`
 
             return {
                 ...node,
                 id: sidedId,
                 type: 'rotatableNode',
-                position: { x: positionX, y: positionY },
+                position: { x: positionX, y: adjustedY },
                 data: {
                     id: sidedId,
                     label: `${side.charAt(0).toUpperCase() + side.slice(1)} ${node.abbreviation}`,
@@ -87,7 +91,7 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
                         WebkitJustifyContent: flex,
                         transform: `
                             translateX(${positionX.toFixed(1)}px) 
-                            translateY(${positionY.toFixed(1)}px) 
+                            translateY(${adjustedY.toFixed(1)}px) 
                             rotate(${onLeftSide ? degrees + 180 : degrees}deg) 
                         `,
                     },

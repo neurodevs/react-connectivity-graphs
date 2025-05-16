@@ -43,6 +43,10 @@ export default class LateralGraphStylizer {
             const positionX = this.graphRadius * Math.cos(radians)
             const positionY = this.graphRadius * Math.sin(radians)
 
+            const adjustedY = onLeftSide
+                ? positionY - idx * 18
+                : positionY - (idx + 2) * 18
+
             const sidedId = `${node.id}-${side}`
             const capitalizedSide = this.capitalize(side)
 
@@ -50,7 +54,7 @@ export default class LateralGraphStylizer {
                 ...node,
                 id: sidedId,
                 type: 'rotatableNode',
-                position: { x: positionX, y: positionY },
+                position: { x: positionX, y: adjustedY },
                 data: {
                     id: sidedId,
                     label: `${capitalizedSide} ${node.abbreviation}`,
@@ -71,7 +75,7 @@ export default class LateralGraphStylizer {
                         WebkitJustifyContent: flex,
                         transform: `
                             translateX(${positionX.toFixed(1)}px) 
-                            translateY(${positionY.toFixed(1)}px) 
+                            translateY(${adjustedY.toFixed(1)}px) 
                             rotate(${onLeftSide ? degrees + 180 : degrees}deg) 
                         `,
                     },
