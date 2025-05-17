@@ -47,7 +47,7 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
         const invertedSide = onLeftSide ? 'right' : 'left'
         const flex = onLeftSide ? 'flex-end' : 'flex-start'
 
-        const graphRadius = 200
+        const graphRadius = 350
 
         const radiusBottomDegrees = 90
         const gapDegrees = 40
@@ -72,19 +72,20 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
                 position: { x: positionX, y: positionY },
                 data: {
                     id: sidedId,
-                    label: `${side.charAt(0).toUpperCase() + side.slice(1)} ${node.abbreviation}`,
+                    label: `${node.abbreviation}`,
                     sourcePosition: invertedSide,
                     targetPosition: invertedSide,
                     style: {
                         width: 500,
-                        fontSize: '0.7em',
+                        fontFamily: 'sans-serif',
+                        fontSize: '0.9em',
                         fontWeight: 100,
-                        color: '#404040',
-                        borderWidth: `0 ${onLeftSide ? '2px' : 0} 0 ${onLeftSide ? 0 : '2px'}`,
+                        color: '#777',
+                        borderWidth: `0 ${onLeftSide ? '1.5px' : 0} 0 ${onLeftSide ? 0 : '1.5px'}`,
                         padding: `6px ${onLeftSide ? '12px' : 0} 6px ${onLeftSide ? 0 : '12px'}`,
                         borderStyle: 'solid',
-                        borderColor: 'lightgray',
-                        backgroundColor: '#eee',
+                        borderColor: '#888',
+                        backgroundColor: 'transparent',
                         textAlign: onLeftSide ? 'right' : 'left',
                         justifyContent: flex,
                         WebkitJustifyContent: flex,
@@ -132,7 +133,7 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
             animated: true,
             style: {
                 stroke: 'lightgray',
-                strokeWidth: 2,
+                strokeWidth: 1.5,
             },
         } as EnrichedEdge
     }

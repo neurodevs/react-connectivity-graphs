@@ -44,7 +44,6 @@ export default class LateralGraphStylizer {
             const positionY = this.graphRadius * Math.sin(radians)
 
             const sidedId = `${node.id}-${side}`
-            const capitalizedSide = this.capitalize(side)
 
             return {
                 ...node,
@@ -53,19 +52,20 @@ export default class LateralGraphStylizer {
                 position: { x: positionX, y: positionY },
                 data: {
                     id: sidedId,
-                    label: `${capitalizedSide} ${node.abbreviation}`,
+                    label: `${node.abbreviation}`,
                     sourcePosition: invertedSide,
                     targetPosition: invertedSide,
                     style: {
                         width: 500,
-                        fontSize: '0.7em',
+                        fontFamily: 'sans-serif',
+                        fontSize: '0.9em',
                         fontWeight: 100,
-                        color: '#404040',
-                        borderWidth: `0 ${onLeftSide ? '2px' : 0} 0 ${onLeftSide ? 0 : '2px'}`,
+                        color: '#777',
+                        borderWidth: `0 ${onLeftSide ? '1.5px' : 0} 0 ${onLeftSide ? 0 : '1.5px'}`,
                         padding: `6px ${onLeftSide ? '12px' : 0} 6px ${onLeftSide ? 0 : '12px'}`,
                         borderStyle: 'solid',
-                        borderColor: 'lightgray',
-                        backgroundColor: '#eee',
+                        borderColor: '#888',
+                        backgroundColor: 'transparent',
                         textAlign: onLeftSide ? 'right' : 'left',
                         justifyContent: flex,
                         WebkitJustifyContent: flex,
@@ -78,10 +78,6 @@ export default class LateralGraphStylizer {
                 },
             }
         }) as EnrichedNode[]
-    }
-
-    private capitalize(side: string) {
-        return side.charAt(0).toUpperCase() + side.slice(1)
     }
 
     private get numNodes() {
@@ -117,7 +113,7 @@ export default class LateralGraphStylizer {
             animated: true,
             style: {
                 stroke: 'lightgray',
-                strokeWidth: 2,
+                strokeWidth: 1.5,
             },
         } as EnrichedEdge
     }
@@ -126,7 +122,7 @@ export default class LateralGraphStylizer {
         return side == 'left' ? 'right' : 'left'
     }
 
-    private readonly graphRadius = 200
+    private readonly graphRadius = 350
     private readonly bottomDegrees = 90
     private readonly gapDegrees = 40
     private readonly halfDegrees = this.gapDegrees / 2

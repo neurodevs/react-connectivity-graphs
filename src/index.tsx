@@ -6,7 +6,7 @@ import { GraphRendererProps } from './ui/GraphRenderer'
 import '@xyflow/react/dist/style.css'
 
 async function main() {
-    const res = await fetch('/dist/graph-data.json')
+    const res = await fetch('/dist/ctactile-data.json')
     const props: GraphRendererProps = await res.json()
 
     const root = ReactDOM.createRoot(document.getElementById('root')!)
