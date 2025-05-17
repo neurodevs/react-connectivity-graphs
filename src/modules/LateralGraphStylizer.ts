@@ -93,17 +93,25 @@ export default class LateralGraphStylizer {
     }
 
     private mapSimpleEdges(side: 'left' | 'right') {
-        return this.simpleEdges.map((edge) => {
-            return edge.side == 'ipsilateral'
-                ? this.enrichEdge(edge, side, side)
-                : this.enrichEdge(edge, side, side == 'left' ? 'right' : 'left')
+        return this.simpleEdges.flatMap((edge) => {
+            switch (edge.side) {
+                case 'ipsilateral':
+                    return [this.enrichEdge(edge, side, side)]
+                case 'contralateral':
+                    return [this.enrichEdge(edge, side, this.opposite(side))]
+                case 'bilateral':
+                    return [
+                        this.enrichEdge(edge, side, side),
+                        this.enrichEdge(edge, side, this.opposite(side)),
+                    ]
+            }
         })
     }
 
     private enrichEdge(edge: SimpleEdge, sourceSide: Side, targetSide: Side) {
         return {
             ...edge,
-            id: `${edge.id}-${targetSide}`,
+            id: `${edge.id}-${sourceSide}-${targetSide}`,
             source: `${edge.source}-${sourceSide}`,
             target: `${edge.target}-${targetSide}`,
             animated: true,
@@ -112,6 +120,10 @@ export default class LateralGraphStylizer {
                 strokeWidth: 2,
             },
         } as EnrichedEdge
+    }
+
+    private opposite(side: string) {
+        return side == 'left' ? 'right' : 'left'
     }
 
     private readonly graphRadius = 200

@@ -104,10 +104,18 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
     }
 
     private static mapSimpleEdges(side: 'left' | 'right') {
-        return this.simpleEdges.map((edge) => {
-            return edge.side == 'ipsilateral'
-                ? this.enrichEdge(edge, side, side)
-                : this.enrichEdge(edge, side, side == 'left' ? 'right' : 'left')
+        return this.simpleEdges.flatMap((edge) => {
+            switch (edge.side) {
+                case 'ipsilateral':
+                    return [this.enrichEdge(edge, side, side)]
+                case 'contralateral':
+                    return [this.enrichEdge(edge, side, this.opposite(side))]
+                case 'bilateral':
+                    return [
+                        this.enrichEdge(edge, side, side),
+                        this.enrichEdge(edge, side, this.opposite(side)),
+                    ]
+            }
         })
     }
 
@@ -118,7 +126,7 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
     ) {
         return {
             ...edge,
-            id: `${edge.id}-${targetSide}`,
+            id: `${edge.id}-${sourceSide}-${targetSide}`,
             source: `${edge.source}-${sourceSide}`,
             target: `${edge.target}-${targetSide}`,
             animated: true,
@@ -127,6 +135,10 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
                 strokeWidth: 2,
             },
         } as EnrichedEdge
+    }
+
+    private static opposite(side: Side) {
+        return side === 'left' ? 'right' : 'left'
     }
 
     private static get numNodes() {
