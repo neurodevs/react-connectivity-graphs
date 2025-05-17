@@ -1,5 +1,4 @@
 import {
-    Background,
     Controls,
     Edge,
     Node,
@@ -47,7 +46,6 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                     onEdgeMouseEnter={onEdgeMouseEnter}
                     onEdgeMouseLeave={onEdgeMouseLeave}
                 />
-                <Background />
                 <Controls />
             </ProviderComponent>
         </div>
