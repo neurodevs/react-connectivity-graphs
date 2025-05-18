@@ -378,6 +378,12 @@ const graph = LateralFlowGraph.Create({
             side: 'ipsilateral',
         },
         {
+            id: 'e21-31',
+            source: '21',
+            target: '31',
+            side: 'ipsilateral',
+        },
+        {
             id: 'e22-16',
             source: '22',
             target: '16',
