@@ -180,7 +180,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
     @test()
     protected static async highlightsNodeColorOnMouseEnter() {
-        const style = this.renderAndGetNodeStyle()
+        const style = this.renderFireMouseEnterAndGetStyle()
 
         assert.isEqual(
             style.color,
@@ -191,7 +191,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
     @test()
     protected static async highlightsNodeBorderColorOnMouseEnter() {
-        const style = this.renderAndGetNodeStyle()
+        const style = this.renderFireMouseEnterAndGetStyle()
 
         assert.isEqual(
             style.borderColor,
@@ -219,15 +219,18 @@ export default class GraphRendererTest extends AbstractPackageTest {
         return div.querySelector('.react-flow__controls')
     }
 
-    private static renderAndGetNodeStyle() {
+    private static renderFireMouseEnterAndGetStyle() {
+        const renderedNode = this.renderAndFireMouseEnter()
+        return window.getComputedStyle(renderedNode)
+    }
+
+    private static renderAndFireMouseEnter() {
         this.render(false)
 
         const renderedNode = screen.getByTestId('rf__node-1')
-
         fireEvent.mouseEnter(renderedNode)
 
-        const style = window.getComputedStyle(renderedNode)
-        return style
+        return renderedNode
     }
 
     private static render(useFakeReactFlow = true) {
