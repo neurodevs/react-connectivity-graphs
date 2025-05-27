@@ -1,4 +1,4 @@
-// LateralFlowGraph
+// LateralFlowGraph.ts
 
 export { default as LateralFlowGraph } from './modules/LateralFlowGraph'
 export * from './modules/LateralFlowGraph'
@@ -6,7 +6,7 @@ export * from './modules/LateralFlowGraph'
 export { default as FakeFlowGraph } from './testDoubles/modules/FakeFlowGraph'
 export * from './testDoubles/modules/FakeFlowGraph'
 
-// LateralGraphStylizer
+// LateralGraphStylizer.ts
 
 export { default as LateralGraphStylizer } from './modules/LateralGraphStylizer'
 export * from './modules/LateralGraphStylizer'
@@ -14,18 +14,23 @@ export * from './modules/LateralGraphStylizer'
 export { default as FakeGraphStylizer } from './testDoubles/modules/FakeGraphStylizer'
 export * from './testDoubles/modules/FakeGraphStylizer'
 
-// MultiNetworkRenderer
+// MultiNetworkRenderer.tsx
 
 export { default as MultiNetworkRenderer } from './ui/MultiNetworkRenderer'
 export * from './ui/MultiNetworkRenderer'
 
-// GraphRenderer
+// GraphRenderer.tsx
 
 export { default as GraphRenderer } from './ui/GraphRenderer'
 export * from './ui/GraphRenderer'
 
 export { default as FakeGraphRenderer } from './testDoubles/ui/FakeGraphRenderer'
 export * from './testDoubles/ui/FakeGraphRenderer'
+
+// RotatableNode.tsx
+
+export { default as RotatableNode } from './ui/RotatableNode'
+export * from './ui/RotatableNode'
 
 // ReactFlow
 
