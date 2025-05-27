@@ -6,7 +6,7 @@ import {
     ReactFlowProps,
     ReactFlowProvider,
 } from '@xyflow/react'
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useRef } from 'react'
 import RotatableNode from './RotatableNode'
 
 export interface GraphRendererProps {
@@ -34,6 +34,21 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
 }) => {
     const [hoveredId, setHoveredId] = useState<string | null>(null)
 
+    const originalStylesRef = useRef<
+        Record<string, { color?: string; borderColor?: string }>
+    >({})
+
+    if (Object.keys(originalStylesRef.current).length === 0) {
+        for (const node of nodes) {
+            const style = node.data.style as any
+
+            originalStylesRef.current[node.id] = {
+                color: style.color,
+                borderColor: style.borderColor,
+            }
+        }
+    }
+
     const handleNodeEnter = useCallback(
         (_: any, node: Node) => {
             setHoveredId(node.id)
@@ -42,26 +57,34 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
         [onNodeMouseEnter]
     )
 
+    const handleNodeLeave = useCallback(() => {
+        setHoveredId(null)
+        onNodeMouseLeave?.()
+    }, [onNodeMouseLeave])
+
     const styledNodes = nodes.map((node) => {
-        if (node.id === hoveredId) {
-            return {
-                ...node,
+        const original = originalStylesRef.current[node.id] ?? {}
+        const isHovered = node.id === hoveredId
+
+        const color = isHovered ? 'dodgerblue' : original.color
+        const borderColor = isHovered ? 'dodgerblue' : original.borderColor
+
+        return {
+            ...node,
+            style: {
+                ...node.style,
+                color,
+                borderColor,
+            },
+            data: {
+                ...node.data,
                 style: {
-                    ...node.style,
-                    color: 'dodgerblue',
-                    borderColor: 'dodgerblue',
+                    ...node.data.style!,
+                    color,
+                    borderColor,
                 },
-                data: {
-                    ...node.data,
-                    style: {
-                        ...node.data.style!,
-                        color: 'dodgerblue',
-                        borderColor: 'dodgerblue',
-                    },
-                },
-            }
+            },
         }
-        return node
     })
 
     return (
@@ -73,7 +96,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                     nodeTypes={nodeTypes}
                     onNodeClick={onNodeClick}
                     onNodeMouseEnter={handleNodeEnter}
-                    onNodeMouseLeave={onNodeMouseLeave}
+                    onNodeMouseLeave={handleNodeLeave}
                     onEdgeClick={onEdgeClick}
                     onEdgeMouseEnter={onEdgeMouseEnter}
                     onEdgeMouseLeave={onEdgeMouseLeave}

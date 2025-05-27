@@ -200,6 +200,26 @@ export default class GraphRendererTest extends AbstractPackageTest {
         )
     }
 
+    @test()
+    protected static async unhighlightsNodeColorOnMouseLeaveToOriginalColor() {
+        const renderedNode = this.renderAndFireMouseEnter()
+        fireEvent.mouseLeave(renderedNode)
+
+        const style = window.getComputedStyle(renderedNode)
+
+        assert.isEqual(
+            style.color,
+            'rgb(0, 0, 0)',
+            'Should set node color to black on mouse leave!'
+        )
+
+        assert.isEqual(
+            style.borderColor,
+            'black',
+            'Should set node borderColor to black on mouse leave!'
+        )
+    }
+
     private static createRenderer() {
         return this.createElement(GraphRenderer)
     }
@@ -284,6 +304,10 @@ export default class GraphRendererTest extends AbstractPackageTest {
         {
             id: '1',
             position: { x: 0, y: 0 },
+            style: {
+                color: 'black',
+                borderColor: 'black',
+            },
             data: {
                 id: '1',
                 style: {
