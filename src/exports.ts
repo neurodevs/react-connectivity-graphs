@@ -14,6 +14,10 @@ export * from './modules/LateralGraphStylizer'
 export { default as FakeGraphStylizer } from './testDoubles/modules/FakeGraphStylizer'
 export * from './testDoubles/modules/FakeGraphStylizer'
 
+// MultiNetworkRenderer
+export { default as MultiNetworkRenderer } from './ui/MultiNetworkRenderer'
+export * from './ui/MultiNetworkRenderer'
+
 // GraphRenderer
 
 export { default as GraphRenderer } from './ui/GraphRenderer'
