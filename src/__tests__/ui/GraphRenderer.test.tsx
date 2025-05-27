@@ -1,5 +1,5 @@
 import { test, assert } from '@sprucelabs/test-utils'
-import { screen } from '@testing-library/react'
+import { fireEvent, screen } from '@testing-library/react'
 import { Edge, Node, ReactFlow, ReactFlowProvider } from '@xyflow/react'
 import React from 'react'
 import FakeReactFlow, {
@@ -134,7 +134,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
             const { callback, name } = cb
 
             // @ts-ignore
-            callback?.()
+            callback?.({}, this.oneFakeEdge[0])
 
             assert.isTruthy(
                 this.called[name as keyof WasCalledByCallbacks],
@@ -178,6 +178,28 @@ export default class GraphRendererTest extends AbstractPackageTest {
         )
     }
 
+    @test()
+    protected static async highlightsNodeColorOnMouseEnter() {
+        const style = this.renderAndGetNodeStyle()
+
+        assert.isEqual(
+            style.color,
+            'rgb(30, 144, 255)',
+            'Should set node color to dodgerblue on hover!'
+        )
+    }
+
+    @test()
+    protected static async highlightsNodeBorderColorOnMouseEnter() {
+        const style = this.renderAndGetNodeStyle()
+
+        assert.isEqual(
+            style.borderColor,
+            'dodgerblue',
+            'Should set node borderColor to dodgerblue on hover!'
+        )
+    }
+
     private static createRenderer() {
         return this.createElement(GraphRenderer)
     }
@@ -195,6 +217,17 @@ export default class GraphRendererTest extends AbstractPackageTest {
     private static renderAndGetControls() {
         const div = this.renderAndGetTopLevelDiv()
         return div.querySelector('.react-flow__controls')
+    }
+
+    private static renderAndGetNodeStyle() {
+        this.render(false)
+
+        const renderedNode = screen.getByTestId('rf__node-1')
+
+        fireEvent.mouseEnter(renderedNode)
+
+        const style = window.getComputedStyle(renderedNode)
+        return style
     }
 
     private static render(useFakeReactFlow = true) {
@@ -248,11 +281,23 @@ export default class GraphRendererTest extends AbstractPackageTest {
         {
             id: '1',
             position: { x: 0, y: 0 },
-            data: {},
+            data: {
+                id: '1',
+                style: {
+                    color: 'black',
+                    borderColor: 'black',
+                },
+            },
         },
     ]
 
-    private static readonly oneFakeEdge: Edge[] = [{} as Edge]
+    private static readonly oneFakeEdge: Edge[] = [
+        {
+            id: '1-2',
+            source: '1',
+            target: '2',
+        } as Edge,
+    ]
 }
 
 export interface WasCalledByCallbacks {
