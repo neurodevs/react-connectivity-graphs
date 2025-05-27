@@ -17,9 +17,19 @@ import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class GraphRendererTest extends AbstractPackageTest {
     private static element: React.ReactElement
+    private static called: WasCalledByCallbacks
 
     protected static async beforeEach() {
         await super.beforeEach()
+
+        this.called = {
+            onNodeClick: false,
+            onNodeMouseEnter: false,
+            onNodeMouseLeave: false,
+            onEdgeClick: false,
+            onEdgeMouseEnter: false,
+            onEdgeMouseLeave: false,
+        }
 
         this.element = this.createRenderer()
     }
@@ -67,21 +77,70 @@ export default class GraphRendererTest extends AbstractPackageTest {
     protected static async passesPropsToReactFlow() {
         this.render()
 
+        const { nodes, edges, nodeTypes } = lastFakeReactFlowProps as any
+
         assert.isEqualDeep(
-            lastFakeReactFlowProps,
+            { nodes, edges, nodeTypes },
             {
                 nodes: this.oneFakeNode,
                 edges: this.oneFakeEdge,
                 nodeTypes: this.nodeTypes,
-                onNodeClick: this.onNodeClick,
-                onNodeMouseEnter: this.onNodeMouseEnter,
-                onNodeMouseLeave: this.onNodeMouseLeave,
-                onEdgeClick: this.onEdgeClick,
-                onEdgeMouseEnter: this.onEdgeMouseEnter,
-                onEdgeMouseLeave: this.onEdgeMouseLeave,
             },
             'Passed incorrect props to ReactFlow!'
         )
+    }
+
+    @test()
+    protected static async passesCallbacksToReactFlow() {
+        this.render()
+
+        const {
+            onNodeClick,
+            onNodeMouseEnter,
+            onNodeMouseLeave,
+            onEdgeClick,
+            onEdgeMouseEnter,
+            onEdgeMouseLeave,
+        } = lastFakeReactFlowProps ?? {}
+
+        const callbacks = [
+            {
+                name: 'onNodeClick',
+                callback: onNodeClick,
+            },
+            {
+                name: 'onNodeMouseEnter',
+                callback: onNodeMouseEnter,
+            },
+            {
+                name: 'onNodeMouseLeave',
+                callback: onNodeMouseLeave,
+            },
+            {
+                name: 'onEdgeClick',
+                callback: onEdgeClick,
+            },
+            {
+                name: 'onEdgeMouseEnter',
+                callback: onEdgeMouseEnter,
+            },
+            {
+                name: 'onEdgeMouseLeave',
+                callback: onEdgeMouseLeave,
+            },
+        ]
+
+        callbacks.forEach((cb) => {
+            const { callback, name } = cb
+
+            // @ts-ignore
+            callback?.()
+
+            assert.isTruthy(
+                this.called[name as keyof WasCalledByCallbacks],
+                `Callback ${name} should have been called!`
+            )
+        })
     }
 
     @test()
@@ -157,12 +216,29 @@ export default class GraphRendererTest extends AbstractPackageTest {
         )
     }
 
-    private static readonly onNodeClick = () => {}
-    private static readonly onNodeMouseEnter = () => {}
-    private static readonly onNodeMouseLeave = () => {}
-    private static readonly onEdgeClick = () => {}
-    private static readonly onEdgeMouseEnter = () => {}
-    private static readonly onEdgeMouseLeave = () => {}
+    private static readonly onNodeClick = () => {
+        this.called.onNodeClick = true
+    }
+
+    private static readonly onNodeMouseEnter = () => {
+        this.called.onNodeMouseEnter = true
+    }
+
+    private static readonly onNodeMouseLeave = () => {
+        this.called.onNodeMouseLeave = true
+    }
+
+    private static readonly onEdgeClick = () => {
+        this.called.onEdgeClick = true
+    }
+
+    private static readonly onEdgeMouseEnter = () => {
+        this.called.onEdgeMouseEnter = true
+    }
+
+    private static readonly onEdgeMouseLeave = () => {
+        this.called.onEdgeMouseLeave = true
+    }
 
     private static readonly nodeTypes = {
         rotatableNode: RotatableNode,
@@ -177,4 +253,13 @@ export default class GraphRendererTest extends AbstractPackageTest {
     ]
 
     private static readonly oneFakeEdge: Edge[] = [{} as Edge]
+}
+
+export interface WasCalledByCallbacks {
+    onNodeClick: boolean
+    onNodeMouseEnter: boolean
+    onNodeMouseLeave: boolean
+    onEdgeClick: boolean
+    onEdgeMouseEnter: boolean
+    onEdgeMouseLeave: boolean
 }
