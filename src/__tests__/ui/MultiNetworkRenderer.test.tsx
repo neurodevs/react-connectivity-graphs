@@ -1,4 +1,5 @@
 import AbstractSpruceTest, { test, assert } from '@sprucelabs/test-utils'
+import { render } from '@testing-library/react'
 import React from 'react'
 import MultiNetworkRenderer from '../../ui/MultiNetworkRenderer'
 
@@ -8,7 +9,7 @@ export default class MultiNetworkRendererTest extends AbstractSpruceTest {
     protected static async beforeEach() {
         await super.beforeEach()
 
-        this.element = this.MultiNetworkRenderer()
+        this.element = this.createRenderer()
     }
 
     @test()
@@ -19,7 +20,38 @@ export default class MultiNetworkRendererTest extends AbstractSpruceTest {
         )
     }
 
-    protected static MultiNetworkRenderer() {
-        return <MultiNetworkRenderer />
+    @test()
+    protected static async rendersWithTopLevelDiv() {
+        const div = this.renderAndGetTopLevelDiv()
+
+        assert.isTruthy(div, 'Should render a div!')
+    }
+
+    @test()
+    protected static async rendersDivWithExpectedClassName() {
+        const div = this.renderAndGetTopLevelDiv()
+
+        assert.isEqual(
+            div.className,
+            'multi-network-renderer',
+            'Should render div with className="multi-network-renderer"!'
+        )
+    }
+
+    private static createRenderer() {
+        return this.createElement(MultiNetworkRenderer)
+    }
+
+    private static renderAndGetTopLevelDiv() {
+        const { getByTestId } = this.render()
+        return getByTestId('multi-network-renderer')
+    }
+
+    private static get createElement() {
+        return React.createElement
+    }
+
+    protected static render() {
+        return render(<MultiNetworkRenderer />)
     }
 }
