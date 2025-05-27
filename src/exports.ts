@@ -32,7 +32,7 @@ export * from './testDoubles/ui/FakeGraphRenderer'
 export { default as RotatableNode } from './ui/RotatableNode'
 export * from './ui/RotatableNode'
 
-// ReactFlow
+// Custom ReactFlow test doubles
 
 export { default as FakeReactFlow } from './testDoubles/ui/FakeReactFlow'
 export * from './testDoubles/ui/FakeReactFlow'
