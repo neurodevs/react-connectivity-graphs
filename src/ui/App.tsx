@@ -4,7 +4,6 @@ import GraphRenderer, { GraphRendererProps } from './GraphRenderer'
 const App: React.FC<GraphRendererProps> = (props: GraphRendererProps) => {
     return (
         <div id="app" data-testid="app">
-            <div>Hello connectivity!</div>
             <GraphRendererComponent {...props} />
         </div>
     )
