@@ -15,6 +15,7 @@ export { default as FakeGraphStylizer } from './testDoubles/modules/FakeGraphSty
 export * from './testDoubles/modules/FakeGraphStylizer'
 
 // MultiNetworkRenderer
+
 export { default as MultiNetworkRenderer } from './ui/MultiNetworkRenderer'
 export * from './ui/MultiNetworkRenderer'
 
