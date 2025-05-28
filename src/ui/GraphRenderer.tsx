@@ -1,5 +1,5 @@
 import { Controls, Edge, Node, ReactFlow, ReactFlowProps } from '@xyflow/react'
-import React, { useState, useCallback, useRef } from 'react'
+import React, { useState, useCallback, useRef, useEffect } from 'react'
 import RotatableNode from './RotatableNode'
 
 export interface GraphRendererProps {
@@ -16,8 +16,8 @@ export interface GraphRendererProps {
 export const nodeTypes = { rotatableNode: RotatableNode }
 
 const GraphRenderer: React.FC<GraphRendererProps> = ({
-    nodes,
-    edges,
+    nodes: initialNodes,
+    edges: initialEdges,
     onNodeClick,
     onNodeMouseEnter,
     onNodeMouseLeave,
@@ -25,20 +25,27 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     onEdgeMouseEnter,
     onEdgeMouseLeave,
 }) => {
+    const [nodes, setNodes] = useState<Node[]>(initialNodes)
+    const [edges] = useState<Edge[]>(initialEdges)
     const [hoveredId, setHoveredId] = useState<string | null>(null)
 
     const originalStylesRef = useRef<HighlightableStyles>({})
-    setOriginalStylesRefIfEmpty()
-
     const handleNodeMouseEnter = useCallbackNodeMouseEnter()
     const handleNodeMouseLeave = useCallbackNodeMouseLeave()
 
-    const styledNodes = applyHighlightableStyles()
+    useEffect(() => {
+        setOriginalStylesRef()
+    }, [initialNodes])
+
+    useEffect(() => {
+        const styledNodes = applyHighlightableStyles()
+        setNodes(styledNodes)
+    }, [hoveredId, initialNodes])
 
     return (
         <div className="graph-renderer" data-testid="graph-renderer">
             <ReactFlowComponent
-                nodes={styledNodes}
+                nodes={nodes}
                 edges={edges}
                 nodeTypes={nodeTypes}
                 onNodeClick={onNodeClick}
@@ -52,7 +59,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
         </div>
     )
 
-    function setOriginalStylesRefIfEmpty() {
+    function setOriginalStylesRef() {
         if (Object.keys(originalStylesRef.current).length === 0) {
             for (const node of nodes) {
                 const style = node.data.style as any
