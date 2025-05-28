@@ -1,10 +1,14 @@
 import { test, assert } from '@sprucelabs/test-utils'
 import { render, RenderResult } from '@testing-library/react'
+import { ReactFlowProvider } from '@xyflow/react'
 import React from 'react'
 import FakeGraphRenderer, {
     lastFakeGraphRendererProps,
 } from '../../testDoubles/ui/FakeGraphRenderer'
-import App, { setGraphRendererComponent } from '../../ui/App'
+import FakeReactFlowProvider, {
+    providerWasCreated,
+} from '../../testDoubles/ui/FakeReactFlowProvider'
+import App, { setRendererComponent, setProviderComponent } from '../../ui/App'
 import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class AppTest extends AbstractPackageTest {
@@ -12,6 +16,9 @@ export default class AppTest extends AbstractPackageTest {
 
     protected static async beforeEach() {
         await super.beforeEach()
+
+        setProviderComponent(FakeReactFlowProvider as typeof ReactFlowProvider)
+        setRendererComponent(FakeGraphRenderer)
 
         this.element = this.render()
     }
@@ -22,9 +29,17 @@ export default class AppTest extends AbstractPackageTest {
     }
 
     @test()
-    protected static async rendersGraphRendererWithProps() {
-        setGraphRendererComponent(FakeGraphRenderer)
+    protected static async wrapsWithReactFlowProvider() {
+        this.render()
 
+        assert.isTruthy(
+            providerWasCreated,
+            'Should wrap with ReactFlowProvider!'
+        )
+    }
+
+    @test()
+    protected static async rendersGraphRendererWithProps() {
         this.render()
 
         assert.isTruthy(

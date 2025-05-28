@@ -1,17 +1,12 @@
 import { test, assert } from '@sprucelabs/test-utils'
 import { fireEvent, screen } from '@testing-library/react'
-import { Edge, Node, ReactFlow, ReactFlowProvider } from '@xyflow/react'
+import { Edge, Node, ReactFlow } from '@xyflow/react'
 import React from 'react'
 import FakeReactFlow, {
     lastFakeReactFlowProps,
 } from '../../testDoubles/ui/FakeReactFlow'
-import FakeReactFlowProvider, {
-    providerWasCreated,
-} from '../../testDoubles/ui/FakeReactFlowProvider'
-import GraphRenderer, {
-    setProviderComponent,
-    setReactFlowComponent,
-} from '../../ui/GraphRenderer'
+
+import GraphRenderer, { setReactFlowComponent } from '../../ui/GraphRenderer'
 import RotatableNode from '../../ui/RotatableNode'
 import AbstractPackageTest from '../AbstractPackageTest'
 
@@ -153,18 +148,6 @@ export default class GraphRendererTest extends AbstractPackageTest {
             renderedNodes.length,
             1,
             'Should render one node on screen!'
-        )
-    }
-
-    @test()
-    protected static async wrapsWithReactFlowProvider() {
-        setProviderComponent(FakeReactFlowProvider as typeof ReactFlowProvider)
-
-        this.render()
-
-        assert.isTruthy(
-            providerWasCreated,
-            'Should wrap with ReactFlowProvider!'
         )
     }
 

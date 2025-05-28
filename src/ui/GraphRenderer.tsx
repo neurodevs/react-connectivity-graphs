@@ -1,11 +1,4 @@
-import {
-    Controls,
-    Edge,
-    Node,
-    ReactFlow,
-    ReactFlowProps,
-    ReactFlowProvider,
-} from '@xyflow/react'
+import { Controls, Edge, Node, ReactFlow, ReactFlowProps } from '@xyflow/react'
 import React, { useState, useCallback, useRef } from 'react'
 import RotatableNode from './RotatableNode'
 
@@ -89,20 +82,18 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
 
     return (
         <div className="graph-renderer" data-testid="graph-renderer">
-            <ProviderComponent>
-                <ReactFlowComponent
-                    nodes={styledNodes}
-                    edges={edges}
-                    nodeTypes={nodeTypes}
-                    onNodeClick={onNodeClick}
-                    onNodeMouseEnter={handleNodeEnter}
-                    onNodeMouseLeave={handleNodeLeave}
-                    onEdgeClick={onEdgeClick}
-                    onEdgeMouseEnter={onEdgeMouseEnter}
-                    onEdgeMouseLeave={onEdgeMouseLeave}
-                />
-                <Controls />
-            </ProviderComponent>
+            <ReactFlowComponent
+                nodes={styledNodes}
+                edges={edges}
+                nodeTypes={nodeTypes}
+                onNodeClick={onNodeClick}
+                onNodeMouseEnter={handleNodeEnter}
+                onNodeMouseLeave={handleNodeLeave}
+                onEdgeClick={onEdgeClick}
+                onEdgeMouseEnter={onEdgeMouseEnter}
+                onEdgeMouseLeave={onEdgeMouseLeave}
+            />
+            <Controls />
         </div>
     )
 }
@@ -110,12 +101,9 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
 export default GraphRenderer
 
 // For test doubles
-export let ProviderComponent = ReactFlowProvider
-export function setProviderComponent(component: typeof ReactFlowProvider) {
-    ProviderComponent = component
-}
 
 export let ReactFlowComponent: React.FC<ReactFlowProps> = ReactFlow
+
 export function setReactFlowComponent(component: React.FC<ReactFlowProps>) {
     ReactFlowComponent = component
 }
