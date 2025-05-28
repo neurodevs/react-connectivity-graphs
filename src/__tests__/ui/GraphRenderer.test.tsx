@@ -1,11 +1,13 @@
 import { test, assert } from '@sprucelabs/test-utils'
 import { fireEvent, screen } from '@testing-library/react'
-import { Edge, Node, ReactFlow } from '@xyflow/react'
+import { Edge, Node, ReactFlow, ReactFlowProvider } from '@xyflow/react'
 import React from 'react'
+import { FakeReactFlowProvider } from '../../exports'
 import FakeReactFlow, {
     lastFakeReactFlowProps,
 } from '../../testDoubles/ui/FakeReactFlow'
 
+import { setProviderComponent } from '../../ui/App'
 import GraphRenderer, { setReactFlowComponent } from '../../ui/GraphRenderer'
 import RotatableNode from '../../ui/RotatableNode'
 import AbstractPackageTest from '../AbstractPackageTest'
@@ -25,6 +27,9 @@ export default class GraphRendererTest extends AbstractPackageTest {
             onEdgeMouseEnter: false,
             onEdgeMouseLeave: false,
         }
+
+        setReactFlowComponent(FakeReactFlow)
+        setProviderComponent(FakeReactFlowProvider as typeof ReactFlowProvider)
 
         this.element = this.createRenderer()
     }
@@ -77,8 +82,8 @@ export default class GraphRendererTest extends AbstractPackageTest {
         assert.isEqualDeep(
             { nodes, edges, nodeTypes },
             {
-                nodes: this.oneFakeNode,
-                edges: this.oneFakeEdge,
+                nodes: this.fakeNode,
+                edges: this.fakeEdge,
                 nodeTypes: this.nodeTypes,
             },
             'Passed incorrect props to ReactFlow!'
@@ -129,7 +134,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
             const { callback, name } = cb
 
             // @ts-ignore
-            callback?.({}, this.oneFakeEdge[0])
+            callback?.({}, this.fakeEdge[0])
 
             assert.isTruthy(
                 this.called[name as keyof WasCalledByCallbacks],
@@ -203,6 +208,27 @@ export default class GraphRendererTest extends AbstractPackageTest {
         )
     }
 
+    @test()
+    protected static async updatesNodesWhenInitialNodesChange() {
+        const { rerender } = this.render(false)
+
+        const fakeNodes = [this.generateFakeNode(), this.generateFakeNode('2')]
+
+        rerender?.(
+            <ReactFlowProvider>
+                <GraphRenderer nodes={fakeNodes} edges={[]} />
+            </ReactFlowProvider>
+        )
+
+        const renderedNodes = screen.queryAllByTestId(/rf__node-\d/)
+
+        assert.isEqual(
+            renderedNodes.length,
+            2,
+            'Should render two nodes on screen after rerender!'
+        )
+    }
+
     private static createRenderer() {
         return this.createElement(GraphRenderer)
     }
@@ -243,8 +269,8 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
         return this.renderWithProvider(
             <GraphRenderer
-                nodes={this.oneFakeNode}
-                edges={this.oneFakeEdge}
+                nodes={this.fakeNode}
+                edges={this.fakeEdge}
                 onNodeClick={this.onNodeClick}
                 onNodeMouseEnter={this.onNodeMouseEnter}
                 onNodeMouseLeave={this.onNodeMouseLeave}
@@ -283,25 +309,27 @@ export default class GraphRendererTest extends AbstractPackageTest {
         rotatableNode: RotatableNode,
     }
 
-    private static readonly oneFakeNode: Node[] = [
-        {
-            id: '1',
+    private static generateFakeNode(nodeId = '1'): Node {
+        return {
+            id: nodeId,
             position: { x: 0, y: 0 },
             style: {
                 color: 'black',
                 borderColor: 'black',
             },
             data: {
-                id: '1',
+                id: nodeId,
                 style: {
                     color: 'black',
                     borderColor: 'black',
                 },
             },
-        },
-    ]
+        }
+    }
 
-    private static readonly oneFakeEdge: Edge[] = [
+    private static fakeNode: Node[] = [this.generateFakeNode()]
+
+    private static fakeEdge: Edge[] = [
         {
             id: '1-2',
             source: '1',

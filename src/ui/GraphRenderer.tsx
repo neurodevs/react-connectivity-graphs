@@ -34,13 +34,14 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     const handleNodeMouseLeave = useCallbackNodeMouseLeave()
 
     useEffect(() => {
+        setNodes(initialNodes)
         setOriginalStylesRef()
     }, [initialNodes])
 
     useEffect(() => {
         const styledNodes = applyHighlightableStyles()
         setNodes(styledNodes)
-    }, [hoveredId, initialNodes])
+    }, [hoveredId])
 
     return (
         <div className="graph-renderer" data-testid="graph-renderer">
@@ -91,9 +92,9 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
 
     function applyHighlightableStyles() {
         return nodes.map((node) => {
-            const original = originalStylesRef.current[node.id] ?? {}
             const isHovered = node.id === hoveredId
 
+            const original = originalStylesRef.current[node.id]
             const color = isHovered ? 'dodgerblue' : original.color
             const borderColor = isHovered ? 'dodgerblue' : original.borderColor
 
