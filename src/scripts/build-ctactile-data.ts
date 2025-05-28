@@ -240,7 +240,7 @@ const graph = LateralFlowGraph.Create({
             side: 'contralateral',
         },
         {
-            id: 'e9-10',
+            id: 'e7-8',
             source: '7',
             target: '8',
             side: 'ipsilateral',
