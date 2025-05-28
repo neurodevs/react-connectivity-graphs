@@ -26,7 +26,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     onEdgeMouseLeave,
 }) => {
     const [nodes, setNodes] = useState<Node[]>(initialNodes)
-    const [edges] = useState<Edge[]>(initialEdges)
+    const [edges, setEdges] = useState<Edge[]>(initialEdges)
     const [hoveredId, setHoveredId] = useState<string | null>(null)
 
     const originalStylesRef = useRef<HighlightableStyles>({})
@@ -35,8 +35,10 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
 
     useEffect(() => {
         setNodes(initialNodes)
+        setEdges(initialEdges)
+
         setOriginalStylesRef()
-    }, [initialNodes])
+    }, [initialNodes, initialEdges])
 
     useEffect(() => {
         const styledNodes = applyHighlightableStyles()

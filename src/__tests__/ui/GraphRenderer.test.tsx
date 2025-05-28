@@ -2,12 +2,9 @@ import { test, assert } from '@sprucelabs/test-utils'
 import { fireEvent, screen } from '@testing-library/react'
 import { Edge, Node, ReactFlow, ReactFlowProvider } from '@xyflow/react'
 import React from 'react'
-import { FakeReactFlowProvider } from '../../exports'
 import FakeReactFlow, {
     lastFakeReactFlowProps,
 } from '../../testDoubles/ui/FakeReactFlow'
-
-import { setProviderComponent } from '../../ui/App'
 import GraphRenderer, { setReactFlowComponent } from '../../ui/GraphRenderer'
 import RotatableNode from '../../ui/RotatableNode'
 import AbstractPackageTest from '../AbstractPackageTest'
@@ -27,9 +24,6 @@ export default class GraphRendererTest extends AbstractPackageTest {
             onEdgeMouseEnter: false,
             onEdgeMouseLeave: false,
         }
-
-        setReactFlowComponent(FakeReactFlow)
-        setProviderComponent(FakeReactFlowProvider as typeof ReactFlowProvider)
 
         this.element = this.createRenderer()
     }
@@ -210,15 +204,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
     @test()
     protected static async updatesNodesWhenInitialNodesChange() {
-        const { rerender } = this.render(false)
-
-        const fakeNodes = [this.generateFakeNode(), this.generateFakeNode('2')]
-
-        rerender?.(
-            <ReactFlowProvider>
-                <GraphRenderer nodes={fakeNodes} edges={[]} />
-            </ReactFlowProvider>
-        )
+        this.rerenderWithTwoNodesAndEdges()
 
         const renderedNodes = screen.queryAllByTestId(/rf__node-\d/)
 
@@ -226,6 +212,19 @@ export default class GraphRendererTest extends AbstractPackageTest {
             renderedNodes.length,
             2,
             'Should render two nodes on screen after rerender!'
+        )
+    }
+
+    @test()
+    protected static async updatesEdgesWhenInitialEdgesChange() {
+        this.rerenderWithTwoNodesAndEdges(true)
+
+        const renderedEdges = screen.queryAllByTestId(/^rf__edge-/)
+
+        assert.isEqual(
+            renderedEdges.length,
+            2,
+            'Should render two edges on screen after rerender!'
         )
     }
 
@@ -281,6 +280,19 @@ export default class GraphRendererTest extends AbstractPackageTest {
         )
     }
 
+    private static rerenderWithTwoNodesAndEdges(useFakeReactFlow = false) {
+        const { rerender } = this.render(useFakeReactFlow)
+
+        rerender?.(
+            <ReactFlowProvider>
+                <GraphRenderer
+                    nodes={this.twoFakeNodes}
+                    edges={this.twoFakeEdges}
+                />
+            </ReactFlowProvider>
+        )
+    }
+
     private static readonly onNodeClick = () => {
         this.called.onNodeClick = true
     }
@@ -329,12 +341,24 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
     private static fakeNode: Node[] = [this.generateFakeNode()]
 
-    private static fakeEdge: Edge[] = [
-        {
-            id: '1-2',
-            source: '1',
-            target: '2',
-        } as Edge,
+    private static twoFakeNodes: Node[] = [
+        this.generateFakeNode(),
+        this.generateFakeNode('2'),
+    ]
+
+    private static generateFakeEdge(edgeId = 'e1-2'): Edge {
+        return {
+            id: edgeId,
+            source: edgeId == 'e1-2' ? '1' : '2',
+            target: edgeId == 'e1-2' ? '2' : '1',
+        } as Edge
+    }
+
+    private static fakeEdge: Edge[] = [this.generateFakeEdge()]
+
+    private static twoFakeEdges: Edge[] = [
+        this.generateFakeEdge(),
+        this.generateFakeEdge('e2-1'),
     ]
 }
 
