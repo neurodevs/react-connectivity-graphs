@@ -75,13 +75,6 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
         }
     }
 
-    function useCallbackNodeMouseLeave() {
-        return useCallback(() => {
-            setHoveredId(null)
-            onNodeMouseLeave?.()
-        }, [onNodeMouseLeave])
-    }
-
     function useCallbackNodeMouseEnter() {
         return useCallback(
             (_: any, node: Node) => {
@@ -90,6 +83,13 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
             },
             [onNodeMouseEnter]
         )
+    }
+
+    function useCallbackNodeMouseLeave() {
+        return useCallback(() => {
+            setHoveredId(null)
+            onNodeMouseLeave?.()
+        }, [onNodeMouseLeave])
     }
 
     function applyHighlightableStyles() {
