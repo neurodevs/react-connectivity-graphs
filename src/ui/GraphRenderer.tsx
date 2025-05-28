@@ -27,58 +27,13 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
 }) => {
     const [hoveredId, setHoveredId] = useState<string | null>(null)
 
-    const originalStylesRef = useRef<
-        Record<string, { color?: string; borderColor?: string }>
-    >({})
+    const originalStylesRef = useRef<HighlightableStyles>({})
+    setOriginalStylesRefIfEmpty()
 
-    if (Object.keys(originalStylesRef.current).length === 0) {
-        for (const node of nodes) {
-            const style = node.data.style as any
+    const handleNodeMouseEnter = useCallbackNodeMouseEnter()
+    const handleNodeMouseLeave = useCallbackNodeMouseLeave()
 
-            originalStylesRef.current[node.id] = {
-                color: style.color,
-                borderColor: style.borderColor,
-            }
-        }
-    }
-
-    const handleNodeEnter = useCallback(
-        (_: any, node: Node) => {
-            setHoveredId(node.id)
-            onNodeMouseEnter?.(_, node)
-        },
-        [onNodeMouseEnter]
-    )
-
-    const handleNodeLeave = useCallback(() => {
-        setHoveredId(null)
-        onNodeMouseLeave?.()
-    }, [onNodeMouseLeave])
-
-    const styledNodes = nodes.map((node) => {
-        const original = originalStylesRef.current[node.id] ?? {}
-        const isHovered = node.id === hoveredId
-
-        const color = isHovered ? 'dodgerblue' : original.color
-        const borderColor = isHovered ? 'dodgerblue' : original.borderColor
-
-        return {
-            ...node,
-            style: {
-                ...node.style,
-                color,
-                borderColor,
-            },
-            data: {
-                ...node.data,
-                style: {
-                    ...node.data.style!,
-                    color,
-                    borderColor,
-                },
-            },
-        }
-    })
+    const styledNodes = applyHighlightableStyles()
 
     return (
         <div className="graph-renderer" data-testid="graph-renderer">
@@ -87,8 +42,8 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                 edges={edges}
                 nodeTypes={nodeTypes}
                 onNodeClick={onNodeClick}
-                onNodeMouseEnter={handleNodeEnter}
-                onNodeMouseLeave={handleNodeLeave}
+                onNodeMouseEnter={handleNodeMouseEnter}
+                onNodeMouseLeave={handleNodeMouseLeave}
                 onEdgeClick={onEdgeClick}
                 onEdgeMouseEnter={onEdgeMouseEnter}
                 onEdgeMouseLeave={onEdgeMouseLeave}
@@ -96,9 +51,74 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
             <Controls />
         </div>
     )
+
+    function setOriginalStylesRefIfEmpty() {
+        if (Object.keys(originalStylesRef.current).length === 0) {
+            for (const node of nodes) {
+                const style = node.data.style as any
+
+                originalStylesRef.current[node.id] = {
+                    color: style.color,
+                    borderColor: style.borderColor,
+                }
+            }
+        }
+    }
+
+    function useCallbackNodeMouseLeave() {
+        return useCallback(() => {
+            setHoveredId(null)
+            onNodeMouseLeave?.()
+        }, [onNodeMouseLeave])
+    }
+
+    function useCallbackNodeMouseEnter() {
+        return useCallback(
+            (_: any, node: Node) => {
+                setHoveredId(node.id)
+                onNodeMouseEnter?.(_, node)
+            },
+            [onNodeMouseEnter]
+        )
+    }
+
+    function applyHighlightableStyles() {
+        return nodes.map((node) => {
+            const original = originalStylesRef.current[node.id] ?? {}
+            const isHovered = node.id === hoveredId
+
+            const color = isHovered ? 'dodgerblue' : original.color
+            const borderColor = isHovered ? 'dodgerblue' : original.borderColor
+
+            return {
+                ...node,
+                style: {
+                    ...node.style,
+                    color,
+                    borderColor,
+                },
+                data: {
+                    ...node.data,
+                    style: {
+                        ...node.data.style!,
+                        color,
+                        borderColor,
+                    },
+                },
+            }
+        })
+    }
 }
 
 export default GraphRenderer
+
+export type HighlightableStyles = Record<
+    string,
+    {
+        color?: string
+        borderColor?: string
+    }
+>
 
 // For test doubles
 
