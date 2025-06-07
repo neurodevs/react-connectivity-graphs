@@ -33,30 +33,43 @@ export default class LateralGraphStylizer {
 
     private mapSimpleNodes(side: 'left' | 'right') {
         const onLeftSide = side == 'left'
-
-        const invertedSide = onLeftSide ? 'right' : 'left'
-        const textAlign = onLeftSide ? 'right' : 'left'
+        const oppositeSide = this.opposite(side)
         const flex = onLeftSide ? 'flex-end' : 'flex-start'
-        const borderWidth = `0 ${onLeftSide ? '1.5px' : 0} 0 ${onLeftSide ? 0 : '1.5px'}`
-        const padding = `6px ${onLeftSide ? '12px' : 0} 6px ${onLeftSide ? 0 : '12px'}`
         const sign = onLeftSide ? 1 : -1
-
         const startDegrees = this.bottomDegrees + this.halfDegrees * sign
         const degreesPerNode = this.degreesPerSide / (this.numNodes - 1)
 
-        return this.initialNodes.map((node, idx) => {
-            const { abbreviation } = node
+        const sidedStyles = {
+            borderWidth: `0 ${onLeftSide ? '1.5px' : 0} 0 ${onLeftSide ? 0 : '1.5px'}`,
+            padding: `6px ${onLeftSide ? '12px' : 0} 6px ${onLeftSide ? 0 : '12px'}`,
+            textAlign: onLeftSide ? 'right' : 'left',
+            justifyContent: flex,
+            WebkitJustifyContent: flex,
+        }
 
+        return this.initialNodes.map((node, idx) => {
             const degrees = startDegrees + degreesPerNode * idx * sign
             const radians = (Math.PI * degrees) / 180
 
-            const sidedId = `${node.id}-${side}`
             const positionX = this.graphRadius * Math.cos(radians)
             const positionY = this.graphRadius * Math.sin(radians)
 
+            const rotationDegrees = onLeftSide ? degrees + 180 : degrees
+
+            const { id: nodeId, abbreviation: nodeAbbreviation } = node
+            const sidedId = `${nodeId}-${side}`
+
             const fixedPositionX = positionX.toFixed(1)
             const fixedPositionY = positionY.toFixed(1)
-            const rotationDegrees = onLeftSide ? degrees + 180 : degrees
+
+            const calculatedStyles = {
+                ...sidedStyles,
+                transform: `
+                            translateX(${fixedPositionX}px) 
+                            translateY(${fixedPositionY}px) 
+                            rotate(${rotationDegrees}deg) 
+                        `,
+            }
 
             return {
                 ...node,
@@ -65,21 +78,12 @@ export default class LateralGraphStylizer {
                 position: { x: positionX, y: positionY },
                 data: {
                     id: sidedId,
-                    label: abbreviation,
-                    sourcePosition: invertedSide,
-                    targetPosition: invertedSide,
+                    label: nodeAbbreviation,
+                    sourcePosition: oppositeSide,
+                    targetPosition: oppositeSide,
                     style: {
                         ...this.defaultNodeStyle,
-                        borderWidth,
-                        padding,
-                        textAlign,
-                        justifyContent: flex,
-                        WebkitJustifyContent: flex,
-                        transform: `
-                            translateX(${fixedPositionX}px) 
-                            translateY(${fixedPositionY}px) 
-                            rotate(${rotationDegrees}deg) 
-                        `,
+                        ...calculatedStyles,
                     },
                 },
             }
@@ -230,10 +234,12 @@ export interface EnrichedNodeData {
     label: string
     sourcePosition: string
     targetPosition: string
-    style: EnrichedNodeStyle
+    style: NodeStyle
 }
 
-export interface EnrichedNodeStyle {
+export type NodeStyle = BaseNodeStyle & CalculatedNodeStyle & SidedNodeStyle
+
+export interface BaseNodeStyle {
     width: number
     fontSize: string
     fontWeight: number
@@ -241,6 +247,18 @@ export interface EnrichedNodeStyle {
     borderStyle: string
     borderColor: string
     backgroundColor: string
+}
+
+export interface SidedNodeStyle {
+    borderWidth: string
+    padding: string
+    textAlign: string
+    justifyContent: string
+    WebkitJustifyContent: string
+}
+
+export interface CalculatedNodeStyle {
+    transform: string
 }
 
 export interface PositionXY {
