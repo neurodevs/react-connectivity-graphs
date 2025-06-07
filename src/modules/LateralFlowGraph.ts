@@ -111,12 +111,12 @@ export interface SimpleNode {
     abbreviation: string
 }
 
-export interface LateralizedEdge extends SimpleEdge {
-    side: 'ipsilateral' | 'contralateral' | 'bilateral'
-}
-
 export interface SimpleEdge {
     id: string
     source: string
     target: string
+}
+
+export interface LateralizedEdge extends SimpleEdge {
+    side: 'ipsilateral' | 'contralateral' | 'bilateral'
 }
