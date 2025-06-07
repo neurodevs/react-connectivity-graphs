@@ -11,8 +11,8 @@ import LateralGraphStylizer, {
 export default class LateralFlowGraph implements FlowGraph {
     public static Class?: FlowGraphConstructor
 
-    private simpleNodes: SimpleNode[]
-    private lateralizedEdges: LateralizedEdge[]
+    private initialNodes: SimpleNode[]
+    private initialEdges: LateralizedEdge[]
     private stylizer: GraphStylizer
     private enrichedNodes!: EnrichedNode[]
     private enrichedEdges!: EnrichedEdge[]
@@ -20,8 +20,8 @@ export default class LateralFlowGraph implements FlowGraph {
     protected constructor(options: FlowGraphConstructorOptions) {
         const { nodes, edges, stylizer } = options
 
-        this.simpleNodes = nodes
-        this.lateralizedEdges = edges
+        this.initialNodes = nodes
+        this.initialEdges = edges
         this.stylizer = stylizer
 
         this.throwIfEdgesWithoutNodes()
@@ -58,7 +58,7 @@ export default class LateralFlowGraph implements FlowGraph {
     }
 
     private get numEdges() {
-        return this.lateralizedEdges.length
+        return this.initialEdges.length
     }
 
     private get hasZeroNodes() {
@@ -66,13 +66,13 @@ export default class LateralFlowGraph implements FlowGraph {
     }
 
     private get numNodes() {
-        return this.simpleNodes.length
+        return this.initialNodes.length
     }
 
     private enrichNodesAndEdges() {
         const { nodes, edges } = this.stylizer.lateralize(
-            this.simpleNodes,
-            this.lateralizedEdges
+            this.initialNodes,
+            this.initialEdges
         )
 
         this.enrichedNodes = nodes

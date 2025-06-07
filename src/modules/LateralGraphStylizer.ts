@@ -4,8 +4,8 @@ import { LateralizedEdge } from './LateralFlowGraph'
 export default class LateralGraphStylizer {
     public static Class?: GraphStylizerConstructor
 
-    private simpleNodes!: SimpleNode[]
-    private simpleEdges!: LateralizedEdge[]
+    private initialNodes!: SimpleNode[]
+    private initialEdges!: LateralizedEdge[]
 
     protected constructor() {}
 
@@ -14,8 +14,8 @@ export default class LateralGraphStylizer {
     }
 
     public lateralize(nodes: SimpleNode[], edges: LateralizedEdge[]) {
-        this.simpleNodes = nodes
-        this.simpleEdges = edges
+        this.initialNodes = nodes
+        this.initialEdges = edges
 
         return {
             nodes: this.enrichedNodes,
@@ -40,7 +40,7 @@ export default class LateralGraphStylizer {
         const startDegrees = this.bottomDegrees + this.halfDegrees * sign
         const degreesPerNode = this.degreesPerSide / (this.numNodes - 1)
 
-        return this.simpleNodes.map((node, idx) => {
+        return this.initialNodes.map((node, idx) => {
             const { abbreviation } = node
 
             const degrees = startDegrees + degreesPerNode * idx * sign
@@ -96,7 +96,7 @@ export default class LateralGraphStylizer {
     }
 
     private get numNodes() {
-        return this.simpleNodes.length
+        return this.initialNodes.length
     }
 
     private get enrichedEdges() {
@@ -104,7 +104,7 @@ export default class LateralGraphStylizer {
     }
 
     private mapSimpleEdges(side: 'left' | 'right') {
-        return this.simpleEdges.flatMap((edge) => {
+        return this.initialEdges.flatMap((edge) => {
             switch (edge.side) {
                 case 'ipsilateral':
                     return [this.lateralizeEdge(edge, side, side)]
