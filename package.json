@@ -16,7 +16,7 @@
     "dev": "yarn dev.build & npx serve -s public",
     "dev.build": "yarn dev.build.browser & yarn run dev.build.graph && yarn run dev.copy.reactflow",
     "dev.build.browser": "esbuild src/index.tsx --bundle --platform=browser --outfile=public/dist/index.js --loader:.tsx=tsx --jsx=automatic --watch=forever",
-    "dev.build.graph": "tsx src/scripts/build-graph-data.ts && tsx src/scripts/build-ctactile-data.ts",
+    "dev.build.graph": "tsx src/scripts/build-graph-data.ts && tsx src/scripts/build-ctactile-data.ts && tsx src/scripts/build-ctactile-simple.ts",
     "dev.copy.reactflow": "cp node_modules/@xyflow/react/dist/style.css public/reactflow.css",
     "fix.lint": "eslint --fix --cache '**/*.ts'",
     "lint": "eslint --cache '**/*.ts'",
