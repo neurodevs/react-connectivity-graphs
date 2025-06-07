@@ -133,10 +133,6 @@ export default class LateralGraphStylizer {
         })
     }
 
-    private opposite(side: string) {
-        return side == 'left' ? 'right' : 'left'
-    }
-
     private lateralizeEdge(
         edge: SimpleEdge,
         sourceSide: Side,
@@ -203,6 +199,10 @@ export default class LateralGraphStylizer {
             source: this.bottomHiddenNode.id,
             target: this.topHiddenNode.id,
         } as SimpleEdge
+    }
+
+    private opposite(side: string) {
+        return side == 'left' ? 'right' : 'left'
     }
 
     private readonly graphRadius = 350
