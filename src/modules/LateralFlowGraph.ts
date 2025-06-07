@@ -1,5 +1,6 @@
 import { assertOptions } from '@sprucelabs/schema'
 import SpruceError from '../errors/SpruceError'
+import { SimpleNode, SimpleEdge } from '../types'
 import LateralGraphStylizer, {
     EnrichedEdge,
     EnrichedGraph,
@@ -103,18 +104,6 @@ export interface FlowGraphOptions {
 
 export interface FlowGraphConstructorOptions extends FlowGraphOptions {
     stylizer: GraphStylizer
-}
-
-export interface SimpleNode {
-    id: string
-    label: string
-    abbreviation: string
-}
-
-export interface SimpleEdge {
-    id: string
-    source: string
-    target: string
 }
 
 export interface LateralizedEdge extends SimpleEdge {

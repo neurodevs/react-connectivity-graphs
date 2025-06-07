@@ -1,5 +1,5 @@
 import { test, assert } from '@sprucelabs/test-utils'
-import { SimpleEdge } from '../../modules/LateralFlowGraph'
+import { SimpleEdge } from 'types'
 import LateralGraphStylizer, {
     EnrichedEdge,
     EnrichedNode,

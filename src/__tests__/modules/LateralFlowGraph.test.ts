@@ -1,8 +1,8 @@
 import { test, assert, errorAssert } from '@sprucelabs/test-utils'
+import { SimpleNode } from 'types'
 import LateralFlowGraph, {
     FlowGraphOptions,
     FlowGraph,
-    SimpleNode,
     LateralizedEdge,
 } from '../../modules/LateralFlowGraph'
 import LateralGraphStylizer from '../../modules/LateralGraphStylizer'

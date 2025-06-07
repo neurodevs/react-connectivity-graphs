@@ -1,8 +1,5 @@
-import {
-    LateralizedEdge,
-    SimpleEdge,
-    SimpleNode,
-} from '../../modules/LateralFlowGraph'
+import { SimpleEdge, SimpleNode } from 'types'
+import { LateralizedEdge } from '../../modules/LateralFlowGraph'
 import LateralGraphStylizer, {
     GraphStylizer,
 } from '../../modules/LateralGraphStylizer'
