@@ -6,13 +6,21 @@ import LateralGraphStylizer, {
 export default class FakeGraphStylizer implements GraphStylizer {
     public static numCallsToConstructor = 0
     public static callsToEnrich: CallToEnrich[] = []
-    public realStylizer: GraphStylizer
+    public realStylizer!: GraphStylizer
 
     public constructor() {
         FakeGraphStylizer.numCallsToConstructor++
 
+        this.createRealStylizer()
+    }
+
+    private createRealStylizer() {
+        const CurrentClass = LateralGraphStylizer.Class
         delete LateralGraphStylizer.Class
+
         this.realStylizer = LateralGraphStylizer.Create()
+
+        LateralGraphStylizer.Class = CurrentClass
     }
 
     public enrich(nodes: SimpleNode[], edges: SimpleEdge[]) {
