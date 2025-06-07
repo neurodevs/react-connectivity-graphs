@@ -6,7 +6,11 @@ import { SimpleEdge, SimpleNode } from '../modules/LateralFlowGraph'
 
 export default class AbstractPackageTest extends AbstractSpruceTest {
     protected static simpleNodes: SimpleNode[] = this.generateSimpleNodes(2)
-    protected static simpleEdges: SimpleEdge[] = this.generateSimpleEdges(2)
+
+    protected static simpleEdges: SimpleEdge[] = [
+        this.generateSimpleEdge(0),
+        this.generateSimpleEdge(1),
+    ]
 
     protected static async beforeEach() {
         await super.beforeEach()
@@ -24,15 +28,17 @@ export default class AbstractPackageTest extends AbstractSpruceTest {
         } as SimpleNode
     }
 
-    protected static generateSimpleEdges(n: number) {
-        return Array.from({ length: n }, () => this.generateSimpleEdge())
-    }
+    protected static generateSimpleEdge(idx: 0 | 1) {
+        const sourceNodeIdx = idx === 0 ? 0 : 1
+        const sourceId = this.simpleNodes[sourceNodeIdx].id
 
-    protected static generateSimpleEdge() {
+        const targetNodeIdx = idx === 0 ? 1 : 0
+        const targetId = this.simpleNodes[targetNodeIdx].id
+
         return {
             id: generateId(),
-            source: generateId(),
-            target: generateId(),
+            source: sourceId,
+            target: targetId,
         } as SimpleEdge
     }
 
