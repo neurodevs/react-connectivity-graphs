@@ -32,14 +32,16 @@ export default class LateralGraphStylizer {
         const invertedSide = onLeftSide ? 'right' : 'left'
         const textAlign = onLeftSide ? 'right' : 'left'
         const flex = onLeftSide ? 'flex-end' : 'flex-start'
+        const borderWidth = `0 ${onLeftSide ? '1.5px' : 0} 0 ${onLeftSide ? 0 : '1.5px'}`
+        const padding = `6px ${onLeftSide ? '12px' : 0} 6px ${onLeftSide ? 0 : '12px'}`
+        const sign = onLeftSide ? 1 : -1
 
+        const startDegrees = this.bottomDegrees + this.halfDegrees * sign
         const degreesPerNode = this.degreesPerSide / (this.numNodes - 1)
 
         return this.simpleNodes.map((node, idx) => {
             const { abbreviation } = node
 
-            const sign = onLeftSide ? 1 : -1
-            const startDegrees = this.bottomDegrees + this.halfDegrees * sign
             const degrees = startDegrees + degreesPerNode * idx * sign
             const radians = (Math.PI * degrees) / 180
 
@@ -47,8 +49,6 @@ export default class LateralGraphStylizer {
             const positionX = this.graphRadius * Math.cos(radians)
             const positionY = this.graphRadius * Math.sin(radians)
 
-            const borderWidth = `0 ${onLeftSide ? '1.5px' : 0} 0 ${onLeftSide ? 0 : '1.5px'}`
-            const padding = `6px ${onLeftSide ? '12px' : 0} 6px ${onLeftSide ? 0 : '12px'}`
             const fixedPositionX = positionX.toFixed(1)
             const fixedPositionY = positionY.toFixed(1)
             const rotationDegrees = onLeftSide ? degrees + 180 : degrees
