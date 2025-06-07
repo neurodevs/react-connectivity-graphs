@@ -106,13 +106,15 @@ export default class LateralGraphStylizer {
         return this.simpleEdges.flatMap((edge) => {
             switch (edge.side) {
                 case 'ipsilateral':
-                    return [this.enrichEdge(edge, side, side)]
+                    return [this.lateralizeEdge(edge, side, side)]
                 case 'contralateral':
-                    return [this.enrichEdge(edge, side, this.opposite(side))]
+                    return [
+                        this.lateralizeEdge(edge, side, this.opposite(side)),
+                    ]
                 case 'bilateral':
                     return [
-                        this.enrichEdge(edge, side, side),
-                        this.enrichEdge(edge, side, this.opposite(side)),
+                        this.lateralizeEdge(edge, side, side),
+                        this.lateralizeEdge(edge, side, this.opposite(side)),
                     ]
             }
         })
@@ -122,16 +124,28 @@ export default class LateralGraphStylizer {
         return side == 'left' ? 'right' : 'left'
     }
 
-    private enrichEdge(edge: SimpleEdge, sourceSide: Side, targetSide: Side) {
+    private lateralizeEdge(
+        edge: SimpleEdge,
+        sourceSide: Side,
+        targetSide: Side
+    ) {
         const id = `${edge.id}-${sourceSide}-${targetSide}`
         const sourceId = `${edge.source}-${sourceSide}`
         const targetId = `${edge.target}-${targetSide}`
 
-        return {
+        const lateralizedEdge = {
             ...edge,
             id,
             source: sourceId,
             target: targetId,
+        }
+
+        return this.enrichEdge(lateralizedEdge)
+    }
+
+    private enrichEdge(edge: SimpleEdge) {
+        return {
+            ...edge,
             animated: true,
             style: {
                 ...this.defaultEdgeStyle,
