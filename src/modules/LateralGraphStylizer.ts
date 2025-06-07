@@ -30,20 +30,28 @@ export default class LateralGraphStylizer {
         const onLeftSide = side == 'left'
 
         const invertedSide = onLeftSide ? 'right' : 'left'
+        const textAlign = onLeftSide ? 'right' : 'left'
         const flex = onLeftSide ? 'flex-end' : 'flex-start'
 
         const degreesPerNode = this.degreesPerSide / (this.numNodes - 1)
 
         return this.simpleNodes.map((node, idx) => {
+            const { abbreviation } = node
+
             const sign = onLeftSide ? 1 : -1
             const startDegrees = this.bottomDegrees + this.halfDegrees * sign
             const degrees = startDegrees + degreesPerNode * idx * sign
             const radians = (Math.PI * degrees) / 180
 
+            const sidedId = `${node.id}-${side}`
             const positionX = this.graphRadius * Math.cos(radians)
             const positionY = this.graphRadius * Math.sin(radians)
 
-            const sidedId = `${node.id}-${side}`
+            const borderWidth = `0 ${onLeftSide ? '1.5px' : 0} 0 ${onLeftSide ? 0 : '1.5px'}`
+            const padding = `6px ${onLeftSide ? '12px' : 0} 6px ${onLeftSide ? 0 : '12px'}`
+            const fixedPositionX = positionX.toFixed(1)
+            const fixedPositionY = positionY.toFixed(1)
+            const rotationDegrees = onLeftSide ? degrees + 180 : degrees
 
             return {
                 ...node,
@@ -52,32 +60,38 @@ export default class LateralGraphStylizer {
                 position: { x: positionX, y: positionY },
                 data: {
                     id: sidedId,
-                    label: `${node.abbreviation}`,
+                    label: abbreviation,
                     sourcePosition: invertedSide,
                     targetPosition: invertedSide,
                     style: {
-                        width: 500,
-                        fontFamily: 'sans-serif',
-                        fontSize: '0.9em',
-                        fontWeight: 100,
-                        color: '#777',
-                        borderWidth: `0 ${onLeftSide ? '1.5px' : 0} 0 ${onLeftSide ? 0 : '1.5px'}`,
-                        padding: `6px ${onLeftSide ? '12px' : 0} 6px ${onLeftSide ? 0 : '12px'}`,
-                        borderStyle: 'solid',
-                        borderColor: '#888',
-                        backgroundColor: 'transparent',
-                        textAlign: onLeftSide ? 'right' : 'left',
+                        ...this.defaultNodeStyle,
+                        borderWidth,
+                        padding,
+                        textAlign,
                         justifyContent: flex,
                         WebkitJustifyContent: flex,
                         transform: `
-                            translateX(${positionX.toFixed(1)}px) 
-                            translateY(${positionY.toFixed(1)}px) 
-                            rotate(${onLeftSide ? degrees + 180 : degrees}deg) 
+                            translateX(${fixedPositionX}px) 
+                            translateY(${fixedPositionY}px) 
+                            rotate(${rotationDegrees}deg) 
                         `,
                     },
                 },
             }
         }) as EnrichedNode[]
+    }
+
+    private get defaultNodeStyle() {
+        return {
+            width: 500,
+            fontFamily: 'sans-serif',
+            fontSize: '0.9em',
+            fontWeight: 100,
+            color: '#777',
+            borderStyle: 'solid',
+            borderColor: '#888',
+            backgroundColor: 'transparent',
+        }
     }
 
     private get numNodes() {
@@ -104,22 +118,32 @@ export default class LateralGraphStylizer {
         })
     }
 
+    private opposite(side: string) {
+        return side == 'left' ? 'right' : 'left'
+    }
+
     private enrichEdge(edge: SimpleEdge, sourceSide: Side, targetSide: Side) {
+        const id = `${edge.id}-${sourceSide}-${targetSide}`
+        const sourceId = `${edge.source}-${sourceSide}`
+        const targetId = `${edge.target}-${targetSide}`
+
         return {
             ...edge,
-            id: `${edge.id}-${sourceSide}-${targetSide}`,
-            source: `${edge.source}-${sourceSide}`,
-            target: `${edge.target}-${targetSide}`,
+            id,
+            source: sourceId,
+            target: targetId,
             animated: true,
             style: {
-                stroke: 'lightgray',
-                strokeWidth: 1.5,
+                ...this.defaultEdgeStyle,
             },
         } as EnrichedEdge
     }
 
-    private opposite(side: string) {
-        return side == 'left' ? 'right' : 'left'
+    private get defaultEdgeStyle() {
+        return {
+            stroke: 'lightgray',
+            strokeWidth: 1.5,
+        }
     }
 
     private readonly graphRadius = 350
