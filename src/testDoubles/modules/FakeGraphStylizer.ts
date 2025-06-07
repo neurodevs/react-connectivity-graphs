@@ -5,7 +5,7 @@ import LateralGraphStylizer, {
 
 export default class FakeGraphStylizer implements GraphStylizer {
     public static numCallsToConstructor = 0
-    public static callsToEnrich: CallToEnrich[] = []
+    public static callsToLateralize: CallToLateralize[] = []
     public realStylizer!: GraphStylizer
 
     public constructor() {
@@ -24,7 +24,7 @@ export default class FakeGraphStylizer implements GraphStylizer {
     }
 
     public lateralize(nodes: SimpleNode[], edges: SimpleEdge[]) {
-        FakeGraphStylizer.callsToEnrich.push({ nodes, edges })
+        FakeGraphStylizer.callsToLateralize.push({ nodes, edges })
         return this.realStylizer.lateralize(nodes, edges)
     }
 
@@ -33,7 +33,7 @@ export default class FakeGraphStylizer implements GraphStylizer {
     }
 }
 
-export interface CallToEnrich {
+export interface CallToLateralize {
     nodes: SimpleNode[]
     edges: SimpleEdge[]
 }

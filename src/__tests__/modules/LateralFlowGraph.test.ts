@@ -62,7 +62,7 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
     @test()
     protected static async enrichesNodesAndEdgesWithStylizer() {
         assert.isEqualDeep(
-            FakeGraphStylizer.callsToEnrich[0],
+            FakeGraphStylizer.callsToLateralize[0],
             {
                 nodes: this.simpleNodes,
                 edges: this.simpleEdges,
