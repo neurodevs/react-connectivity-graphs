@@ -2,7 +2,11 @@ import AbstractSpruceTest, { generateId } from '@sprucelabs/test-utils'
 import { render } from '@testing-library/react'
 import { ReactFlowProvider } from '@xyflow/react'
 import React from 'react'
-import { SimpleEdge, SimpleNode } from '../modules/LateralFlowGraph'
+import {
+    LateralizedEdge,
+    SimpleEdge,
+    SimpleNode,
+} from '../modules/LateralFlowGraph'
 
 export default class AbstractPackageTest extends AbstractSpruceTest {
     protected static simpleNodes: SimpleNode[] = this.generateSimpleNodes(2)
@@ -39,8 +43,14 @@ export default class AbstractPackageTest extends AbstractSpruceTest {
             id: generateId(),
             source: sourceId,
             target: targetId,
-            side: 'ipsilateral',
         } as SimpleEdge
+    }
+
+    protected static get lateralizedEdges() {
+        return this.simpleEdges.map((edge) => ({
+            ...edge,
+            side: 'ipsilateral',
+        })) as LateralizedEdge[]
     }
 
     protected static renderWithProvider(element: React.ReactElement) {

@@ -11,7 +11,7 @@ export default class LateralFlowGraph implements FlowGraph {
     public static Class?: FlowGraphConstructor
 
     private simpleNodes: SimpleNode[]
-    private simpleEdges: SimpleEdge[]
+    private lateralizedEdges: LateralizedEdge[]
     private stylizer: GraphStylizer
     private enrichedNodes!: EnrichedNode[]
     private enrichedEdges!: EnrichedEdge[]
@@ -20,7 +20,7 @@ export default class LateralFlowGraph implements FlowGraph {
         const { nodes, edges, stylizer } = options
 
         this.simpleNodes = nodes
-        this.simpleEdges = edges
+        this.lateralizedEdges = edges
         this.stylizer = stylizer
 
         this.throwIfEdgesWithoutNodes()
@@ -57,7 +57,7 @@ export default class LateralFlowGraph implements FlowGraph {
     }
 
     private get numEdges() {
-        return this.simpleEdges.length
+        return this.lateralizedEdges.length
     }
 
     private get hasZeroNodes() {
@@ -71,7 +71,7 @@ export default class LateralFlowGraph implements FlowGraph {
     private enrichNodesAndEdges() {
         const { nodes, edges } = this.stylizer.lateralize(
             this.simpleNodes,
-            this.simpleEdges
+            this.lateralizedEdges
         )
 
         this.enrichedNodes = nodes
@@ -98,7 +98,7 @@ export type FlowGraphConstructor = new (options: FlowGraphOptions) => FlowGraph
 
 export interface FlowGraphOptions {
     nodes: SimpleNode[]
-    edges: SimpleEdge[]
+    edges: LateralizedEdge[]
 }
 
 export interface FlowGraphConstructorOptions extends FlowGraphOptions {
@@ -111,9 +111,12 @@ export interface SimpleNode {
     abbreviation: string
 }
 
+export interface LateralizedEdge extends SimpleEdge {
+    side: 'ipsilateral' | 'contralateral' | 'bilateral'
+}
+
 export interface SimpleEdge {
     id: string
     source: string
     target: string
-    side: 'ipsilateral' | 'contralateral' | 'bilateral'
 }

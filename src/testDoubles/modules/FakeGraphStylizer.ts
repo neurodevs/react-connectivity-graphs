@@ -1,4 +1,8 @@
-import { SimpleEdge, SimpleNode } from '../../modules/LateralFlowGraph'
+import {
+    LateralizedEdge,
+    SimpleEdge,
+    SimpleNode,
+} from '../../modules/LateralFlowGraph'
 import LateralGraphStylizer, {
     GraphStylizer,
 } from '../../modules/LateralGraphStylizer'
@@ -23,7 +27,7 @@ export default class FakeGraphStylizer implements GraphStylizer {
         LateralGraphStylizer.Class = CurrentClass
     }
 
-    public lateralize(nodes: SimpleNode[], edges: SimpleEdge[]) {
+    public lateralize(nodes: SimpleNode[], edges: LateralizedEdge[]) {
         FakeGraphStylizer.callsToLateralize.push({ nodes, edges })
         return this.realStylizer.lateralize(nodes, edges)
     }

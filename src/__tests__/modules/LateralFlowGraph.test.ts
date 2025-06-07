@@ -1,9 +1,9 @@
 import { test, assert, errorAssert } from '@sprucelabs/test-utils'
 import LateralFlowGraph, {
-    SimpleEdge,
     FlowGraphOptions,
     FlowGraph,
     SimpleNode,
+    LateralizedEdge,
 } from '../../modules/LateralFlowGraph'
 import LateralGraphStylizer from '../../modules/LateralGraphStylizer'
 import FakeGraphStylizer from '../../testDoubles/modules/FakeGraphStylizer'
@@ -39,7 +39,7 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
     @test()
     protected static async throwsOnEdgesWithoutNodes() {
         const zeroNodes: SimpleNode[] = []
-        const oneEdge = [{} as SimpleEdge]
+        const oneEdge = [{} as LateralizedEdge]
 
         const err = assert.doesThrow(() => {
             LateralFlowGraph.Create({ nodes: zeroNodes, edges: oneEdge })
@@ -65,7 +65,7 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
             FakeGraphStylizer.callsToLateralize[0],
             {
                 nodes: this.simpleNodes,
-                edges: this.simpleEdges,
+                edges: this.lateralizedEdges,
             },
             'Should call enrich with nodes and edges!'
         )
@@ -79,7 +79,7 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
 
         const { nodes, edges } = stylizer.lateralize(
             this.simpleNodes,
-            this.simpleEdges
+            this.lateralizedEdges
         )
 
         assert.isEqualDeep(
@@ -100,7 +100,7 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
     private static get options() {
         return {
             nodes: this.simpleNodes,
-            edges: this.simpleEdges,
+            edges: this.lateralizedEdges,
         } as FlowGraphOptions
     }
 

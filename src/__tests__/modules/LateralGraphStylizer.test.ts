@@ -30,7 +30,7 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
 
     @test()
     protected static async returnsEnrichedEdges() {
-        const { edges } = this.instance.lateralize([], this.simpleEdges)
+        const { edges } = this.instance.lateralize([], this.lateralizedEdges)
         assert.isEqualDeep(edges, this.enrichedEdges)
     }
 
@@ -105,7 +105,7 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
     }
 
     private static mapSimpleEdges(side: 'left' | 'right') {
-        return this.simpleEdges.flatMap((edge) => {
+        return this.lateralizedEdges.flatMap((edge) => {
             switch (edge.side) {
                 case 'ipsilateral':
                     return [this.enrichEdge(edge, side, side)]

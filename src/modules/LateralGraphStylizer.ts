@@ -1,10 +1,10 @@
-import { SimpleEdge, SimpleNode } from './LateralFlowGraph'
+import { LateralizedEdge, SimpleEdge, SimpleNode } from './LateralFlowGraph'
 
 export default class LateralGraphStylizer {
     public static Class?: GraphStylizerConstructor
 
     private simpleNodes!: SimpleNode[]
-    private simpleEdges!: SimpleEdge[]
+    private simpleEdges!: LateralizedEdge[]
 
     protected constructor() {}
 
@@ -12,7 +12,7 @@ export default class LateralGraphStylizer {
         return new (this.Class ?? this)()
     }
 
-    public lateralize(nodes: SimpleNode[], edges: SimpleEdge[]) {
+    public lateralize(nodes: SimpleNode[], edges: LateralizedEdge[]) {
         this.simpleNodes = nodes
         this.simpleEdges = edges
 
