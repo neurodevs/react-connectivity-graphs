@@ -24,7 +24,11 @@ export default class LateralGraphStylizer {
     }
 
     private get enrichedNodes() {
-        return [...this.mapSimpleNodes('left'), ...this.mapSimpleNodes('right')]
+        return [
+            ...this.mapSimpleNodes('left'),
+            ...this.mapSimpleNodes('right'),
+            ...this.hiddenNodes,
+        ]
     }
 
     private mapSimpleNodes(side: 'left' | 'right') {
@@ -100,7 +104,11 @@ export default class LateralGraphStylizer {
     }
 
     private get enrichedEdges() {
-        return [...this.mapSimpleEdges('left'), ...this.mapSimpleEdges('right')]
+        return [
+            ...this.mapSimpleEdges('left'),
+            ...this.mapSimpleEdges('right'),
+            ...this.hiddenEdges,
+        ]
     }
 
     private mapSimpleEdges(side: 'left' | 'right') {
@@ -159,6 +167,38 @@ export default class LateralGraphStylizer {
             stroke: 'lightgray',
             strokeWidth: 1.5,
         }
+    }
+
+    private get hiddenNodes() {
+        return []
+    }
+
+    private get hiddenEdges() {
+        return [this.enrichEdge(this.hiddenVerticalLine)]
+    }
+
+    private get bottomHiddenNode() {
+        return {
+            id: 'vertical-line-bottom',
+            label: 'Vertical Line Bottom',
+            abbreviation: 'VLB',
+        } as SimpleNode
+    }
+
+    private get topHiddenNode() {
+        return {
+            id: 'vertical-line-top',
+            label: 'Vertical Line Top',
+            abbreviation: 'VLT',
+        } as SimpleNode
+    }
+
+    private get hiddenVerticalLine() {
+        return {
+            id: 'vertical-line',
+            source: this.bottomHiddenNode.id,
+            target: this.topHiddenNode.id,
+        } as SimpleEdge
     }
 
     private readonly graphRadius = 350

@@ -1,5 +1,5 @@
 import { test, assert } from '@sprucelabs/test-utils'
-import { SimpleEdge } from 'types'
+import { SimpleEdge, SimpleNode } from 'types'
 import LateralGraphStylizer, {
     EnrichedEdge,
     EnrichedNode,
@@ -101,41 +101,83 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
     }
 
     private static stylizeEdges() {
-        return [...this.mapSimpleEdges('left'), ...this.mapSimpleEdges('right')]
+        return [
+            ...this.mapSimpleEdges('left'),
+            ...this.mapSimpleEdges('right'),
+            this.enrichEdge(this.hiddenVerticalLine),
+        ]
     }
 
     private static mapSimpleEdges(side: 'left' | 'right') {
         return this.lateralizedEdges.flatMap((edge) => {
             switch (edge.side) {
                 case 'ipsilateral':
-                    return [this.enrichEdge(edge, side, side)]
+                    return [this.lateralizeEdge(edge, side, side)]
                 case 'contralateral':
-                    return [this.enrichEdge(edge, side, this.opposite(side))]
+                    return [
+                        this.lateralizeEdge(edge, side, this.opposite(side)),
+                    ]
                 case 'bilateral':
                     return [
-                        this.enrichEdge(edge, side, side),
-                        this.enrichEdge(edge, side, this.opposite(side)),
+                        this.lateralizeEdge(edge, side, side),
+                        this.lateralizeEdge(edge, side, this.opposite(side)),
                     ]
             }
         })
     }
 
-    private static enrichEdge(
+    private static lateralizeEdge(
         edge: SimpleEdge,
         sourceSide: Side,
         targetSide: Side
     ) {
+        const id = `${edge.id}-${sourceSide}-${targetSide}`
+        const sourceId = `${edge.source}-${sourceSide}`
+        const targetId = `${edge.target}-${targetSide}`
+
+        const lateralizedEdge = {
+            ...edge,
+            id,
+            source: sourceId,
+            target: targetId,
+        }
+
+        return LateralGraphStylizerTest.enrichEdge(lateralizedEdge)
+    }
+
+    private static enrichEdge(edge: SimpleEdge) {
         return {
             ...edge,
-            id: `${edge.id}-${sourceSide}-${targetSide}`,
-            source: `${edge.source}-${sourceSide}`,
-            target: `${edge.target}-${targetSide}`,
             animated: true,
             style: {
                 stroke: 'lightgray',
                 strokeWidth: 1.5,
             },
         } as EnrichedEdge
+    }
+
+    private static get bottomHiddenNode() {
+        return {
+            id: 'vertical-line-bottom',
+            label: 'Vertical Line Bottom',
+            abbreviation: 'VLB',
+        } as SimpleNode
+    }
+
+    private static get topHiddenNode() {
+        return {
+            id: 'vertical-line-top',
+            label: 'Vertical Line Top',
+            abbreviation: 'VLT',
+        } as SimpleNode
+    }
+
+    private static get hiddenVerticalLine() {
+        return {
+            id: 'vertical-line',
+            source: this.bottomHiddenNode.id,
+            target: this.topHiddenNode.id,
+        } as SimpleEdge
     }
 
     private static opposite(side: Side) {
