@@ -24,13 +24,13 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
 
     @test()
     protected static async returnsEnrichedNodes() {
-        const { nodes } = this.instance.enrich(this.simpleNodes, [])
+        const { nodes } = this.instance.lateralize(this.simpleNodes, [])
         assert.isEqualDeep(nodes, this.enrichedNodes)
     }
 
     @test()
     protected static async returnsEnrichedEdges() {
-        const { edges } = this.instance.enrich([], this.simpleEdges)
+        const { edges } = this.instance.lateralize([], this.simpleEdges)
         assert.isEqualDeep(edges, this.enrichedEdges)
     }
 

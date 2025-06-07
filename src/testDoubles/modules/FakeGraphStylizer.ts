@@ -23,9 +23,9 @@ export default class FakeGraphStylizer implements GraphStylizer {
         LateralGraphStylizer.Class = CurrentClass
     }
 
-    public enrich(nodes: SimpleNode[], edges: SimpleEdge[]) {
+    public lateralize(nodes: SimpleNode[], edges: SimpleEdge[]) {
         FakeGraphStylizer.callsToEnrich.push({ nodes, edges })
-        return this.realStylizer.enrich(nodes, edges)
+        return this.realStylizer.lateralize(nodes, edges)
     }
 
     public static resetTestDouble() {

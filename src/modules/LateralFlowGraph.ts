@@ -69,7 +69,7 @@ export default class LateralFlowGraph implements FlowGraph {
     }
 
     private enrichNodesAndEdges() {
-        const { nodes, edges } = this.stylizer.enrich(
+        const { nodes, edges } = this.stylizer.lateralize(
             this.simpleNodes,
             this.simpleEdges
         )

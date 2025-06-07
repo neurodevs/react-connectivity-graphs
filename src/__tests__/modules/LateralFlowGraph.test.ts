@@ -77,7 +77,7 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
 
         const stylizer = LateralGraphStylizer.Create()
 
-        const { nodes, edges } = stylizer.enrich(
+        const { nodes, edges } = stylizer.lateralize(
             this.simpleNodes,
             this.simpleEdges
         )

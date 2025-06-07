@@ -12,7 +12,7 @@ export default class LateralGraphStylizer {
         return new (this.Class ?? this)()
     }
 
-    public enrich(nodes: SimpleNode[], edges: SimpleEdge[]) {
+    public lateralize(nodes: SimpleNode[], edges: SimpleEdge[]) {
         this.simpleNodes = nodes
         this.simpleEdges = edges
 
@@ -130,7 +130,7 @@ export default class LateralGraphStylizer {
 }
 
 export interface GraphStylizer {
-    enrich(nodes: SimpleNode[], edges: SimpleEdge[]): EnrichedGraph
+    lateralize(nodes: SimpleNode[], edges: SimpleEdge[]): EnrichedGraph
 }
 
 export type GraphStylizerConstructor = new () => GraphStylizer
