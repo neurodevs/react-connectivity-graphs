@@ -39,6 +39,7 @@ export default class AbstractPackageTest extends AbstractSpruceTest {
             id: generateId(),
             source: sourceId,
             target: targetId,
+            side: 'bilateral',
         } as SimpleEdge
     }
 
