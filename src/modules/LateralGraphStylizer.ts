@@ -231,7 +231,7 @@ export default class LateralGraphStylizer {
 
     private get hiddenEdges() {
         return [
-            this.enrichEdge(this.hiddenVerticalLine, {
+            this.enrichEdge(this.visibleVerticalLine, {
                 animated: false,
                 type: 'straight',
                 stroke: '#75ed5a',
@@ -256,7 +256,7 @@ export default class LateralGraphStylizer {
         } as SimpleNode
     }
 
-    private get hiddenVerticalLine() {
+    private get visibleVerticalLine() {
         return {
             id: 'vertical-line',
             source: this.bottomHiddenNode.id,
