@@ -83,11 +83,7 @@ export default class LateralGraphStylizer {
         } = params
 
         const individualStyles: IndividualNodeStyle = {
-            transform: `
-                            translateX(${positionX.toFixed(1)}px) 
-                            translateY(${positionY.toFixed(1)}px) 
-                            rotate(${rotationDegrees}deg) 
-                        `,
+            transform: `translateX(${positionX.toFixed(1)}px) translateY(${positionY.toFixed(1)}px) rotate(${rotationDegrees}deg)`,
         }
 
         return {
@@ -110,7 +106,7 @@ export default class LateralGraphStylizer {
 
     private get defaultNodeStyle() {
         return {
-            width: 500,
+            width: this.defaultNodeWidth,
             fontFamily: 'sans-serif',
             fontSize: '0.9em',
             fontWeight: 100,
@@ -120,6 +116,8 @@ export default class LateralGraphStylizer {
             backgroundColor: 'transparent',
         }
     }
+
+    private defaultNodeWidth = 500
 
     private get numNodes() {
         return this.initialNodes.length
@@ -170,36 +168,83 @@ export default class LateralGraphStylizer {
         return this.enrichEdge(lateralizedEdge)
     }
 
-    private enrichEdge(edge: SimpleEdge) {
+    private enrichEdge(edge: SimpleEdge, params?: EnrichEdgeParams) {
+        const {
+            animated = true,
+            type = 'default',
+            stroke = 'lightgray',
+            strokeWidth = 1.5,
+        } = params || {}
+
         return {
             ...edge,
-            animated: true,
+            type,
+            animated,
             style: {
                 ...this.defaultEdgeStyle,
+                strokeWidth,
+                stroke,
             },
         } as EnrichedEdge
     }
 
     private get defaultEdgeStyle() {
-        return {
-            stroke: 'lightgray',
-            strokeWidth: 1.5,
-        }
+        return {}
     }
 
     private get hiddenNodes() {
-        return []
+        const bottomParams = {
+            positionX: 3,
+            positionY: (-this.graphRadius * 2) / 3,
+            rotationDegrees: 0,
+            handlePosition: 'top',
+            sidedStyles: {
+                color: '#baedaf',
+                borderWidth: '0',
+                padding: '0',
+                textAlign: 'center',
+                justifyContent: 'center',
+                WebkitJustifyContent: 'center',
+            },
+        }
+
+        const topParams = {
+            positionX: 3,
+            positionY: (this.graphRadius * 2) / 3,
+            rotationDegrees: 0,
+            handlePosition: 'bottom',
+            sidedStyles: {
+                color: '#baedaf',
+                borderWidth: '0',
+                padding: '0',
+                textAlign: 'center',
+                justifyContent: 'center',
+                WebkitJustifyContent: 'center',
+            },
+        }
+
+        return [
+            this.enrichNode(this.bottomHiddenNode, bottomParams),
+            this.enrichNode(this.topHiddenNode, topParams),
+        ]
     }
 
     private get hiddenEdges() {
-        return [this.enrichEdge(this.hiddenVerticalLine)]
+        return [
+            this.enrichEdge(this.hiddenVerticalLine, {
+                animated: false,
+                type: 'straight',
+                stroke: '#75ed5a',
+                strokeWidth: 0.5,
+            }),
+        ]
     }
 
     private get bottomHiddenNode() {
         return {
             id: 'vertical-line-bottom',
             label: 'Vertical Line Bottom',
-            abbreviation: 'VLB',
+            abbreviation: 'L   R',
         } as SimpleNode
     }
 
@@ -207,7 +252,7 @@ export default class LateralGraphStylizer {
         return {
             id: 'vertical-line-top',
             label: 'Vertical Line Top',
-            abbreviation: 'VLT',
+            abbreviation: 'L   R',
         } as SimpleNode
     }
 
@@ -296,10 +341,17 @@ export interface EnrichedEdgeStyle {
 
 export type Side = 'left' | 'right'
 
-interface EnrichNodeParams {
+export interface EnrichNodeParams {
     positionX: number
     positionY: number
     rotationDegrees: number
     handlePosition: string
     sidedStyles: SidedNodeStyle
+}
+
+export interface EnrichEdgeParams {
+    animated?: boolean
+    type?: string
+    stroke?: string
+    strokeWidth?: number
 }

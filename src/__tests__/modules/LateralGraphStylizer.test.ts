@@ -2,14 +2,19 @@ import { test, assert } from '@sprucelabs/test-utils'
 import { SimpleEdge, SimpleNode } from 'types'
 import LateralGraphStylizer, {
     EnrichedEdge,
+    EnrichEdgeParams,
     EnrichedNode,
+    EnrichNodeParams,
     GraphStylizer,
+    IndividualNodeStyle,
     Side,
 } from '../../modules/LateralGraphStylizer'
 import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class LateralGraphStylizerTest extends AbstractPackageTest {
     private static instance: GraphStylizer
+    private static graphRadius = 350
+    private static nodeWidth = 500
 
     protected static async beforeEach() {
         await super.beforeEach()
@@ -38,7 +43,11 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
     private static enrichedEdges = this.stylizeEdges()
 
     private static stylizeNodes() {
-        return [...this.mapSimpleNodes('left'), ...this.mapSimpleNodes('right')]
+        return [
+            ...this.mapSimpleNodes('left'),
+            ...this.mapSimpleNodes('right'),
+            ...this.hiddenNodes,
+        ]
     }
 
     private static mapSimpleNodes(side: 'left' | 'right' = 'left') {
@@ -46,8 +55,6 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
 
         const invertedSide = onLeftSide ? 'right' : 'left'
         const flex = onLeftSide ? 'flex-end' : 'flex-start'
-
-        const graphRadius = 350
 
         const radiusBottomDegrees = 90
         const gapDegrees = 40
@@ -60,8 +67,8 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
             const degrees = startDegrees + degreesPerNode * idx * sign
             const radians = (Math.PI * degrees) / 180
 
-            const positionX = graphRadius * Math.cos(radians)
-            const positionY = graphRadius * Math.sin(radians)
+            const positionX = this.graphRadius * Math.cos(radians)
+            const positionY = this.graphRadius * Math.sin(radians)
 
             const sidedId = `${node.id}-${side}`
 
@@ -76,7 +83,7 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
                     sourcePosition: invertedSide,
                     targetPosition: invertedSide,
                     style: {
-                        width: 500,
+                        width: this.nodeWidth,
                         fontFamily: 'sans-serif',
                         fontSize: '0.9em',
                         fontWeight: 100,
@@ -89,22 +96,62 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
                         textAlign: onLeftSide ? 'right' : 'left',
                         justifyContent: flex,
                         WebkitJustifyContent: flex,
-                        transform: `
-                            translateX(${positionX.toFixed(1)}px) 
-                            translateY(${positionY.toFixed(1)}px) 
-                            rotate(${onLeftSide ? degrees + 180 : degrees}deg) 
-                        `,
+                        transform: `translateX(${positionX.toFixed(1)}px) translateY(${positionY.toFixed(1)}px) rotate(${onLeftSide ? degrees + 180 : degrees}deg)`,
                     },
                 },
             }
         }) as EnrichedNode[]
     }
 
+    private static enrichNode(node: SimpleNode, params: EnrichNodeParams) {
+        const {
+            positionX,
+            positionY,
+            rotationDegrees,
+            handlePosition,
+            sidedStyles,
+        } = params
+
+        const individualStyles: IndividualNodeStyle = {
+            transform: `translateX(${positionX.toFixed(1)}px) translateY(${positionY.toFixed(1)}px) rotate(${rotationDegrees}deg)`,
+        }
+
+        return {
+            ...node,
+            type: 'rotatableNode',
+            position: { x: positionX, y: positionY },
+            data: {
+                id: node.id,
+                label: node.abbreviation,
+                sourcePosition: handlePosition,
+                targetPosition: handlePosition,
+                style: {
+                    ...this.defaultNodeStyle,
+                    ...sidedStyles,
+                    ...individualStyles,
+                },
+            },
+        } as EnrichedNode
+    }
+
+    private static get defaultNodeStyle() {
+        return {
+            width: this.nodeWidth,
+            fontFamily: 'sans-serif',
+            fontSize: '0.9em',
+            fontWeight: 100,
+            color: '#777',
+            borderStyle: 'solid',
+            borderColor: '#888',
+            backgroundColor: 'transparent',
+        }
+    }
+
     private static stylizeEdges() {
         return [
             ...this.mapSimpleEdges('left'),
             ...this.mapSimpleEdges('right'),
-            this.enrichEdge(this.hiddenVerticalLine),
+            this.enrichEdge(this.hiddenVerticalLine, this.enrichEdgeParams),
         ]
     }
 
@@ -145,22 +192,76 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
         return LateralGraphStylizerTest.enrichEdge(lateralizedEdge)
     }
 
-    private static enrichEdge(edge: SimpleEdge) {
+    private static enrichEdge(edge: SimpleEdge, params?: EnrichEdgeParams) {
+        const {
+            animated = true,
+            type = 'default',
+            stroke = 'lightgray',
+            strokeWidth = 1.5,
+        } = params || {}
+
         return {
             ...edge,
-            animated: true,
+            type,
+            animated,
             style: {
-                stroke: 'lightgray',
-                strokeWidth: 1.5,
+                stroke,
+                strokeWidth,
             },
         } as EnrichedEdge
+    }
+
+    private static get enrichEdgeParams() {
+        return {
+            animated: false,
+            type: 'straight',
+            stroke: '#75ed5a',
+            strokeWidth: 0.5,
+        }
+    }
+
+    private static get hiddenNodes() {
+        const bottomParams = {
+            positionX: 3,
+            positionY: (-this.graphRadius * 2) / 3,
+            rotationDegrees: 0,
+            handlePosition: 'top',
+            sidedStyles: {
+                color: '#baedaf',
+                borderWidth: '0',
+                padding: '0',
+                textAlign: 'center',
+                justifyContent: 'center',
+                WebkitJustifyContent: 'center',
+            },
+        }
+
+        const topParams = {
+            positionX: 3,
+            positionY: (this.graphRadius * 2) / 3,
+            rotationDegrees: 0,
+            handlePosition: 'bottom',
+            sidedStyles: {
+                color: '#baedaf',
+                borderWidth: '0',
+                padding: '0',
+                textAlign: 'center',
+                justifyContent: 'center',
+                WebkitJustifyContent: 'center',
+            },
+        }
+
+        return [
+            this.enrichNode(this.bottomHiddenNode, bottomParams),
+            this.enrichNode(this.topHiddenNode, topParams),
+        ]
     }
 
     private static get bottomHiddenNode() {
         return {
             id: 'vertical-line-bottom',
             label: 'Vertical Line Bottom',
-            abbreviation: 'VLB',
+            abbreviation: 'L   R',
         } as SimpleNode
     }
 
@@ -168,7 +269,7 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
         return {
             id: 'vertical-line-top',
             label: 'Vertical Line Top',
-            abbreviation: 'VLT',
+            abbreviation: 'L   R',
         } as SimpleNode
     }
 
