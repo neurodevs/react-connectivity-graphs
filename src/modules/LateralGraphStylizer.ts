@@ -56,38 +56,56 @@ export default class LateralGraphStylizer {
 
             const rotationDegrees = onLeftSide ? degrees + 180 : degrees
 
-            const { id: nodeId, abbreviation: nodeAbbreviation } = node
-            const sidedId = `${nodeId}-${side}`
+            const sidedId = `${node.id}-${side}`
 
-            const fixedPositionX = positionX.toFixed(1)
-            const fixedPositionY = positionY.toFixed(1)
-
-            const calculatedStyles = {
-                ...sidedStyles,
-                transform: `
-                            translateX(${fixedPositionX}px) 
-                            translateY(${fixedPositionY}px) 
-                            rotate(${rotationDegrees}deg) 
-                        `,
-            }
-
-            return {
+            const lateralizedNode = {
                 ...node,
                 id: sidedId,
-                type: 'rotatableNode',
-                position: { x: positionX, y: positionY },
-                data: {
-                    id: sidedId,
-                    label: nodeAbbreviation,
-                    sourcePosition: oppositeSide,
-                    targetPosition: oppositeSide,
-                    style: {
-                        ...this.defaultNodeStyle,
-                        ...calculatedStyles,
-                    },
-                },
             }
+
+            return this.enrichNode(lateralizedNode, {
+                positionX,
+                positionY,
+                rotationDegrees,
+                handlePosition: oppositeSide,
+                sidedStyles,
+            })
         }) as EnrichedNode[]
+    }
+
+    private enrichNode(node: SimpleNode, params: EnrichNodeParams) {
+        const {
+            positionX,
+            positionY,
+            rotationDegrees,
+            handlePosition,
+            sidedStyles,
+        } = params
+
+        const individualStyles: IndividualNodeStyle = {
+            transform: `
+                            translateX(${positionX.toFixed(1)}px) 
+                            translateY(${positionY.toFixed(1)}px) 
+                            rotate(${rotationDegrees}deg) 
+                        `,
+        }
+
+        return {
+            ...node,
+            type: 'rotatableNode',
+            position: { x: positionX, y: positionY },
+            data: {
+                id: node.id,
+                label: node.abbreviation,
+                sourcePosition: handlePosition,
+                targetPosition: handlePosition,
+                style: {
+                    ...this.defaultNodeStyle,
+                    ...sidedStyles,
+                    ...individualStyles,
+                },
+            },
+        } as EnrichedNode
     }
 
     private get defaultNodeStyle() {
@@ -237,7 +255,7 @@ export interface EnrichedNodeData {
     style: NodeStyle
 }
 
-export type NodeStyle = BaseNodeStyle & CalculatedNodeStyle & SidedNodeStyle
+export type NodeStyle = BaseNodeStyle & SidedNodeStyle & IndividualNodeStyle
 
 export interface BaseNodeStyle {
     width: number
@@ -257,7 +275,7 @@ export interface SidedNodeStyle {
     WebkitJustifyContent: string
 }
 
-export interface CalculatedNodeStyle {
+export interface IndividualNodeStyle {
     transform: string
 }
 
@@ -277,3 +295,11 @@ export interface EnrichedEdgeStyle {
 }
 
 export type Side = 'left' | 'right'
+
+interface EnrichNodeParams {
+    positionX: number
+    positionY: number
+    rotationDegrees: number
+    handlePosition: string
+    sidedStyles: SidedNodeStyle
+}
