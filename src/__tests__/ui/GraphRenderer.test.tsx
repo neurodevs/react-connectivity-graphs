@@ -12,6 +12,8 @@ import AbstractPackageTest from '../AbstractPackageTest'
 export default class GraphRendererTest extends AbstractPackageTest {
     private static element: React.ReactElement
     private static called: WasCalledByCallbacks
+    private static readonly highlightStrColor = 'dodgerblue'
+    private static readonly highlightRgbColor = 'rgb(30, 144, 255)'
 
     protected static async beforeEach() {
         await super.beforeEach()
@@ -166,8 +168,8 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
         assert.isEqual(
             style.color,
-            'rgb(30, 144, 255)',
-            'Should set node color to dodgerblue on hover!'
+            this.highlightRgbColor,
+            `Should set node color to ${this.highlightStrColor} on hover!`
         )
     }
 
@@ -177,8 +179,8 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
         assert.isEqual(
             style.borderColor,
-            'dodgerblue',
-            'Should set node borderColor to dodgerblue on hover!'
+            this.highlightStrColor,
+            `Should set node borderColor to ${this.highlightStrColor} on hover!`
         )
     }
 
@@ -254,6 +256,36 @@ export default class GraphRendererTest extends AbstractPackageTest {
         )
     }
 
+    @test()
+    protected static async highlightsConnectedNodesOnMouseEnter() {
+        const nodes = [
+            this.generateFakeNode('1'),
+            this.generateFakeNode('2'),
+            this.generateFakeNode('3'),
+        ]
+
+        const edges = [
+            this.generateFakeEdge('e1-2'),
+            this.generateFakeEdge('e3-1'),
+        ]
+
+        this.renderAndFireMouseEnter(nodes, edges)
+
+        const node2 = screen.getByTestId('rf__node-2')
+        const node3 = screen.getByTestId('rf__node-3')
+
+        const style2 = window.getComputedStyle(node2)
+        const style3 = window.getComputedStyle(node3)
+
+        assert.isTrue(
+            style2.color === this.highlightRgbColor &&
+                style3.color === this.highlightRgbColor &&
+                style2.borderColor === this.highlightStrColor &&
+                style3.borderColor === this.highlightStrColor,
+            'Should highlight connected nodes color on mouse enter!'
+        )
+    }
+
     private static renderWithMidlineNodes() {
         // Undesirable coupling with LateralGraphStylizer
         const id1 = 'bottom-midline'
@@ -304,8 +336,8 @@ export default class GraphRendererTest extends AbstractPackageTest {
         return window.getComputedStyle(renderedNode)
     }
 
-    private static renderAndFireMouseEnter() {
-        this.render(false)
+    private static renderAndFireMouseEnter(nodes?: Node[], edges?: Edge[]) {
+        this.render(false, nodes, edges)
 
         const renderedNode = screen.getByTestId('rf__node-1')
         fireEvent.mouseEnter(renderedNode)
@@ -313,15 +345,19 @@ export default class GraphRendererTest extends AbstractPackageTest {
         return renderedNode
     }
 
-    private static render(useFakeReactFlow = true) {
+    private static render(
+        useFakeReactFlow = true,
+        nodes?: Node[],
+        edges?: Edge[]
+    ) {
         const reactflow = useFakeReactFlow ? FakeReactFlow : ReactFlow
 
         setReactFlowComponent(reactflow)
 
         return this.renderWithProvider(
             <GraphRenderer
-                nodes={this.oneFakeNodes}
-                edges={this.oneFakeEdges}
+                nodes={nodes ?? this.oneFakeNodes}
+                edges={edges ?? this.oneFakeEdges}
                 onNodeClick={this.onNodeClick}
                 onNodeMouseEnter={this.onNodeMouseEnter}
                 onNodeMouseLeave={this.onNodeMouseLeave}
@@ -399,10 +435,12 @@ export default class GraphRendererTest extends AbstractPackageTest {
     ]
 
     private static generateFakeEdge(edgeId = 'e1-2'): Edge {
+        const [source, target] = edgeId.replace(/^e/, '').split('-')
+
         return {
             id: edgeId,
-            source: edgeId == 'e1-2' ? '1' : '2',
-            target: edgeId == 'e1-2' ? '2' : '1',
+            source,
+            target,
         } as Edge
     }
 

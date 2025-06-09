@@ -107,11 +107,18 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
 
     function applyHighlightableStyles() {
         return nodes.map((node) => {
-            const isHovered = node.id === hoveredId
+            const shouldHighlight =
+                hoveredId &&
+                (node.id === hoveredId || isConnectedToHovered(node.id))
 
             const original = originalStylesRef.current[node.id]
-            const color = isHovered ? 'dodgerblue' : original.color
-            const borderColor = isHovered ? 'dodgerblue' : original.borderColor
+            const highlightColor = 'dodgerblue'
+
+            const color = shouldHighlight ? highlightColor : original.color
+
+            const borderColor = shouldHighlight
+                ? highlightColor
+                : original.borderColor
 
             return {
                 ...node,
@@ -130,6 +137,14 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                 },
             }
         })
+    }
+
+    function isConnectedToHovered(nodeId: string) {
+        return edges.some(
+            (edge) =>
+                (edge.source === hoveredId && edge.target === nodeId) ||
+                (edge.target === hoveredId && edge.source === nodeId)
+        )
     }
 
     function isMidlineNode(id: string) {
