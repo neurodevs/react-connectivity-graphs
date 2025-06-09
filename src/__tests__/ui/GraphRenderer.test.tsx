@@ -1,5 +1,5 @@
 import { test, assert } from '@sprucelabs/test-utils'
-import { fireEvent, screen } from '@testing-library/react'
+import { act, fireEvent, screen } from '@testing-library/react'
 import { Edge, Node, ReactFlow, ReactFlowProvider } from '@xyflow/react'
 import React from 'react'
 import FakeReactFlow, {
@@ -187,7 +187,10 @@ export default class GraphRendererTest extends AbstractPackageTest {
     @test()
     protected static async unhighlightsNodeColorOnMouseLeaveToOriginalColor() {
         const renderedNode = this.renderAndFireMouseEnter()
-        fireEvent.mouseLeave(renderedNode)
+
+        act(() => {
+            fireEvent.mouseLeave(renderedNode)
+        })
 
         const style = window.getComputedStyle(renderedNode)
 
@@ -206,7 +209,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
     @test()
     protected static async updatesNodesWhenInitialNodesChange() {
-        this.rerenderWithTwoNodesAndEdges()
+        this.rerender()
 
         const renderedNodes = screen.queryAllByTestId(/rf__node-\d/)
 
@@ -219,7 +222,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
     @test()
     protected static async updatesEdgesWhenInitialEdgesChange() {
-        this.rerenderWithTwoNodesAndEdges(true)
+        this.rerender(true)
 
         const renderedEdges = screen.queryAllByTestId(/^rf__edge-/)
 
@@ -234,8 +237,10 @@ export default class GraphRendererTest extends AbstractPackageTest {
     protected static async doesNotUseOnNodeMouseEnterOnMidlineNodes() {
         const { renderedNode1, renderedNode2 } = this.renderWithMidlineNodes()
 
-        fireEvent.mouseEnter(renderedNode1)
-        fireEvent.mouseEnter(renderedNode2)
+        act(() => {
+            fireEvent.mouseEnter(renderedNode1)
+            fireEvent.mouseEnter(renderedNode2)
+        })
 
         assert.isFalse(
             this.called.onNodeMouseEnter,
@@ -247,8 +252,10 @@ export default class GraphRendererTest extends AbstractPackageTest {
     protected static async doesNotUseOnNodeMouseLeaveOnMidlineNodes() {
         const { renderedNode1, renderedNode2 } = this.renderWithMidlineNodes()
 
-        fireEvent.mouseLeave(renderedNode1)
-        fireEvent.mouseLeave(renderedNode2)
+        act(() => {
+            fireEvent.mouseLeave(renderedNode1)
+            fireEvent.mouseLeave(renderedNode2)
+        })
 
         assert.isFalse(
             this.called.onNodeMouseLeave,
@@ -258,18 +265,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
     @test()
     protected static async highlightsConnectedNodesOnMouseEnter() {
-        const nodes = [
-            this.generateFakeNode('1'),
-            this.generateFakeNode('2'),
-            this.generateFakeNode('3'),
-        ]
-
-        const edges = [
-            this.generateFakeEdge('e1-2'),
-            this.generateFakeEdge('e3-1'),
-        ]
-
-        this.renderAndFireMouseEnter(nodes, edges)
+        this.renderThreeNodesFireMouseEnter()
 
         const node2 = screen.getByTestId('rf__node-2')
         const node3 = screen.getByTestId('rf__node-3')
@@ -283,6 +279,22 @@ export default class GraphRendererTest extends AbstractPackageTest {
                 style2.borderColor === this.highlightStrColor &&
                 style3.borderColor === this.highlightStrColor,
             'Should highlight connected nodes color on mouse enter!'
+        )
+    }
+
+    @test.skip('No edge data-testid in test env')
+    protected static async highlightsConnectedEdgesOnMouseEnter() {
+        this.renderThreeNodesFireMouseEnter()
+
+        const edges = screen.getAllByTestId(/^rf__edge/)
+
+        const style1 = window.getComputedStyle(edges[0])
+        const style2 = window.getComputedStyle(edges[1])
+
+        assert.isTrue(
+            style1.stroke === this.highlightRgbColor &&
+                style2.stroke === this.highlightRgbColor,
+            `Should highlight connected edges color on mouse enter!\n\nstyle1.stroke: ${style1.stroke}\n\nstyle2.stroke:${style2.stroke}`
         )
     }
 
@@ -331,6 +343,21 @@ export default class GraphRendererTest extends AbstractPackageTest {
         return div.querySelector('.react-flow__controls')
     }
 
+    private static renderThreeNodesFireMouseEnter() {
+        const nodes = [
+            this.generateFakeNode('1'),
+            this.generateFakeNode('2'),
+            this.generateFakeNode('3'),
+        ]
+
+        const edges = [
+            this.generateFakeEdge('e1-2'),
+            this.generateFakeEdge('e3-1'),
+        ]
+
+        this.renderAndFireMouseEnter(nodes, edges)
+    }
+
     private static renderFireMouseEnterAndGetStyle() {
         const renderedNode = this.renderAndFireMouseEnter()
         return window.getComputedStyle(renderedNode)
@@ -340,7 +367,10 @@ export default class GraphRendererTest extends AbstractPackageTest {
         this.render(false, nodes, edges)
 
         const renderedNode = screen.getByTestId('rf__node-1')
-        fireEvent.mouseEnter(renderedNode)
+
+        act(() => {
+            fireEvent.mouseEnter(renderedNode)
+        })
 
         return renderedNode
     }
@@ -368,14 +398,18 @@ export default class GraphRendererTest extends AbstractPackageTest {
         )
     }
 
-    private static rerenderWithTwoNodesAndEdges(useFakeReactFlow = false) {
-        const { rerender } = this.render(useFakeReactFlow)
+    private static rerender(
+        useFakeReactFlow = false,
+        nodes?: Node[],
+        edges?: Edge[]
+    ) {
+        const { rerender } = this.render(useFakeReactFlow, nodes, edges)
 
         rerender?.(
             <ReactFlowProvider>
                 <GraphRenderer
-                    nodes={this.twoFakeNodes}
-                    edges={this.twoFakeEdges}
+                    nodes={nodes ?? this.twoFakeNodes}
+                    edges={edges ?? this.twoFakeEdges}
                 />
             </ReactFlowProvider>
         )
@@ -441,6 +475,9 @@ export default class GraphRendererTest extends AbstractPackageTest {
             id: edgeId,
             source,
             target,
+            style: {
+                stroke: 'black',
+            },
         } as Edge
     }
 

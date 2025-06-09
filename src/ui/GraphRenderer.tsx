@@ -13,6 +13,7 @@ export interface GraphRendererProps {
     onEdgeMouseLeave?: () => void
 }
 
+export const highlightColor = 'dodgerblue'
 export const nodeTypes = { rotatableNode: RotatableNode }
 
 const GraphRenderer: React.FC<GraphRendererProps> = ({
@@ -29,7 +30,9 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     const [edges, setEdges] = useState<Edge[]>(initialEdges)
     const [hoveredId, setHoveredId] = useState<string | null>(null)
 
-    const originalStylesRef = useRef<HighlightableStyles>({})
+    const originalNodeStyles = useRef<HighlightNodeStyles>({})
+    const originalEdgeStyles = useRef<HighlightEdgeStyles>({})
+
     const handleNodeMouseEnter = useCallbackNodeMouseEnter()
     const handleNodeMouseLeave = useCallbackNodeMouseLeave()
 
@@ -37,12 +40,16 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
         setNodes(initialNodes)
         setEdges(initialEdges)
 
-        setOriginalStylesRef()
+        setOriginalNodeStyles()
+        setOriginalEdgeStyles()
     }, [initialNodes, initialEdges])
 
     useEffect(() => {
-        const styledNodes = applyHighlightableStyles()
-        setNodes(styledNodes)
+        const highlightedNodes = highlightNodes()
+        const highlightedEdges = highlightEdges()
+
+        setNodes(highlightedNodes)
+        setEdges(highlightedEdges)
     }, [hoveredId])
 
     return (
@@ -62,14 +69,26 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
         </div>
     )
 
-    function setOriginalStylesRef() {
-        if (Object.keys(originalStylesRef.current).length === 0) {
+    function setOriginalNodeStyles() {
+        if (Object.keys(originalNodeStyles.current).length === 0) {
             for (const node of nodes) {
                 const style = node.data.style as any
 
-                originalStylesRef.current[node.id] = {
+                originalNodeStyles.current[node.id] = {
                     color: style.color,
                     borderColor: style.borderColor,
+                }
+            }
+        }
+    }
+
+    function setOriginalEdgeStyles() {
+        if (Object.keys(originalEdgeStyles.current).length === 0) {
+            for (const edge of edges) {
+                const style = edge.style as any
+
+                originalEdgeStyles.current[edge.id] = {
+                    stroke: style.stroke,
                 }
             }
         }
@@ -105,14 +124,13 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
         )
     }
 
-    function applyHighlightableStyles() {
+    function highlightNodes() {
         return nodes.map((node) => {
             const shouldHighlight =
                 hoveredId &&
                 (node.id === hoveredId || isConnectedToHovered(node.id))
 
-            const original = originalStylesRef.current[node.id]
-            const highlightColor = 'dodgerblue'
+            const original = originalNodeStyles.current[node.id]
 
             const color = shouldHighlight ? highlightColor : original.color
 
@@ -147,6 +165,26 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
         )
     }
 
+    function highlightEdges() {
+        return edges.map((edge) => {
+            const shouldHighlight =
+                hoveredId &&
+                (edge.source === hoveredId || edge.target === hoveredId)
+
+            const original = originalEdgeStyles.current[edge.id]
+
+            const stroke = shouldHighlight ? highlightColor : original.stroke
+
+            return {
+                ...edge,
+                style: {
+                    ...edge.style,
+                    stroke,
+                },
+            }
+        })
+    }
+
     function isMidlineNode(id: string) {
         return ['bottom-midline', 'top-midline'].includes(id)
     }
@@ -154,11 +192,18 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
 
 export default GraphRenderer
 
-export type HighlightableStyles = Record<
+export type HighlightNodeStyles = Record<
     string,
     {
-        color?: string
-        borderColor?: string
+        color: string
+        borderColor: string
+    }
+>
+
+export type HighlightEdgeStyles = Record<
+    string,
+    {
+        stroke: string
     }
 >
 
