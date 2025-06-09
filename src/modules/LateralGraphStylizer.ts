@@ -195,7 +195,7 @@ export default class LateralGraphStylizer {
     private get hiddenNodes() {
         const bottomParams = {
             positionX: 3,
-            positionY: (-this.graphRadius * 2) / 3,
+            positionY: (-this.graphRadius * 2) / 5,
             rotationDegrees: 0,
             handlePosition: 'top',
             sidedStyles: {
@@ -210,7 +210,7 @@ export default class LateralGraphStylizer {
 
         const topParams = {
             positionX: 3,
-            positionY: (this.graphRadius * 2) / 3,
+            positionY: (this.graphRadius * 2) / 5,
             rotationDegrees: 0,
             handlePosition: 'bottom',
             sidedStyles: {
@@ -268,7 +268,7 @@ export default class LateralGraphStylizer {
         return side == 'left' ? 'right' : 'left'
     }
 
-    private readonly graphRadius = 350
+    private readonly graphRadius = 200
     private readonly bottomDegrees = 90
     private readonly gapDegrees = 40
     private readonly halfDegrees = this.gapDegrees / 2

@@ -13,7 +13,7 @@ import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class LateralGraphStylizerTest extends AbstractPackageTest {
     private static instance: GraphStylizer
-    private static graphRadius = 350
+    private static graphRadius = 200
     private static nodeWidth = 500
 
     protected static async beforeEach() {
@@ -223,7 +223,7 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
     private static get hiddenNodes() {
         const bottomParams = {
             positionX: 3,
-            positionY: (-this.graphRadius * 2) / 3,
+            positionY: (-this.graphRadius * 2) / 5,
             rotationDegrees: 0,
             handlePosition: 'top',
             sidedStyles: {
@@ -238,7 +238,7 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
 
         const topParams = {
             positionX: 3,
-            positionY: (this.graphRadius * 2) / 3,
+            positionY: (this.graphRadius * 2) / 5,
             rotationDegrees: 0,
             handlePosition: 'bottom',
             sidedStyles: {
