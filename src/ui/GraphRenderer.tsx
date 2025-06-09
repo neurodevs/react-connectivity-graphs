@@ -78,6 +78,11 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     function useCallbackNodeMouseEnter() {
         return useCallback(
             (_: any, node: Node) => {
+                const { id } = node
+
+                if (['bottom-midline', 'top-midline'].includes(id)) {
+                    return
+                }
                 setHoveredId(node.id)
                 onNodeMouseEnter?.(_, node)
             },

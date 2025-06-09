@@ -46,7 +46,7 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
         return [
             ...this.mapSimpleNodes('left'),
             ...this.mapSimpleNodes('right'),
-            ...this.hiddenNodes,
+            ...this.midlineNodes,
         ]
     }
 
@@ -151,7 +151,7 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
         return [
             ...this.mapSimpleEdges('left'),
             ...this.mapSimpleEdges('right'),
-            this.enrichEdge(this.hiddenVerticalLine, this.enrichEdgeParams),
+            this.enrichEdge(this.verticalMidlineEdge, this.enrichEdgeParams),
         ]
     }
 
@@ -220,7 +220,7 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
         }
     }
 
-    private static get hiddenNodes() {
+    private static get midlineNodes() {
         const bottomParams = {
             positionX: 3,
             positionY: (-this.graphRadius * 2) / 5,
@@ -252,32 +252,32 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
         }
 
         return [
-            this.enrichNode(this.bottomHiddenNode, bottomParams),
-            this.enrichNode(this.topHiddenNode, topParams),
+            this.enrichNode(this.bottomMidlineNode, bottomParams),
+            this.enrichNode(this.topMidlineNode, topParams),
         ]
     }
 
-    private static get bottomHiddenNode() {
+    private static get bottomMidlineNode() {
         return {
-            id: 'vertical-line-bottom',
-            label: 'Vertical Line Bottom',
+            id: 'bottom-midline',
+            label: 'Bottom Midline Node',
             abbreviation: 'L   R',
         } as SimpleNode
     }
 
-    private static get topHiddenNode() {
+    private static get topMidlineNode() {
         return {
-            id: 'vertical-line-top',
-            label: 'Vertical Line Top',
+            id: 'top-midline',
+            label: 'Top Midline Node',
             abbreviation: 'L   R',
         } as SimpleNode
     }
 
-    private static get hiddenVerticalLine() {
+    private static get verticalMidlineEdge() {
         return {
-            id: 'vertical-line',
-            source: this.bottomHiddenNode.id,
-            target: this.topHiddenNode.id,
+            id: 'vertical-midline',
+            source: this.bottomMidlineNode.id,
+            target: this.topMidlineNode.id,
         } as SimpleEdge
     }
 

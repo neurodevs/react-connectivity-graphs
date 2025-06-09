@@ -76,8 +76,8 @@ export default class GraphRendererTest extends AbstractPackageTest {
         assert.isEqualDeep(
             { nodes, edges, nodeTypes },
             {
-                nodes: this.fakeNode,
-                edges: this.fakeEdge,
+                nodes: this.oneFakeNodes,
+                edges: this.oneFakeEdges,
                 nodeTypes: this.nodeTypes,
             },
             'Passed incorrect props to ReactFlow!'
@@ -128,7 +128,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
             const { callback, name } = cb
 
             // @ts-ignore
-            callback?.({}, this.fakeEdge[0])
+            callback?.({}, this.oneFakeEdges[0])
 
             assert.isTruthy(
                 this.called[name as keyof WasCalledByCallbacks],
@@ -228,6 +228,39 @@ export default class GraphRendererTest extends AbstractPackageTest {
         )
     }
 
+    @test()
+    protected static async doesNotUseOnNodeMouseEnterOnMidlineNodes() {
+        // Undesirable coupling with LateralGraphStylizer
+        const id1 = 'bottom-midline'
+        const id2 = 'top-midline'
+
+        const midlineNode1 = this.generateFakeNode(id1)
+        const midlineNode2 = this.generateFakeNode(id2)
+
+        const nodes = [midlineNode1, midlineNode2]
+
+        setReactFlowComponent(ReactFlow)
+
+        this.renderWithProvider(
+            <GraphRenderer
+                nodes={nodes}
+                edges={this.oneFakeEdges}
+                onNodeMouseEnter={this.onNodeMouseEnter}
+            />
+        )
+
+        const renderedNode1 = screen.getByTestId(`rf__node-${id1}`)
+        fireEvent.mouseEnter(renderedNode1)
+
+        const renderedNode2 = screen.getByTestId(`rf__node-${id2}`)
+        fireEvent.mouseEnter(renderedNode2)
+
+        assert.isFalse(
+            this.called.onNodeMouseEnter,
+            'Should not call onNodeMouseEnter for midline nodes!'
+        )
+    }
+
     private static createRenderer() {
         return this.createElement(GraphRenderer)
     }
@@ -268,8 +301,8 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
         return this.renderWithProvider(
             <GraphRenderer
-                nodes={this.fakeNode}
-                edges={this.fakeEdge}
+                nodes={this.oneFakeNodes}
+                edges={this.oneFakeEdges}
                 onNodeClick={this.onNodeClick}
                 onNodeMouseEnter={this.onNodeMouseEnter}
                 onNodeMouseLeave={this.onNodeMouseLeave}
@@ -339,7 +372,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
         }
     }
 
-    private static fakeNode: Node[] = [this.generateFakeNode()]
+    private static oneFakeNodes: Node[] = [this.generateFakeNode()]
 
     private static twoFakeNodes: Node[] = [
         this.generateFakeNode(),
@@ -354,7 +387,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
         } as Edge
     }
 
-    private static fakeEdge: Edge[] = [this.generateFakeEdge()]
+    private static oneFakeEdges: Edge[] = [this.generateFakeEdge()]
 
     private static twoFakeEdges: Edge[] = [
         this.generateFakeEdge(),
