@@ -78,12 +78,12 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     function useCallbackNodeMouseEnter() {
         return useCallback(
             (_: any, node: Node) => {
-                const { id } = node
+                const { id: nodeId } = node
 
-                if (['bottom-midline', 'top-midline'].includes(id)) {
+                if (isMidlineNode(nodeId)) {
                     return
                 }
-                setHoveredId(node.id)
+                setHoveredId(nodeId)
                 onNodeMouseEnter?.(_, node)
             },
             [onNodeMouseEnter]
@@ -91,10 +91,18 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     }
 
     function useCallbackNodeMouseLeave() {
-        return useCallback(() => {
-            setHoveredId(null)
-            onNodeMouseLeave?.()
-        }, [onNodeMouseLeave])
+        return useCallback(
+            (_: any, node: Node) => {
+                const { id: nodeId } = node
+
+                if (isMidlineNode(nodeId)) {
+                    return
+                }
+                setHoveredId(null)
+                onNodeMouseLeave?.()
+            },
+            [onNodeMouseLeave]
+        )
     }
 
     function applyHighlightableStyles() {
@@ -122,6 +130,10 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                 },
             }
         })
+    }
+
+    function isMidlineNode(id: string) {
+        return ['bottom-midline', 'top-midline'].includes(id)
     }
 }
 

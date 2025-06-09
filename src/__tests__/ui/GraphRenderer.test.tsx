@@ -230,6 +230,31 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
     @test()
     protected static async doesNotUseOnNodeMouseEnterOnMidlineNodes() {
+        const { renderedNode1, renderedNode2 } = this.renderWithMidlineNodes()
+
+        fireEvent.mouseEnter(renderedNode1)
+        fireEvent.mouseEnter(renderedNode2)
+
+        assert.isFalse(
+            this.called.onNodeMouseEnter,
+            'Should not call onNodeMouseEnter for midline nodes!'
+        )
+    }
+
+    @test()
+    protected static async doesNotUseOnNodeMouseLeaveOnMidlineNodes() {
+        const { renderedNode1, renderedNode2 } = this.renderWithMidlineNodes()
+
+        fireEvent.mouseLeave(renderedNode1)
+        fireEvent.mouseLeave(renderedNode2)
+
+        assert.isFalse(
+            this.called.onNodeMouseLeave,
+            'Should not call onNodeMouseLeave for midline nodes!'
+        )
+    }
+
+    private static renderWithMidlineNodes() {
         // Undesirable coupling with LateralGraphStylizer
         const id1 = 'bottom-midline'
         const id2 = 'top-midline'
@@ -246,19 +271,13 @@ export default class GraphRendererTest extends AbstractPackageTest {
                 nodes={nodes}
                 edges={this.oneFakeEdges}
                 onNodeMouseEnter={this.onNodeMouseEnter}
+                onNodeMouseLeave={this.onNodeMouseLeave}
             />
         )
 
         const renderedNode1 = screen.getByTestId(`rf__node-${id1}`)
-        fireEvent.mouseEnter(renderedNode1)
-
         const renderedNode2 = screen.getByTestId(`rf__node-${id2}`)
-        fireEvent.mouseEnter(renderedNode2)
-
-        assert.isFalse(
-            this.called.onNodeMouseEnter,
-            'Should not call onNodeMouseEnter for midline nodes!'
-        )
+        return { renderedNode1, renderedNode2 }
     }
 
     private static createRenderer() {
