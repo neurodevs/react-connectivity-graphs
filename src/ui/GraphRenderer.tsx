@@ -1,10 +1,11 @@
 import { Controls, Edge, Node, ReactFlow, ReactFlowProps } from '@xyflow/react'
 import React, { useState, useCallback, useRef, useEffect } from 'react'
+import { EnrichedEdge, EnrichedNode } from '../modules/LateralGraphStylizer'
 import RotatableNode from './RotatableNode'
 
 export interface GraphRendererProps {
-    nodes: Node[]
-    edges: Edge[]
+    nodes: EnrichedNode[]
+    edges: EnrichedEdge[]
     onNodeClick?: () => void
     onNodeMouseEnter?: (event: any, node: Node) => void
     onNodeMouseLeave?: () => void
@@ -26,8 +27,8 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     onEdgeMouseEnter,
     onEdgeMouseLeave,
 }) => {
-    const [nodes, setNodes] = useState<Node[]>(initialNodes)
-    const [edges, setEdges] = useState<Edge[]>(initialEdges)
+    const [nodes, setNodes] = useState<EnrichedNode[]>(initialNodes)
+    const [edges, setEdges] = useState<EnrichedEdge[]>(initialEdges)
     const [hoveredId, setHoveredId] = useState<string | null>(null)
 
     const originalNodeStyles = useRef<HighlightNodeStyles>({})
@@ -55,8 +56,8 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     return (
         <div className="graph-renderer" data-testid="graph-renderer">
             <ReactFlowComponent
-                nodes={nodes}
-                edges={edges}
+                nodes={nodes as unknown as Node[]}
+                edges={edges as unknown as Edge[]}
                 nodeTypes={nodeTypes}
                 onNodeClick={onNodeClick}
                 onNodeMouseEnter={handleNodeMouseEnter}

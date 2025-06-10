@@ -90,6 +90,7 @@ export default class LateralGraphStylizer {
             ...node,
             type: 'rotatableNode',
             position: { x: positionX, y: positionY },
+            style: {},
             data: {
                 id: node.id,
                 label: node.abbreviation,
@@ -289,6 +290,7 @@ export interface EnrichedGraph {
 export interface EnrichedNode extends SimpleNode {
     type: string
     position: PositionXY
+    style: any
     data: EnrichedNodeData
 }
 

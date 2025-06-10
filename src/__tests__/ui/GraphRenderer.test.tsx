@@ -1,7 +1,8 @@
 import { test, assert } from '@sprucelabs/test-utils'
 import { act, fireEvent, screen } from '@testing-library/react'
-import { Edge, Node, ReactFlow, ReactFlowProvider } from '@xyflow/react'
+import { ReactFlow, ReactFlowProvider } from '@xyflow/react'
 import React from 'react'
+import { EnrichedEdge, EnrichedNode } from '../../modules/LateralGraphStylizer'
 import FakeReactFlow, {
     lastFakeReactFlowProps,
 } from '../../testDoubles/ui/FakeReactFlow'
@@ -355,7 +356,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
             this.generateFakeEdge('e3-1'),
         ]
 
-        this.renderAndFireMouseEnter(nodes, edges)
+        return this.renderAndFireMouseEnter(nodes, edges)
     }
 
     private static renderFireMouseEnterAndGetStyle() {
@@ -363,7 +364,10 @@ export default class GraphRendererTest extends AbstractPackageTest {
         return window.getComputedStyle(renderedNode)
     }
 
-    private static renderAndFireMouseEnter(nodes?: Node[], edges?: Edge[]) {
+    private static renderAndFireMouseEnter(
+        nodes?: EnrichedNode[],
+        edges?: EnrichedEdge[]
+    ) {
         this.render(false, nodes, edges)
 
         const renderedNode = screen.getByTestId('rf__node-1')
@@ -377,8 +381,8 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
     private static render(
         useFakeReactFlow = true,
-        nodes?: Node[],
-        edges?: Edge[]
+        nodes?: EnrichedNode[],
+        edges?: EnrichedEdge[]
     ) {
         const reactflow = useFakeReactFlow ? FakeReactFlow : ReactFlow
 
@@ -400,8 +404,8 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
     private static rerender(
         useFakeReactFlow = false,
-        nodes?: Node[],
-        edges?: Edge[]
+        nodes?: EnrichedNode[],
+        edges?: EnrichedEdge[]
     ) {
         const { rerender } = this.render(useFakeReactFlow, nodes, edges)
 
@@ -443,7 +447,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
         rotatableNode: RotatableNode,
     }
 
-    private static generateFakeNode(nodeId = '1'): Node {
+    private static generateFakeNode(nodeId = '1') {
         return {
             id: nodeId,
             position: { x: 0, y: 0 },
@@ -453,22 +457,23 @@ export default class GraphRendererTest extends AbstractPackageTest {
             },
             data: {
                 id: nodeId,
+                label: `Label ${nodeId}`,
                 style: {
                     color: 'black',
                     borderColor: 'black',
                 },
             },
-        }
+        } as EnrichedNode
     }
 
-    private static oneFakeNodes: Node[] = [this.generateFakeNode()]
+    private static oneFakeNodes: EnrichedNode[] = [this.generateFakeNode()]
 
-    private static twoFakeNodes: Node[] = [
+    private static twoFakeNodes: EnrichedNode[] = [
         this.generateFakeNode(),
         this.generateFakeNode('2'),
     ]
 
-    private static generateFakeEdge(edgeId = 'e1-2'): Edge {
+    private static generateFakeEdge(edgeId = 'e1-2') {
         const [source, target] = edgeId.replace(/^e/, '').split('-')
 
         return {
@@ -478,12 +483,12 @@ export default class GraphRendererTest extends AbstractPackageTest {
             style: {
                 stroke: 'black',
             },
-        } as Edge
+        } as EnrichedEdge
     }
 
-    private static oneFakeEdges: Edge[] = [this.generateFakeEdge()]
+    private static oneFakeEdges: EnrichedEdge[] = [this.generateFakeEdge()]
 
-    private static twoFakeEdges: Edge[] = [
+    private static twoFakeEdges: EnrichedEdge[] = [
         this.generateFakeEdge(),
         this.generateFakeEdge('e2-1'),
     ]

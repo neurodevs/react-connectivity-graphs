@@ -77,6 +77,7 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
                 id: sidedId,
                 type: 'rotatableNode',
                 position: { x: positionX, y: positionY },
+                style: {},
                 data: {
                     id: sidedId,
                     label: `${node.abbreviation}`,
@@ -120,6 +121,7 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
             ...node,
             type: 'rotatableNode',
             position: { x: positionX, y: positionY },
+            style: {},
             data: {
                 id: node.id,
                 label: node.abbreviation,
