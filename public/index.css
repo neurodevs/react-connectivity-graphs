@@ -10,6 +10,10 @@ html, body, #root, #app {
     width: 100%;
 }
 
+.react-flow__node {
+    pointer-events: none !important;
+}
+
 .rotatable-node {
     display: flex;
     box-shadow: none;
