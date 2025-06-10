@@ -148,6 +148,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                 },
                 data: {
                     ...node.data,
+                    label: shouldHighlight ? node.label : node.abbreviation,
                     style: {
                         ...node.data.style!,
                         color,

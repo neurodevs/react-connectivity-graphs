@@ -299,6 +299,39 @@ export default class GraphRendererTest extends AbstractPackageTest {
         )
     }
 
+    @test()
+    protected static async highlightSwapsAbbreviationForLabelInNodes() {
+        this.renderThreeNodesFireMouseEnter()
+
+        const node1 = screen.getByTestId('rf__node-1')
+        const node2 = screen.getByTestId('rf__node-2')
+        const node3 = screen.getByTestId('rf__node-3')
+
+        assert.isTrue(
+            node1.textContent?.includes('Node 1') &&
+                node2.textContent?.includes('Node 2') &&
+                node3.textContent?.includes('Node 3'),
+            'Should render label when highlighted!'
+        )
+    }
+
+    @test()
+    protected static async unhighlightSwapsLabelForAbbreviationInNodes() {
+        const renderedNode = this.renderThreeNodesFireMouseEnter()
+        fireEvent.mouseLeave(renderedNode)
+
+        const node1 = screen.getByTestId('rf__node-1')
+        const node2 = screen.getByTestId('rf__node-2')
+        const node3 = screen.getByTestId('rf__node-3')
+
+        assert.isTrue(
+            node1.textContent?.includes('N1') &&
+                node2.textContent?.includes('N2') &&
+                node3.textContent?.includes('N3'),
+            'Should render abbreviation when not highlighted!'
+        )
+    }
+
     private static renderWithMidlineNodes() {
         // Undesirable coupling with LateralGraphStylizer
         const id1 = 'bottom-midline'
@@ -448,16 +481,21 @@ export default class GraphRendererTest extends AbstractPackageTest {
     }
 
     private static generateFakeNode(nodeId = '1') {
+        const label = `Node ${nodeId}`
+        const abbreviation = `N${nodeId}`
+
         return {
             id: nodeId,
             position: { x: 0, y: 0 },
+            label,
+            abbreviation,
             style: {
                 color: 'black',
                 borderColor: 'black',
             },
             data: {
                 id: nodeId,
-                label: `Label ${nodeId}`,
+                label: abbreviation,
                 style: {
                     color: 'black',
                     borderColor: 'black',
