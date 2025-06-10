@@ -103,7 +103,9 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                 if (isMidlineNode(nodeId)) {
                     return
                 }
-                setHoveredId(nodeId)
+                if (hoveredId !== nodeId) {
+                    setHoveredId(nodeId)
+                }
                 onNodeMouseEnter?.(_, node)
             },
             [onNodeMouseEnter]
@@ -118,7 +120,9 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                 if (isMidlineNode(nodeId)) {
                     return
                 }
-                setHoveredId(null)
+                if (hoveredId !== null) {
+                    setHoveredId(null)
+                }
                 onNodeMouseLeave?.()
             },
             [onNodeMouseLeave]
