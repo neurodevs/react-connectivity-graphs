@@ -6,37 +6,37 @@ const graph = LateralFlowGraph.Create({
     nodes: [
         {
             id: '1',
-            label: 'C-Tactile Receptor',
+            label: 'C-tactile receptor',
             abbreviation: 'CT-R',
         },
         {
             id: '2',
-            label: 'Dorsal Root Ganglion',
+            label: 'Dorsal root ganglion',
             abbreviation: 'DRG',
         },
         {
             id: '3',
-            label: 'Spinal Cord Lamina I/II',
+            label: 'Spinal cord lamina I/II',
             abbreviation: 'SpI/II',
         },
         {
             id: '4',
-            label: 'Ventromedial Posterior Nucleus of Thalamus',
+            label: 'Ventromedial posterior nucleus',
             abbreviation: 'VMpo',
         },
         {
             id: '5',
-            label: 'Posterior Insular Cortex',
-            abbreviation: 'pIC',
+            label: 'Dorsal posterior insula',
+            abbreviation: 'dpIC',
         },
         {
             id: '6',
-            label: 'Middle Insular Cortex',
+            label: 'Mid insula',
             abbreviation: 'mIC',
         },
         {
             id: '7',
-            label: 'Anterior Insular Cortex',
+            label: 'Anterior insula',
             abbreviation: 'aIC',
         },
     ],
