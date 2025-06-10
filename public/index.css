@@ -22,4 +22,10 @@ html, body, #root, #app {
 
 .react-flow__handle {
     opacity: 0;
-  }
+}
+
+[data-id="bottom-midline"],
+[data-id="top-midline"],
+[data-id="vertical-midline"] {
+  z-index: -1 !important;
+}
