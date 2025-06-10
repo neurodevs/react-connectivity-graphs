@@ -108,7 +108,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                 }
                 onNodeMouseEnter?.(_, node)
             },
-            [onNodeMouseEnter]
+            [hoveredId, onNodeMouseEnter]
         )
     }
 
@@ -125,7 +125,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                 }
                 onNodeMouseLeave?.()
             },
-            [onNodeMouseLeave]
+            [hoveredId, onNodeMouseLeave]
         )
     }
 
