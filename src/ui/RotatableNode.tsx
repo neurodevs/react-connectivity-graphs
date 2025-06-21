@@ -23,7 +23,7 @@ const RotatableNode: React.FC<any> = ({ data }) => {
             className="rotatable-node"
             data-testid="rotatable-node"
             aria-label={data?.label}
-            style={{ ...data.style, pointerEvents: 'auto' }}
+            style={data?.style}
         >
             {renderHandle('target', data.targetPosition)}
             {data.label}
