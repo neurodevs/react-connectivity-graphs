@@ -5,8 +5,8 @@ import {
     providerWasCreated,
     lastFakeGraphRendererProps,
     App,
-    AbstractPackageTest,
 } from '../../exports'
+import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class AppTest extends AbstractPackageTest {
     private static element: RenderResult

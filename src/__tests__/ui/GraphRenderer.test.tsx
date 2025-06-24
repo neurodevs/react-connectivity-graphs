@@ -3,7 +3,6 @@ import { act, fireEvent, screen } from '@testing-library/react'
 import { ReactFlow, ReactFlowProvider } from '@xyflow/react'
 import React from 'react'
 import {
-    AbstractPackageTest,
     EnrichedEdge,
     EnrichedNode,
     FakeReactFlow,
@@ -12,6 +11,7 @@ import {
     RotatableNode,
     setReactFlowComponent,
 } from '../../exports'
+import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class GraphRendererTest extends AbstractPackageTest {
     private static element: React.ReactElement

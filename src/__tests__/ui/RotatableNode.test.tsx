@@ -2,12 +2,12 @@ import { assert, generateId, test } from '@sprucelabs/test-utils'
 import { Position } from '@xyflow/react'
 import React from 'react'
 import {
-    AbstractPackageTest,
     fakeHandleProps,
     RotatableNode,
     setUseEffect,
     setUseUpdateNodeInternals,
 } from '../../exports'
+import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class RotatableNodeTest extends AbstractPackageTest {
     private static element: React.ReactElement

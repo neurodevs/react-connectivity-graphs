@@ -1,7 +1,8 @@
 import { test, assert } from '@sprucelabs/test-utils'
 import { render } from '@testing-library/react'
 import React from 'react'
-import { AbstractPackageTest, MultiNetworkRenderer } from '../../exports'
+import { MultiNetworkRenderer } from '../../exports'
+import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class MultiNetworkRendererTest extends AbstractPackageTest {
     private static element: React.ReactElement

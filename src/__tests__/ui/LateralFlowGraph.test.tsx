@@ -8,12 +8,12 @@ import {
     LateralGraphStylizer,
     LateralFlowGraphProps,
     SimpleNode,
-    AbstractPackageTest,
     lastFakeGraphRendererProps,
     setRendererComponentGraph,
     FakeGraphRenderer,
     resetFakeGraphRendererProps,
 } from '../../exports'
+import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class LateralFlowGraphTest extends AbstractPackageTest {
     private static result: RenderResult

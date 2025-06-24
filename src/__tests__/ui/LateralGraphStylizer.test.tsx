@@ -10,8 +10,8 @@ import {
     LateralGraphStylizer,
     SimpleNode,
     SimpleEdge,
-    AbstractPackageTest,
 } from '../../exports'
+import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class LateralGraphStylizerTest extends AbstractPackageTest {
     private static instance: GraphStylizer
