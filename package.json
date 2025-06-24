@@ -58,7 +58,7 @@
   },
   "description": "Network connectivity graphs with nodes and edges",
   "skill": {
-    "namespace": "node-connectivity-graphs"
+    "namespace": "react-connectivity-graphs"
   },
   "jest": {
     "testRunner": "jest-circus/runner",
