@@ -11,12 +11,15 @@ import {
     FakeHandle,
     resetFakeHandleProps,
     LateralizedEdge,
-    setProviderComponent,
+    setProviderComponentApp,
     SimpleEdge,
     SimpleNode,
     FakeGraphRenderer,
-    setRendererComponent,
     resetFakeGraphRendererProps,
+    setReactFlowComponent,
+    FakeReactFlow,
+    resetFakeReactFlowProps,
+    setRendererComponentApp,
 } from '../exports'
 
 export default class AbstractPackageTest extends AbstractSpruceTest {
@@ -32,12 +35,19 @@ export default class AbstractPackageTest extends AbstractSpruceTest {
     }
 
     protected static setFakeReactFlowProvider() {
-        setProviderComponent(FakeReactFlowProvider as typeof ReactFlowProvider)
+        setProviderComponentApp(
+            FakeReactFlowProvider as typeof ReactFlowProvider
+        )
         resetProviderWasCreated()
     }
 
-    protected static setFakeGraphRenderer() {
-        setRendererComponent(FakeGraphRenderer)
+    protected static setFakeReactFlow() {
+        setReactFlowComponent(FakeReactFlow)
+        resetFakeReactFlowProps()
+    }
+
+    protected static setFakeGraphRendererOnApp() {
+        setRendererComponentApp(FakeGraphRenderer)
         resetFakeGraphRendererProps()
     }
 

@@ -1,10 +1,10 @@
-import { FlowGraph, FlowGraphOptions, EnrichedGraph } from '../exports'
+import { LateralFlowGraphProps, EnrichedGraph } from '../exports'
 
-export default class FakeFlowGraph implements FlowGraph {
-    public static callsToConstructor: FlowGraphOptions[] = []
+export default class FakeFlowGraph {
+    public static callsToConstructor: LateralFlowGraphProps[] = []
     public static numCallsToRender = 0
 
-    public constructor(options: FlowGraphOptions) {
+    public constructor(options: LateralFlowGraphProps) {
         FakeFlowGraph.callsToConstructor.push(options)
     }
 

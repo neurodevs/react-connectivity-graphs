@@ -9,3 +9,7 @@ export interface SimpleEdge {
     source: string
     target: string
 }
+
+export interface LateralizedEdge extends SimpleEdge {
+    side: 'ipsilateral' | 'contralateral' | 'bilateral'
+}

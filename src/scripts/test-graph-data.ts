@@ -1,8 +1,4 @@
-import fs from 'fs'
-import path from 'path'
-import { LateralFlowGraph } from '../exports'
-
-const graph = LateralFlowGraph.Create({
+export default {
     nodes: [
         {
             id: '1',
@@ -111,11 +107,4 @@ const graph = LateralFlowGraph.Create({
             side: 'ipsilateral',
         },
     ],
-})
-
-const props = graph.toJson()
-
-const outPath = path.join(process.cwd(), 'public/dist', 'graph-data.json')
-fs.writeFileSync(outPath, JSON.stringify(props, null, 2))
-
-console.log(`✅ Wrote graph props to ${outPath}`)
+}

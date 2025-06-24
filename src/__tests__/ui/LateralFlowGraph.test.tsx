@@ -1,30 +1,40 @@
 import { test, assert } from '@sprucelabs/test-utils'
+import { RenderResult } from '@testing-library/react'
+import React from 'react'
 import {
-    FlowGraph,
     LateralizedEdge,
     LateralFlowGraph,
     FakeGraphStylizer,
     LateralGraphStylizer,
-    FlowGraphOptions,
+    LateralFlowGraphProps,
     SimpleNode,
     AbstractPackageTest,
+    lastFakeGraphRendererProps,
+    setRendererComponentGraph,
+    FakeGraphRenderer,
+    resetFakeGraphRendererProps,
 } from '../../exports'
 
 export default class LateralFlowGraphTest extends AbstractPackageTest {
-    private static instance: FlowGraph
+    private static result: RenderResult
 
     protected static async beforeEach() {
         await super.beforeEach()
 
         this.setFakeReactFlowProvider()
+        this.setFakeReactFlow()
         this.setFakeGraphStylizer()
+        this.setFakeGraphRendererOnApp()
 
-        this.instance = this.LateralFlowGraph()
+        setRendererComponentGraph(FakeGraphRenderer)
+        resetFakeGraphRendererProps()
+
+        this.result = this.render()
     }
 
     @test()
     protected static async createsLateralFlowGraphInstance() {
-        assert.isTruthy(this.instance, 'Should create an instance!')
+        assert.isTruthy(this.result, 'Should create an instance!')
     }
 
     @test()
@@ -33,7 +43,7 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
         const oneEdge = [{} as LateralizedEdge]
 
         const err = assert.doesThrow(() => {
-            LateralFlowGraph.Create({ nodes: zeroNodes, edges: oneEdge })
+            this.render({ nodes: zeroNodes, edges: oneEdge })
         })
 
         assert.isTruthy(err, 'Should throw an error!')
@@ -61,9 +71,7 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
     }
 
     @test()
-    protected static async toJsonReturnsEnrichedGraph() {
-        const json = this.instance.toJson()
-
+    protected static async passesEnrichedNodesAndEdgesToGraphRenderer() {
         const stylizer = LateralGraphStylizer.Create()
 
         const { nodes, edges } = stylizer.lateralize(
@@ -72,7 +80,7 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
         )
 
         assert.isEqualDeep(
-            json,
+            lastFakeGraphRendererProps,
             {
                 nodes,
                 edges,
@@ -85,10 +93,10 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
         return {
             nodes: this.simpleNodes,
             edges: this.lateralizedEdges,
-        } as FlowGraphOptions
+        } as LateralFlowGraphProps
     }
 
-    private static LateralFlowGraph(options = this.options) {
-        return LateralFlowGraph.Create(options)
+    private static render(options = this.options) {
+        return this.renderWithProvider(<LateralFlowGraph {...options} />)
     }
 }

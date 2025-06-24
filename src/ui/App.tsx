@@ -5,9 +5,9 @@ import { GraphRenderer, GraphRendererProps } from '../exports'
 const App: React.FC<GraphRendererProps> = (props: GraphRendererProps) => {
     return (
         <div id="app" data-testid="app">
-            <ProviderComponent>
-                <GraphRendererComponent {...props} />
-            </ProviderComponent>
+            <ProviderComponentApp>
+                <RendererComponentApp {...props} />
+            </ProviderComponentApp>
         </div>
     )
 }
@@ -16,14 +16,16 @@ export default App
 
 // For test doubles
 
-export let ProviderComponent = ReactFlowProvider
+export let ProviderComponentApp = ReactFlowProvider
 
-export function setProviderComponent(component: typeof ReactFlowProvider) {
-    ProviderComponent = component
+export function setProviderComponentApp(component: typeof ReactFlowProvider) {
+    ProviderComponentApp = component
 }
 
-export let GraphRendererComponent: React.FC<GraphRendererProps> = GraphRenderer
+export let RendererComponentApp: React.FC<GraphRendererProps> = GraphRenderer
 
-export function setRendererComponent(component: React.FC<GraphRendererProps>) {
-    GraphRendererComponent = component
+export function setRendererComponentApp(
+    component: React.FC<GraphRendererProps>
+) {
+    RendererComponentApp = component
 }

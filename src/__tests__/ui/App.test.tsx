@@ -15,7 +15,7 @@ export default class AppTest extends AbstractPackageTest {
         await super.beforeEach()
 
         this.setFakeReactFlowProvider()
-        this.setFakeGraphRenderer()
+        this.setFakeGraphRendererOnApp()
 
         this.element = this.render()
     }
