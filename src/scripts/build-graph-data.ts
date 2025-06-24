@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import LateralFlowGraph from '../modules/LateralFlowGraph'
+import LateralFlowGraph from '../ui/LateralFlowGraph'
 
 const graph = LateralFlowGraph.Create({
     nodes: [

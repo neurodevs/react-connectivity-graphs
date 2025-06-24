@@ -1,5 +1,3 @@
-import { assertOptions } from '@sprucelabs/schema'
-import SpruceError from '../errors/SpruceError'
 import { SimpleNode, SimpleEdge } from '../types'
 import LateralGraphStylizer, {
     EnrichedEdge,
@@ -29,10 +27,7 @@ export default class LateralFlowGraph implements FlowGraph {
     }
 
     public static Create(options: FlowGraphOptions) {
-        assertOptions(options, ['nodes', 'edges'])
-
         const stylizer = this.LateralGraphStylizer()
-
         return new (this.Class ?? this)({ stylizer, ...options })
     }
 
@@ -47,10 +42,7 @@ export default class LateralFlowGraph implements FlowGraph {
     }
 
     private throwEdgesWithoutNodes() {
-        throw new SpruceError({
-            code: 'EDGES_WITHOUT_NODES',
-            numEdges: this.numEdges,
-        })
+        throw new Error('Cannot create a graph with edges but no nodes!')
     }
 
     private get hasAtLeastOneEdge() {

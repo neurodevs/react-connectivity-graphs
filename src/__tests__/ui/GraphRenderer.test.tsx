@@ -2,11 +2,11 @@ import { test, assert } from '@sprucelabs/test-utils'
 import { act, fireEvent, screen } from '@testing-library/react'
 import { ReactFlow, ReactFlowProvider } from '@xyflow/react'
 import React from 'react'
-import { EnrichedEdge, EnrichedNode } from '../../modules/LateralGraphStylizer'
 import FakeReactFlow, {
     lastFakeReactFlowProps,
-} from '../../testDoubles/ui/FakeReactFlow'
+} from '../../testDoubles/FakeReactFlow'
 import GraphRenderer, { setReactFlowComponent } from '../../ui/GraphRenderer'
+import { EnrichedEdge, EnrichedNode } from '../../ui/LateralGraphStylizer'
 import RotatableNode from '../../ui/RotatableNode'
 import AbstractPackageTest from '../AbstractPackageTest'
 

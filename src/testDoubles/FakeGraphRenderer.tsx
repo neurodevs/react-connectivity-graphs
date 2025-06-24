@@ -1,5 +1,5 @@
 import React from 'react'
-import { GraphRendererProps } from '../../ui/GraphRenderer'
+import { GraphRendererProps } from '../ui/GraphRenderer'
 
 export let lastFakeGraphRendererProps: GraphRendererProps | undefined
 

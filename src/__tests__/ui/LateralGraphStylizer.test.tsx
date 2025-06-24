@@ -8,7 +8,7 @@ import LateralGraphStylizer, {
     GraphStylizer,
     IndividualNodeStyle,
     Side,
-} from '../../modules/LateralGraphStylizer'
+} from '../../ui/LateralGraphStylizer'
 import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class LateralGraphStylizerTest extends AbstractPackageTest {

@@ -1,6 +1,6 @@
 import { Controls, Edge, Node, ReactFlow, ReactFlowProps } from '@xyflow/react'
 import React, { useState, useCallback, useRef, useEffect } from 'react'
-import { EnrichedEdge, EnrichedNode } from '../modules/LateralGraphStylizer'
+import { EnrichedEdge, EnrichedNode } from './LateralGraphStylizer'
 import RotatableNode from './RotatableNode'
 
 export interface GraphRendererProps {

@@ -4,7 +4,7 @@ import React from 'react'
 import FakeHandle, {
     fakeHandleProps,
     resetFakeHandleProps,
-} from '../../testDoubles/ui/FakeHandle'
+} from '../../testDoubles/FakeHandle'
 import RotatableNode, {
     setHandleComponent,
     setUseEffect,

@@ -4,10 +4,10 @@ import { ReactFlowProvider } from '@xyflow/react'
 import React from 'react'
 import FakeGraphRenderer, {
     lastFakeGraphRendererProps,
-} from '../../testDoubles/ui/FakeGraphRenderer'
+} from '../../testDoubles/FakeGraphRenderer'
 import FakeReactFlowProvider, {
     providerWasCreated,
-} from '../../testDoubles/ui/FakeReactFlowProvider'
+} from '../../testDoubles/FakeReactFlowProvider'
 import App, { setRendererComponent, setProviderComponent } from '../../ui/App'
 import AbstractPackageTest from '../AbstractPackageTest'
 

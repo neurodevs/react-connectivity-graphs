@@ -1,8 +1,6 @@
 import { SimpleEdge, SimpleNode } from 'types'
-import { LateralizedEdge } from '../../modules/LateralFlowGraph'
-import LateralGraphStylizer, {
-    GraphStylizer,
-} from '../../modules/LateralGraphStylizer'
+import { LateralizedEdge } from '../ui/LateralFlowGraph'
+import LateralGraphStylizer, { GraphStylizer } from '../ui/LateralGraphStylizer'
 
 export default class FakeGraphStylizer implements GraphStylizer {
     public static numCallsToConstructor = 0

@@ -3,7 +3,7 @@ import { render } from '@testing-library/react'
 import { ReactFlowProvider } from '@xyflow/react'
 import React from 'react'
 import { SimpleEdge, SimpleNode } from 'types'
-import { LateralizedEdge } from '../modules/LateralFlowGraph'
+import { LateralizedEdge } from '../ui/LateralFlowGraph'
 
 export default class AbstractPackageTest extends AbstractSpruceTest {
     protected static simpleNodes: SimpleNode[] = this.generateSimpleNodes(2)
