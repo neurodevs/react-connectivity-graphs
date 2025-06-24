@@ -1,7 +1,22 @@
-import { Handle, Position, useUpdateNodeInternals } from '@xyflow/react'
+import {
+    Handle,
+    HandleProps,
+    Position,
+    useUpdateNodeInternals,
+} from '@xyflow/react'
 import React from 'react'
 
-const RotatableNode: React.FC<any> = ({ data }) => {
+export interface RotatableNodeProps {
+    data: {
+        id: string
+        label: string
+        targetPosition: Position
+        sourcePosition: Position
+        style: React.CSSProperties
+    }
+}
+
+const RotatableNode: React.FC<RotatableNodeProps> = ({ data }) => {
     function renderHandle(type: 'source' | 'target', position: Position) {
         return (
             <HandleComponent
@@ -15,15 +30,15 @@ const RotatableNode: React.FC<any> = ({ data }) => {
     const updateNodeInternals = useUpdateNodeInternalsFn()
 
     useEffect(() => {
-        updateNodeInternals(data?.id)
-    }, [data?.id, data?.style?.transform, updateNodeInternals])
+        updateNodeInternals(data.id)
+    }, [data.id, data.style.transform, updateNodeInternals])
 
     return (
         <div
             className="rotatable-node"
             data-testid="rotatable-node"
-            aria-label={data?.label}
-            style={data?.style}
+            aria-label={data.label}
+            style={data.style}
         >
             {renderHandle('target', data.targetPosition)}
             {data.label}
@@ -38,7 +53,7 @@ export default RotatableNode
 
 export let HandleComponent = Handle
 
-export function setHandleComponent(handle: React.FC<any>) {
+export function setHandleComponent(handle: React.FC<HandleProps>) {
     HandleComponent = handle as unknown as typeof Handle
 }
 

@@ -270,25 +270,16 @@ export default class RotatableNodeTest extends AbstractPackageTest {
         transform: this.transform,
     }
 
-    private static render(position?: 'left' | 'right') {
+    private static render(position: 'left' | 'right' = 'left') {
         return this.renderWithProvider(
             <RotatableNode
                 data={{
                     id: this.id,
                     label: this.label,
                     style: this.style,
-                    targetPosition: position,
-                    sourcePosition: position,
+                    targetPosition: position as Position,
+                    sourcePosition: position as Position,
                 }}
-                type={''}
-                id={''}
-                selected={false}
-                zIndex={0}
-                isConnectable={false}
-                dragging={false}
-                selectable={false}
-                draggable={false}
-                deletable={false}
             />
         )
     }
