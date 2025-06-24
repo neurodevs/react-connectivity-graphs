@@ -2,8 +2,19 @@ import AbstractSpruceTest, { generateId } from '@sprucelabs/test-utils'
 import { render } from '@testing-library/react'
 import { ReactFlowProvider } from '@xyflow/react'
 import React from 'react'
-import { SimpleEdge, SimpleNode } from 'types'
-import { LateralizedEdge } from '../ui/LateralFlowGraph'
+import {
+    FakeReactFlowProvider,
+    resetProviderWasCreated,
+    LateralGraphStylizer,
+    FakeGraphStylizer,
+    setHandleComponent,
+    FakeHandle,
+    resetFakeHandleProps,
+    LateralizedEdge,
+    setProviderComponent,
+    SimpleEdge,
+    SimpleNode,
+} from '../exports'
 
 export default class AbstractPackageTest extends AbstractSpruceTest {
     protected static simpleNodes: SimpleNode[] = this.generateSimpleNodes(2)
@@ -17,7 +28,22 @@ export default class AbstractPackageTest extends AbstractSpruceTest {
         await super.beforeEach()
     }
 
-    private static generateSimpleNodes(n: number) {
+    protected static setFakeReactFlowProvider() {
+        setProviderComponent(FakeReactFlowProvider as typeof ReactFlowProvider)
+        resetProviderWasCreated()
+    }
+
+    protected static setFakeGraphStylizer() {
+        LateralGraphStylizer.Class = FakeGraphStylizer
+        FakeGraphStylizer.resetTestDouble()
+    }
+
+    protected static setFakeHandle() {
+        setHandleComponent(FakeHandle)
+        resetFakeHandleProps()
+    }
+
+    protected static generateSimpleNodes(n: number) {
         return Array.from({ length: n }, () => this.generateSimpleNode())
     }
 

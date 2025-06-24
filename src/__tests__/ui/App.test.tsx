@@ -1,15 +1,11 @@
 import { test, assert } from '@sprucelabs/test-utils'
 import { render, RenderResult } from '@testing-library/react'
-import { ReactFlowProvider } from '@xyflow/react'
 import React from 'react'
 import FakeGraphRenderer, {
     lastFakeGraphRendererProps,
 } from '../../testDoubles/FakeGraphRenderer'
-import FakeReactFlowProvider, {
-    providerWasCreated,
-    resetProviderWasCreated,
-} from '../../testDoubles/FakeReactFlowProvider'
-import App, { setRendererComponent, setProviderComponent } from '../../ui/App'
+import { providerWasCreated } from '../../testDoubles/FakeReactFlowProvider'
+import App, { setRendererComponent } from '../../ui/App'
 import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class AppTest extends AbstractPackageTest {
@@ -47,11 +43,6 @@ export default class AppTest extends AbstractPackageTest {
             lastFakeGraphRendererProps,
             'Should render GraphRenderer with props!'
         )
-    }
-
-    protected static setFakeReactFlowProvider() {
-        setProviderComponent(FakeReactFlowProvider as typeof ReactFlowProvider)
-        resetProviderWasCreated()
     }
 
     private static render() {

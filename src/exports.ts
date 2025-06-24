@@ -42,3 +42,12 @@ export * from './testDoubles/FakeReactFlowProvider'
 
 export { default as FakeHandle } from './testDoubles/FakeHandle'
 export * from './testDoubles/FakeHandle'
+
+// App
+
+export { default as App } from './ui/App'
+export * from './ui/App'
+
+// Types
+
+export * from './types'

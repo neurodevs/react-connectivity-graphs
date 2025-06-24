@@ -1,12 +1,8 @@
 import { assert, generateId, test } from '@sprucelabs/test-utils'
 import { Position } from '@xyflow/react'
 import React from 'react'
-import FakeHandle, {
-    fakeHandleProps,
-    resetFakeHandleProps,
-} from '../../testDoubles/FakeHandle'
+import { fakeHandleProps } from '../../testDoubles/FakeHandle'
 import RotatableNode, {
-    setHandleComponent,
     setUseEffect,
     setUseUpdateNodeInternals,
 } from '../../ui/RotatableNode'
@@ -238,11 +234,6 @@ export default class RotatableNodeTest extends AbstractPackageTest {
             this.id,
             'Should pass id to updateNodeInternals!'
         )
-    }
-
-    private static setFakeHandle() {
-        setHandleComponent(FakeHandle)
-        resetFakeHandleProps()
     }
 
     private static renderAndGetTopLevelDiv() {

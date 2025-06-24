@@ -1,12 +1,13 @@
 import { test, assert } from '@sprucelabs/test-utils'
-import { SimpleNode } from 'types'
-import FakeGraphStylizer from '../../testDoubles/FakeGraphStylizer'
-import LateralFlowGraph, {
-    FlowGraphOptions,
+import {
     FlowGraph,
     LateralizedEdge,
-} from '../../ui/LateralFlowGraph'
-import LateralGraphStylizer from '../../ui/LateralGraphStylizer'
+    LateralFlowGraph,
+    FakeGraphStylizer,
+    LateralGraphStylizer,
+    FlowGraphOptions,
+    SimpleNode,
+} from '../../exports'
 import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class LateralFlowGraphTest extends AbstractPackageTest {
@@ -15,6 +16,7 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
     protected static async beforeEach() {
         await super.beforeEach()
 
+        this.setFakeReactFlowProvider()
         this.setFakeGraphStylizer()
 
         this.instance = this.LateralFlowGraph()
@@ -79,11 +81,6 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
         )
     }
 
-    private static setFakeGraphStylizer() {
-        LateralGraphStylizer.Class = FakeGraphStylizer
-        FakeGraphStylizer.resetTestDouble()
-    }
-
     private static get options() {
         return {
             nodes: this.simpleNodes,
@@ -94,10 +91,4 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
     private static LateralFlowGraph(options = this.options) {
         return LateralFlowGraph.Create(options)
     }
-}
-
-export interface CallToCreateElement {
-    type: string | React.FC
-    props: React.Attributes & Record<string, any>
-    children: React.ReactNode[]
 }
