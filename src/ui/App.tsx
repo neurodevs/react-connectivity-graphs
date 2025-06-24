@@ -1,6 +1,6 @@
 import { ReactFlowProvider } from '@xyflow/react'
 import React from 'react'
-import GraphRenderer, { GraphRendererProps } from './GraphRenderer'
+import { GraphRenderer, GraphRendererProps } from '../exports'
 
 const App: React.FC<GraphRendererProps> = (props: GraphRendererProps) => {
     return (

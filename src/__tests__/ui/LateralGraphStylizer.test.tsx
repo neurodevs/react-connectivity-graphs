@@ -1,15 +1,17 @@
 import { test, assert } from '@sprucelabs/test-utils'
-import { SimpleEdge, SimpleNode } from 'types'
-import LateralGraphStylizer, {
-    EnrichedEdge,
-    EnrichEdgeParams,
+import {
+    GraphStylizer,
     EnrichedNode,
     EnrichNodeParams,
-    GraphStylizer,
     IndividualNodeStyle,
     Side,
-} from '../../ui/LateralGraphStylizer'
-import AbstractPackageTest from '../AbstractPackageTest'
+    EnrichEdgeParams,
+    EnrichedEdge,
+    LateralGraphStylizer,
+    SimpleNode,
+    SimpleEdge,
+    AbstractPackageTest,
+} from '../../exports'
 
 export default class LateralGraphStylizerTest extends AbstractPackageTest {
     private static instance: GraphStylizer

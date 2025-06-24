@@ -1,10 +1,12 @@
-import { SimpleNode, SimpleEdge } from '../types'
-import LateralGraphStylizer, {
+import {
     EnrichedEdge,
     EnrichedGraph,
     EnrichedNode,
     GraphStylizer,
-} from './LateralGraphStylizer'
+    LateralGraphStylizer,
+    SimpleEdge,
+    SimpleNode,
+} from '../exports'
 
 export default class LateralFlowGraph implements FlowGraph {
     public static Class?: FlowGraphConstructor

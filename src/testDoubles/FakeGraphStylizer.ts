@@ -1,6 +1,10 @@
-import { SimpleEdge, SimpleNode } from 'types'
-import { LateralizedEdge } from '../ui/LateralFlowGraph'
-import LateralGraphStylizer, { GraphStylizer } from '../ui/LateralGraphStylizer'
+import {
+    GraphStylizer,
+    LateralGraphStylizer,
+    LateralizedEdge,
+    SimpleNode,
+    SimpleEdge,
+} from '../exports'
 
 export default class FakeGraphStylizer implements GraphStylizer {
     public static numCallsToConstructor = 0

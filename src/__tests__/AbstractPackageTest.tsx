@@ -14,6 +14,9 @@ import {
     setProviderComponent,
     SimpleEdge,
     SimpleNode,
+    FakeGraphRenderer,
+    setRendererComponent,
+    resetFakeGraphRendererProps,
 } from '../exports'
 
 export default class AbstractPackageTest extends AbstractSpruceTest {
@@ -31,6 +34,11 @@ export default class AbstractPackageTest extends AbstractSpruceTest {
     protected static setFakeReactFlowProvider() {
         setProviderComponent(FakeReactFlowProvider as typeof ReactFlowProvider)
         resetProviderWasCreated()
+    }
+
+    protected static setFakeGraphRenderer() {
+        setRendererComponent(FakeGraphRenderer)
+        resetFakeGraphRendererProps()
     }
 
     protected static setFakeGraphStylizer() {

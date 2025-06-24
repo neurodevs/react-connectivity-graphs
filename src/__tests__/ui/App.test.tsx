@@ -1,12 +1,12 @@
 import { test, assert } from '@sprucelabs/test-utils'
 import { render, RenderResult } from '@testing-library/react'
 import React from 'react'
-import FakeGraphRenderer, {
+import {
+    providerWasCreated,
     lastFakeGraphRendererProps,
-} from '../../testDoubles/FakeGraphRenderer'
-import { providerWasCreated } from '../../testDoubles/FakeReactFlowProvider'
-import App, { setRendererComponent } from '../../ui/App'
-import AbstractPackageTest from '../AbstractPackageTest'
+    App,
+    AbstractPackageTest,
+} from '../../exports'
 
 export default class AppTest extends AbstractPackageTest {
     private static element: RenderResult
@@ -15,7 +15,7 @@ export default class AppTest extends AbstractPackageTest {
         await super.beforeEach()
 
         this.setFakeReactFlowProvider()
-        setRendererComponent(FakeGraphRenderer)
+        this.setFakeGraphRenderer()
 
         this.element = this.render()
     }

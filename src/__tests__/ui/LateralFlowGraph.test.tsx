@@ -7,8 +7,8 @@ import {
     LateralGraphStylizer,
     FlowGraphOptions,
     SimpleNode,
+    AbstractPackageTest,
 } from '../../exports'
-import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class LateralFlowGraphTest extends AbstractPackageTest {
     private static instance: FlowGraph

@@ -51,3 +51,8 @@ export * from './ui/App'
 // Types
 
 export * from './types'
+
+// Testing
+
+export { default as AbstractPackageTest } from './__tests__/AbstractPackageTest'
+export * from './__tests__/AbstractPackageTest'

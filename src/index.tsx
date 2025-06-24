@@ -1,9 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './ui/App'
-import { GraphRendererProps } from './ui/GraphRenderer'
 
 import '@xyflow/react/dist/style.css'
+import { App, GraphRendererProps } from './exports'
 
 async function main() {
     const res = await fetch('/dist/ctactile-simple.json')

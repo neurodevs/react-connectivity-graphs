@@ -1,7 +1,11 @@
 import React from 'react'
-import { GraphRendererProps } from '../ui/GraphRenderer'
+import { GraphRendererProps } from '../exports'
 
 export let lastFakeGraphRendererProps: GraphRendererProps | undefined
+
+export const resetFakeGraphRendererProps = () => {
+    lastFakeGraphRendererProps = undefined
+}
 
 const FakeGraphRenderer: React.FC<GraphRendererProps> = (
     props: GraphRendererProps

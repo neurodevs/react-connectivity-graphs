@@ -1,5 +1,4 @@
-import { FlowGraph, FlowGraphOptions } from '../ui/LateralFlowGraph'
-import { EnrichedGraph } from '../ui/LateralGraphStylizer'
+import { FlowGraph, FlowGraphOptions, EnrichedGraph } from '../exports'
 
 export default class FakeFlowGraph implements FlowGraph {
     public static callsToConstructor: FlowGraphOptions[] = []

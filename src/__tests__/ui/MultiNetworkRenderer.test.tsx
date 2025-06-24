@@ -1,9 +1,9 @@
-import AbstractSpruceTest, { test, assert } from '@sprucelabs/test-utils'
+import { test, assert } from '@sprucelabs/test-utils'
 import { render } from '@testing-library/react'
 import React from 'react'
-import MultiNetworkRenderer from '../../ui/MultiNetworkRenderer'
+import { AbstractPackageTest, MultiNetworkRenderer } from '../../exports'
 
-export default class MultiNetworkRendererTest extends AbstractSpruceTest {
+export default class MultiNetworkRendererTest extends AbstractPackageTest {
     private static element: React.ReactElement
 
     protected static async beforeEach() {
@@ -45,10 +45,6 @@ export default class MultiNetworkRendererTest extends AbstractSpruceTest {
     private static renderAndGetTopLevelDiv() {
         const { getByTestId } = this.render()
         return getByTestId('multi-network-renderer')
-    }
-
-    private static get createElement() {
-        return React.createElement
     }
 
     protected static render() {
