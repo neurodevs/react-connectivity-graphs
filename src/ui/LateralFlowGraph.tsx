@@ -1,12 +1,12 @@
 import React, { useMemo } from 'react'
 import {
-    GraphRenderer,
     GraphRendererProps,
     GraphStylizer,
     LateralGraphStylizer,
     LateralizedEdge,
     SimpleNode,
 } from '../exports'
+import GraphRenderer from './GraphRenderer'
 
 export interface LateralFlowGraphProps {
     nodes: SimpleNode[]
