@@ -370,7 +370,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
         )
 
         lastFakeReactFlowProps?.onInit?.(new FakeReactFlowInstance() as any)
-        await new Promise((resolve) => setTimeout(resolve, 50))
+        await new Promise((resolve) => setTimeout(resolve, 5))
 
         this.rerender()
 
