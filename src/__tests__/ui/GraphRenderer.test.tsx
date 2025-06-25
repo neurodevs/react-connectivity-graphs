@@ -360,6 +360,26 @@ export default class GraphRendererTest extends AbstractPackageTest {
         )
     }
 
+    @test()
+    protected static async setsDisplayNoneUntilIsLoaded() {
+        const div = this.renderAndGetTopLevelDiv()
+
+        assert.isTrue(
+            div.style.display === 'none',
+            'Should set "display: none" until isLoaded!'
+        )
+
+        lastFakeReactFlowProps?.onInit?.(new FakeReactFlowInstance() as any)
+        await new Promise((resolve) => setTimeout(resolve, 50))
+
+        this.rerender()
+
+        assert.isTrue(
+            div.style.display !== 'none',
+            'Should not set "display: none" after isLoaded!'
+        )
+    }
+
     private static renderWithMidlineNodes() {
         // Undesirable coupling with LateralGraphStylizer
         const id1 = 'bottom-midline'

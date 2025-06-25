@@ -37,6 +37,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     const [nodes, setNodes] = useState<EnrichedNode[]>(initialNodes)
     const [edges, setEdges] = useState<EnrichedEdge[]>(initialEdges)
     const [hoveredId, setHoveredId] = useState<string | null>(null)
+    const [isLoaded, setIsLoaded] = useState(false)
 
     const originalNodeStyles = useRef<HighlightNodeStyles>({})
     const originalEdgeStyles = useRef<HighlightEdgeStyles>({})
@@ -48,7 +49,10 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
 
     useEffect(() => {
         if (rfInstance) {
-            setTimeout(() => rfInstance.fitView({ padding: 0.2 }), 0)
+            setTimeout(() => {
+                void rfInstance.fitView({ padding: 0.2 })
+                setIsLoaded(true)
+            }, 0)
         }
     }, [rfInstance])
 
@@ -69,7 +73,11 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     }, [hoveredId])
 
     return (
-        <div className="graph-renderer" data-testid="graph-renderer">
+        <div
+            className="graph-renderer"
+            data-testid="graph-renderer"
+            style={isLoaded ? {} : { display: 'none' }}
+        >
             <ReactFlowComponent
                 nodes={nodes as unknown as Node[]}
                 edges={edges as unknown as Edge[]}
