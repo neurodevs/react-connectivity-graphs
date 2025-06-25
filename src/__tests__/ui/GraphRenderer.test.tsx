@@ -1,6 +1,6 @@
 import { test, assert } from '@sprucelabs/test-utils'
 import { act, fireEvent, screen } from '@testing-library/react'
-import { ReactFlow, ReactFlowProvider } from '@xyflow/react'
+import { ReactFlow, ReactFlowInstance, ReactFlowProvider } from '@xyflow/react'
 import React from 'react'
 import {
     EnrichedEdge,
@@ -146,7 +146,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
     @test()
     protected static async rendersOneNodeOnScreen() {
-        this.render(false)
+        this.render({ useFakeReactFlow: false })
 
         const renderedNodes = screen.queryAllByTestId(/rf__node-\d/)
 
@@ -371,13 +371,34 @@ export default class GraphRendererTest extends AbstractPackageTest {
         )
 
         lastFakeReactFlowProps?.onInit?.(new FakeReactFlowInstance() as any)
-        await new Promise((resolve) => setTimeout(resolve, 5))
+        await this.waitFiveMs()
 
         this.rerender()
 
         assert.isTrue(
             div.style.display !== 'none',
             'Should not set "display: none" after isLoaded!'
+        )
+    }
+
+    @test()
+    protected static async exposesMinZoomProp() {
+        const expectedMinZoom = Math.random()
+
+        this.render({ minZoom: expectedMinZoom })
+
+        const fake = new FakeReactFlowInstance()
+
+        const { onInit } = lastFakeReactFlowProps ?? {}
+        onInit?.(fake as ReactFlowInstance)
+
+        this.rerender()
+        await this.waitFiveMs()
+
+        assert.isEqual(
+            fake.passedFitViewOptions?.minZoom,
+            expectedMinZoom,
+            'Should pass minZoom prop!'
         )
     }
 
@@ -450,7 +471,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
         nodes?: EnrichedNode[],
         edges?: EnrichedEdge[]
     ) {
-        this.render(false, nodes, edges)
+        this.render({ useFakeReactFlow: false, nodes, edges })
 
         const renderedNode = screen.getByTestId('rf__node-1')
 
@@ -461,11 +482,8 @@ export default class GraphRendererTest extends AbstractPackageTest {
         return renderedNode
     }
 
-    private static render(
-        useFakeReactFlow = true,
-        nodes?: EnrichedNode[],
-        edges?: EnrichedEdge[]
-    ) {
+    private static render(options?: RenderOptions) {
+        const { useFakeReactFlow = true, nodes, edges, minZoom } = options ?? {}
         const reactflow = useFakeReactFlow ? FakeReactFlow : ReactFlow
 
         setReactFlowComponent(reactflow)
@@ -480,6 +498,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
                 onEdgeClick={this.onEdgeClick}
                 onEdgeMouseEnter={this.onEdgeMouseEnter}
                 onEdgeMouseLeave={this.onEdgeMouseLeave}
+                minZoom={minZoom}
             />
         )
     }
@@ -489,7 +508,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
         nodes?: EnrichedNode[],
         edges?: EnrichedEdge[]
     ) {
-        const { rerender } = this.render(useFakeReactFlow, nodes, edges)
+        const { rerender } = this.render({ useFakeReactFlow, nodes, edges })
 
         rerender?.(
             <ReactFlowProvider>
@@ -579,6 +598,17 @@ export default class GraphRendererTest extends AbstractPackageTest {
         this.generateFakeEdge(),
         this.generateFakeEdge('e2-1'),
     ]
+
+    private static async waitFiveMs() {
+        await new Promise((resolve) => setTimeout(resolve, 5))
+    }
+}
+
+export interface RenderOptions {
+    useFakeReactFlow?: boolean
+    nodes?: EnrichedNode[]
+    edges?: EnrichedEdge[]
+    minZoom?: number
 }
 
 export interface WasCalledByCallbacks {

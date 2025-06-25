@@ -19,6 +19,7 @@ export interface GraphRendererProps {
     onEdgeClick?: () => void
     onEdgeMouseEnter?: () => void
     onEdgeMouseLeave?: () => void
+    minZoom?: number
 }
 
 export const highlightColor = 'dodgerblue'
@@ -33,6 +34,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     onEdgeClick,
     onEdgeMouseEnter,
     onEdgeMouseLeave,
+    minZoom = 1,
 }) => {
     const [nodes, setNodes] = useState<EnrichedNode[]>(initialNodes)
     const [edges, setEdges] = useState<EnrichedEdge[]>(initialEdges)
@@ -50,7 +52,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     useEffect(() => {
         if (rfInstance) {
             setTimeout(() => {
-                void rfInstance.fitView({ padding: 0.2, minZoom: 1 })
+                void rfInstance.fitView({ padding: 0.2, minZoom })
                 setIsLoaded(true)
             }, 0)
         }
