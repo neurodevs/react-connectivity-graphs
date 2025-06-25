@@ -355,6 +355,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
             fakeRfInstance.passedFitViewOptions,
             {
                 padding: 0.2,
+                minZoom: 1,
             },
             'Should pass fitView options to ReactFlow instance!'
         )

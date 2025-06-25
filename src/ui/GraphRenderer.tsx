@@ -50,7 +50,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     useEffect(() => {
         if (rfInstance) {
             setTimeout(() => {
-                void rfInstance.fitView({ padding: 0.2 })
+                void rfInstance.fitView({ padding: 0.2, minZoom: 1 })
                 setIsLoaded(true)
             }, 0)
         }
