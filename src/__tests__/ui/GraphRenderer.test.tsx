@@ -347,6 +347,8 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
         onInit?.(fakeRfInstance as any)
 
+        await new Promise((resolve) => setTimeout(resolve, 5))
+
         this.rerender()
 
         assert.isEqualDeep(

@@ -48,7 +48,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
 
     useEffect(() => {
         if (rfInstance) {
-            void rfInstance.fitView({ padding: 0.2 })
+            setTimeout(() => rfInstance.fitView({ padding: 0.2 }), 0)
         }
     }, [rfInstance])
 
