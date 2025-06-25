@@ -11,6 +11,7 @@ import {
     RotatableNode,
     setReactFlowComponent,
 } from '../../exports'
+import FakeReactFlowInstance from '../../testDoubles/FakeReactFlowInstance'
 import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class GraphRendererTest extends AbstractPackageTest {
@@ -332,6 +333,28 @@ export default class GraphRendererTest extends AbstractPackageTest {
                 node2.textContent?.includes('N2') &&
                 node3.textContent?.includes('N3'),
             'Should render abbreviation when not highlighted!'
+        )
+    }
+
+    @test()
+    protected static async fitsViewOnInitialRender() {
+        this.render()
+
+        const { onInit } = lastFakeReactFlowProps ?? {}
+        assert.isFunction(onInit, 'Should pass onInit callback to ReactFlow!')
+
+        const fakeRfInstance = new FakeReactFlowInstance()
+
+        onInit?.(fakeRfInstance as any)
+
+        this.rerender()
+
+        assert.isEqualDeep(
+            fakeRfInstance.passedFitViewOptions,
+            {
+                padding: 0.2,
+            },
+            'Should pass fitView options to ReactFlow instance!'
         )
     }
 

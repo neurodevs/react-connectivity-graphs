@@ -40,6 +40,9 @@ export * from './testDoubles/FakeReactFlow'
 export { default as FakeReactFlowProvider } from './testDoubles/FakeReactFlowProvider'
 export * from './testDoubles/FakeReactFlowProvider'
 
+export { default as FakeReactFlowInstance } from './testDoubles/FakeReactFlowInstance'
+export * from './testDoubles/FakeReactFlowInstance'
+
 export { default as FakeHandle } from './testDoubles/FakeHandle'
 export * from './testDoubles/FakeHandle'
 

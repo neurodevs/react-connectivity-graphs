@@ -1,4 +1,11 @@
-import { Controls, Edge, Node, ReactFlow, ReactFlowProps } from '@xyflow/react'
+import {
+    Controls,
+    Edge,
+    Node,
+    ReactFlow,
+    ReactFlowInstance,
+    ReactFlowProps,
+} from '@xyflow/react'
 import React, { useState, useCallback, useRef, useEffect } from 'react'
 import { EnrichedEdge, EnrichedNode } from '../exports'
 import RotatableNode from './RotatableNode'
@@ -37,6 +44,14 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     const handleNodeMouseEnter = useCallbackNodeMouseEnter()
     const handleNodeMouseLeave = useCallbackNodeMouseLeave()
 
+    const [rfInstance, setRfInstance] = useState<ReactFlowInstance | null>(null)
+
+    useEffect(() => {
+        if (rfInstance) {
+            void rfInstance.fitView({ padding: 0.2 })
+        }
+    }, [rfInstance])
+
     useEffect(() => {
         setNodes(initialNodes)
         setEdges(initialEdges)
@@ -65,6 +80,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                 onEdgeClick={onEdgeClick}
                 onEdgeMouseEnter={onEdgeMouseEnter}
                 onEdgeMouseLeave={onEdgeMouseLeave}
+                onInit={setRfInstance}
             />
             <Controls />
         </div>
