@@ -392,7 +392,6 @@ export default class GraphRendererTest extends AbstractPackageTest {
         const { onInit } = lastFakeReactFlowProps ?? {}
         onInit?.(fake as ReactFlowInstance)
 
-        this.rerender()
         await this.waitFiveMs()
 
         assert.isEqual(
