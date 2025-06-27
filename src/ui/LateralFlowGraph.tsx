@@ -1,3 +1,5 @@
+import { ReactFlowProvider } from '@xyflow/react'
+import { ReactFlowProviderProps } from '@xyflow/react/dist/esm/components/ReactFlowProvider'
 import React, { useMemo } from 'react'
 import {
     GraphRendererProps,
@@ -31,13 +33,27 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
     }, [nodes, edges])
 
     return (
-        <RendererComponentGraph nodes={enrichedNodes} edges={enrichedEdges} />
+        <ProviderComponent>
+            <RendererComponentGraph
+                nodes={enrichedNodes}
+                edges={enrichedEdges}
+            />
+        </ProviderComponent>
     )
 }
 
 export default LateralFlowGraph
 
 // For test doubles
+
+export let ProviderComponent: React.FC<ReactFlowProviderProps> =
+    ReactFlowProvider
+
+export function setProviderComponentOnGraph(
+    component: React.FC<ReactFlowProviderProps>
+) {
+    ProviderComponent = component
+}
 
 export let RendererComponentGraph: React.FC<GraphRendererProps> = GraphRenderer
 

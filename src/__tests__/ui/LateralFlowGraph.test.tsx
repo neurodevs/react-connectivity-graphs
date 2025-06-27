@@ -1,5 +1,5 @@
 import { test, assert } from '@sprucelabs/test-utils'
-import { RenderResult } from '@testing-library/react'
+import { render, RenderResult } from '@testing-library/react'
 import React from 'react'
 import {
     LateralizedEdge,
@@ -12,6 +12,9 @@ import {
     setRendererComponentGraph,
     FakeGraphRenderer,
     resetFakeGraphRendererProps,
+    FakeReactFlowProvider,
+    providerWasCreated,
+    setProviderComponentOnGraph,
 } from '../../exports'
 import AbstractPackageTest from '../AbstractPackageTest'
 
@@ -21,13 +24,12 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
     protected static async beforeEach() {
         await super.beforeEach()
 
-        this.setFakeReactFlowProvider()
-        this.setFakeReactFlow()
         this.setFakeGraphStylizer()
-        this.setFakeGraphRendererOnApp()
 
         setRendererComponentGraph(FakeGraphRenderer)
         resetFakeGraphRendererProps()
+
+        setProviderComponentOnGraph(FakeReactFlowProvider)
 
         this.result = this.render()
     }
@@ -89,6 +91,14 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
         )
     }
 
+    @test()
+    protected static async rendersWithProviderComponent() {
+        assert.isTrue(
+            providerWasCreated,
+            'Should render with ReactFlowProvider!'
+        )
+    }
+
     private static get options() {
         return {
             nodes: this.simpleNodes,
@@ -97,6 +107,6 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
     }
 
     private static render(options = this.options) {
-        return this.renderWithProvider(<LateralFlowGraph {...options} />)
+        return render(<LateralFlowGraph {...options} />)
     }
 }
