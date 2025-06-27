@@ -93,6 +93,8 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                 onEdgeMouseEnter={onEdgeMouseEnter}
                 onEdgeMouseLeave={onEdgeMouseLeave}
                 onInit={setRfInstance}
+                panOnDrag={false}
+                panOnScroll={false}
             />
             {showControls && <Controls />}
         </div>

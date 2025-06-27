@@ -196,6 +196,26 @@ export default class GraphRendererTest extends AbstractPackageTest {
     }
 
     @test()
+    protected static async disablesPanOnDrag() {
+        this.render()
+
+        assert.isFalse(
+            lastFakeReactFlowProps?.panOnDrag as boolean,
+            'Should set panOnDrag to false on ReactFlow!'
+        )
+    }
+
+    @test()
+    protected static async disablesPanOnScroll() {
+        this.render()
+
+        assert.isFalse(
+            lastFakeReactFlowProps?.panOnScroll as boolean,
+            'Should set panOnDrag to false on ReactFlow!'
+        )
+    }
+
+    @test()
     protected static async unhighlightsNodeColorOnMouseLeaveToOriginalColor() {
         const renderedNode = this.renderAndFireMouseEnter()
 
