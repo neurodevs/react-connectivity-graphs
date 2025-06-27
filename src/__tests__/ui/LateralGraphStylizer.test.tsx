@@ -151,6 +151,81 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
         }
     }
 
+    private static get midlineNodes() {
+        const sidedStyles = {
+            width: '1px',
+            fontSize: '0.7rem',
+            color: '#baedaf',
+            borderWidth: '0',
+            padding: '0',
+            textAlign: 'center',
+            justifyContent: 'center',
+            WebkitJustifyContent: 'center',
+        }
+
+        const baseStyles = {
+            positionX: 0,
+            rotationDegrees: 0,
+            sidedStyles,
+        }
+
+        const midlineTopY = -this.graphRadius * 1.1 + 1
+        const midlineBottomY = this.graphRadius * 1.1 + 1
+
+        const bottomParams = {
+            ...baseStyles,
+            positionY: midlineTopY,
+            handlePosition: 'top',
+        }
+
+        const topParams = {
+            ...baseStyles,
+            positionY: midlineBottomY,
+            handlePosition: 'bottom',
+        }
+
+        const toggleParams = {
+            ...baseStyles,
+            positionY: midlineBottomY + 10,
+            handlePosition: 'top',
+            sidedStyles: {
+                ...sidedStyles,
+                color: '#ccc',
+                fontSize: '0.6rem',
+            },
+        }
+
+        return [
+            this.enrichNode(this.bottomMidlineNode, bottomParams),
+            this.enrichNode(this.topMidlineNode, topParams),
+            this.enrichNode(this.abbreviationsToggleNode, toggleParams),
+        ]
+    }
+
+    private static get bottomMidlineNode() {
+        return {
+            id: 'bottom-midline',
+            label: 'Bottom Midline Node',
+            abbreviation: 'L   R',
+        } as SimpleNode
+    }
+
+    private static get topMidlineNode() {
+        return {
+            id: 'top-midline',
+            label: 'Top Midline Node',
+            abbreviation: 'L   R',
+        } as SimpleNode
+    }
+
+    private static get abbreviationsToggleNode() {
+        return {
+            id: 'abbreviations-toggle',
+            label: 'Abbreviations',
+            abbreviation: 'Abbreviations',
+        }
+    }
+
     private static stylizeEdges() {
         return [
             ...this.mapSimpleEdges('left'),
@@ -222,61 +297,6 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
             stroke: '#75ed5a',
             strokeWidth: 0.5,
         }
-    }
-
-    private static get midlineNodes() {
-        const bottomParams = {
-            positionX: 0,
-            positionY: -this.graphRadius * 1.1 + 1,
-            rotationDegrees: 0,
-            handlePosition: 'top',
-            sidedStyles: {
-                width: '1px',
-                color: '#baedaf',
-                borderWidth: '0',
-                padding: '0',
-                textAlign: 'center',
-                justifyContent: 'center',
-                WebkitJustifyContent: 'center',
-            },
-        }
-
-        const topParams = {
-            positionX: 0,
-            positionY: this.graphRadius * 1.1 + 1,
-            rotationDegrees: 0,
-            handlePosition: 'bottom',
-            sidedStyles: {
-                width: '1px',
-                color: '#baedaf',
-                borderWidth: '0',
-                padding: '0',
-                textAlign: 'center',
-                justifyContent: 'center',
-                WebkitJustifyContent: 'center',
-            },
-        }
-
-        return [
-            this.enrichNode(this.bottomMidlineNode, bottomParams),
-            this.enrichNode(this.topMidlineNode, topParams),
-        ]
-    }
-
-    private static get bottomMidlineNode() {
-        return {
-            id: 'bottom-midline',
-            label: 'Bottom Midline Node',
-            abbreviation: 'L   R',
-        } as SimpleNode
-    }
-
-    private static get topMidlineNode() {
-        return {
-            id: 'top-midline',
-            label: 'Top Midline Node',
-            abbreviation: 'L   R',
-        } as SimpleNode
     }
 
     private static get verticalMidlineEdge() {

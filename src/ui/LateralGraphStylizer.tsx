@@ -193,42 +193,78 @@ export default class LateralGraphStylizer {
     }
 
     private get midlineNodes() {
-        const bottomParams = {
+        const sidedStyles = {
+            width: '1px',
+            fontSize: '0.7rem',
+            color: '#baedaf',
+            borderWidth: '0',
+            padding: '0',
+            textAlign: 'center',
+            justifyContent: 'center',
+            WebkitJustifyContent: 'center',
+        }
+
+        const baseStyles = {
             positionX: 0,
-            positionY: -this.graphRadius * 1.1 + 1,
             rotationDegrees: 0,
+            sidedStyles,
+        }
+
+        const midlineTopY = -this.graphRadius * 1.1 + 1
+        const midlineBottomY = this.graphRadius * 1.1 + 1
+
+        const bottomParams = {
+            ...baseStyles,
+            positionY: midlineTopY,
             handlePosition: 'top',
-            sidedStyles: {
-                width: '1px',
-                color: '#baedaf',
-                borderWidth: '0',
-                padding: '0',
-                textAlign: 'center',
-                justifyContent: 'center',
-                WebkitJustifyContent: 'center',
-            },
         }
 
         const topParams = {
-            positionX: 0,
-            positionY: this.graphRadius * 1.1 + 1,
-            rotationDegrees: 0,
+            ...baseStyles,
+            positionY: midlineBottomY,
             handlePosition: 'bottom',
+        }
+
+        const toggleParams = {
+            ...baseStyles,
+            positionY: midlineBottomY + 10,
+            handlePosition: 'top',
             sidedStyles: {
-                width: '1px',
-                color: '#baedaf',
-                borderWidth: '0',
-                padding: '0',
-                textAlign: 'center',
-                justifyContent: 'center',
-                WebkitJustifyContent: 'center',
+                ...sidedStyles,
+                color: '#ccc',
+                fontSize: '0.6rem',
             },
         }
 
         return [
             this.enrichNode(this.bottomMidlineNode, bottomParams),
             this.enrichNode(this.topMidlineNode, topParams),
+            this.enrichNode(this.abbreviationsToggleNode, toggleParams),
         ]
+    }
+
+    private get topMidlineNode() {
+        return {
+            id: 'top-midline',
+            label: 'Top Midline Node',
+            abbreviation: 'L   R',
+        } as SimpleNode
+    }
+
+    private get bottomMidlineNode() {
+        return {
+            id: 'bottom-midline',
+            label: 'Bottom Midline Node',
+            abbreviation: 'L   R',
+        } as SimpleNode
+    }
+
+    private get abbreviationsToggleNode() {
+        return {
+            id: 'abbreviations-toggle',
+            label: 'Abbreviations',
+            abbreviation: 'Abbreviations',
+        }
     }
 
     private get midlineEdges() {
@@ -240,22 +276,6 @@ export default class LateralGraphStylizer {
                 strokeWidth: 0.5,
             }),
         ]
-    }
-
-    private get bottomMidlineNode() {
-        return {
-            id: 'bottom-midline',
-            label: 'Bottom Midline Node',
-            abbreviation: 'L   R',
-        } as SimpleNode
-    }
-
-    private get topMidlineNode() {
-        return {
-            id: 'top-midline',
-            label: 'Top Midline Node',
-            abbreviation: 'L   R',
-        } as SimpleNode
     }
 
     private get verticalMidlineEdge() {
