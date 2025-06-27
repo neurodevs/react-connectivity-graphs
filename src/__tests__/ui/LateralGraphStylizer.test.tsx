@@ -15,8 +15,8 @@ import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class LateralGraphStylizerTest extends AbstractPackageTest {
     private static instance: GraphStylizer
-    private static graphRadius = 200
-    private static nodeWidth = 500
+    private static graphRadius = 80
+    private static nodeWidth = 0
 
     protected static async beforeEach() {
         await super.beforeEach()

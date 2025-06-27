@@ -117,7 +117,7 @@ export default class LateralGraphStylizer {
         }
     }
 
-    private defaultNodeWidth = 500
+    private defaultNodeWidth = 0
 
     private get numNodes() {
         return this.initialNodes.length
@@ -268,7 +268,7 @@ export default class LateralGraphStylizer {
         return side == 'left' ? 'right' : 'left'
     }
 
-    private readonly graphRadius = 200
+    private readonly graphRadius = 80
     private readonly bottomDegrees = 90
     private readonly gapDegrees = 40
     private readonly halfDegrees = this.gapDegrees / 2
