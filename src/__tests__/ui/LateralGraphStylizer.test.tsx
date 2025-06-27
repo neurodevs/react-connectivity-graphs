@@ -226,7 +226,7 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
 
     private static get midlineNodes() {
         const bottomParams = {
-            positionX: 0,
+            positionX: 3,
             positionY: -this.graphRadius * 1.1,
             rotationDegrees: 0,
             handlePosition: 'top',
@@ -242,7 +242,7 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
         }
 
         const topParams = {
-            positionX: 0,
+            positionX: 3,
             positionY: this.graphRadius * 1.1,
             rotationDegrees: 0,
             handlePosition: 'bottom',
