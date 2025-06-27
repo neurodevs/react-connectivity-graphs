@@ -15,7 +15,7 @@ import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class LateralGraphStylizerTest extends AbstractPackageTest {
     private static instance: GraphStylizer
-    private static graphRadius = 80
+    private static graphRadius = 70
     private static nodeWidth = 0
 
     protected static async beforeEach() {
@@ -69,8 +69,8 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
             const degrees = startDegrees + degreesPerNode * idx * sign
             const radians = (Math.PI * degrees) / 180
 
-            const positionX = this.graphRadius * Math.cos(radians)
-            const positionY = this.graphRadius * Math.sin(radians)
+            const positionX = this.graphRadius * Math.cos(radians) - 4 // = 0.5rem = 16 px / 4 ?
+            const positionY = this.graphRadius * Math.sin(radians) - 4
 
             const sidedId = `${node.id}-${side}`
 
@@ -92,7 +92,7 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
                         fontWeight: 100,
                         color: '#777',
                         borderWidth: `0 ${onLeftSide ? '1.5px' : 0} 0 ${onLeftSide ? 0 : '1.5px'}`,
-                        padding: `6px ${onLeftSide ? '12px' : 0} 6px ${onLeftSide ? 0 : '12px'}`,
+                        padding: '0.5rem',
                         borderStyle: 'solid',
                         borderColor: '#888',
                         backgroundColor: 'transparent',
@@ -226,7 +226,7 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
 
     private static get midlineNodes() {
         const bottomParams = {
-            positionX: 3,
+            positionX: 0,
             positionY: -this.graphRadius * 1.1,
             rotationDegrees: 0,
             handlePosition: 'top',
@@ -242,7 +242,7 @@ export default class LateralGraphStylizerTest extends AbstractPackageTest {
         }
 
         const topParams = {
-            positionX: 3,
+            positionX: 0,
             positionY: this.graphRadius * 1.1,
             rotationDegrees: 0,
             handlePosition: 'bottom',

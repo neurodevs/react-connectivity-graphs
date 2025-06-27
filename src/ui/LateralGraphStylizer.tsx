@@ -40,7 +40,7 @@ export default class LateralGraphStylizer {
 
         const sidedStyles = {
             borderWidth: `0 ${onLeftSide ? '1.5px' : 0} 0 ${onLeftSide ? 0 : '1.5px'}`,
-            padding: `6px ${onLeftSide ? '12px' : 0} 6px ${onLeftSide ? 0 : '12px'}`,
+            padding: '0.5rem',
             textAlign: onLeftSide ? 'right' : 'left',
             justifyContent: flex,
             WebkitJustifyContent: flex,
@@ -50,8 +50,8 @@ export default class LateralGraphStylizer {
             const degrees = startDegrees + degreesPerNode * idx * sign
             const radians = (Math.PI * degrees) / 180
 
-            const positionX = this.graphRadius * Math.cos(radians)
-            const positionY = this.graphRadius * Math.sin(radians)
+            const positionX = this.graphRadius * Math.cos(radians) - 4
+            const positionY = this.graphRadius * Math.sin(radians) - 4
 
             const rotationDegrees = onLeftSide ? degrees + 180 : degrees
 
@@ -194,7 +194,7 @@ export default class LateralGraphStylizer {
 
     private get midlineNodes() {
         const bottomParams = {
-            positionX: 3,
+            positionX: 0,
             positionY: -this.graphRadius * 1.1,
             rotationDegrees: 0,
             handlePosition: 'top',
@@ -210,7 +210,7 @@ export default class LateralGraphStylizer {
         }
 
         const topParams = {
-            positionX: 3,
+            positionX: 0,
             positionY: this.graphRadius * 1.1,
             rotationDegrees: 0,
             handlePosition: 'bottom',
@@ -270,7 +270,7 @@ export default class LateralGraphStylizer {
         return side == 'left' ? 'right' : 'left'
     }
 
-    private readonly graphRadius = 80
+    private readonly graphRadius = 70
     private readonly bottomDegrees = 90
     private readonly gapDegrees = 40
     private readonly halfDegrees = this.gapDegrees / 2
@@ -317,7 +317,6 @@ export interface BaseNodeStyle {
 
 export interface SidedNodeStyle {
     borderWidth: string
-    padding: string
     textAlign: string
     justifyContent: string
     WebkitJustifyContent: string
