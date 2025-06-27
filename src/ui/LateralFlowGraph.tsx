@@ -13,11 +13,13 @@ import GraphRenderer from './GraphRenderer'
 export interface LateralFlowGraphProps {
     nodes: SimpleNode[]
     edges: LateralizedEdge[]
+    viewPadding?: number
 }
 
 const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
     nodes,
     edges,
+    viewPadding,
 }) => {
     const { enrichedNodes, enrichedEdges } = useMemo(() => {
         if (edges.length > 0 && nodes.length === 0) {
@@ -37,6 +39,7 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
             <RendererComponentGraph
                 nodes={enrichedNodes}
                 edges={enrichedEdges}
+                viewPadding={viewPadding}
             />
         </ProviderComponent>
     )

@@ -20,6 +20,7 @@ export interface GraphRendererProps {
     onEdgeMouseEnter?: () => void
     onEdgeMouseLeave?: () => void
     minZoom?: number
+    viewPadding?: number
     showControls?: boolean
 }
 
@@ -36,6 +37,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     onEdgeMouseEnter,
     onEdgeMouseLeave,
     minZoom = 1,
+    viewPadding = 0.2,
     showControls = false,
 }) => {
     const [nodes, setNodes] = useState<EnrichedNode[]>(initialNodes)
@@ -54,7 +56,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     useEffect(() => {
         if (rfInstance) {
             setTimeout(() => {
-                void rfInstance.fitView({ padding: 0.2, minZoom })
+                void rfInstance.fitView({ padding: viewPadding, minZoom })
                 setIsLoaded(true)
             }, 0)
         }

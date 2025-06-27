@@ -76,17 +76,16 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
     protected static async passesEnrichedNodesAndEdgesToGraphRenderer() {
         const stylizer = LateralGraphStylizer.Create()
 
-        const { nodes, edges } = stylizer.lateralize(
+        const expected = stylizer.lateralize(
             this.simpleNodes,
             this.lateralizedEdges
         )
 
+        const { nodes, edges } = lastFakeGraphRendererProps ?? {}
+
         assert.isEqualDeep(
-            lastFakeGraphRendererProps,
-            {
-                nodes,
-                edges,
-            },
+            { nodes, edges },
+            expected,
             'Should return serialized graph!'
         )
     }
@@ -96,6 +95,19 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
         assert.isTrue(
             providerWasCreated,
             'Should render with ReactFlowProvider!'
+        )
+    }
+
+    @test()
+    protected static async exposesViewPaddingPropAndPassesToGraphRenderer() {
+        const viewPadding = Math.random()
+
+        this.render({ viewPadding, ...this.options })
+
+        assert.isEqual(
+            lastFakeGraphRendererProps?.viewPadding,
+            viewPadding,
+            'Should pass viewPadding'
         )
     }
 

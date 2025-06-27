@@ -429,22 +429,42 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
     @test()
     protected static async exposesMinZoomProp() {
-        const expectedMinZoom = Math.random()
+        const expected = Math.random()
 
-        this.render({ minZoom: expectedMinZoom })
+        this.render({ minZoom: expected })
 
+        const fake = await this.simulateRfInstance()
+
+        assert.isEqual(
+            fake.passedFitViewOptions?.minZoom,
+            expected,
+            'Should pass minZoom prop!'
+        )
+    }
+
+    @test()
+    protected static async exposesViewPaddingProp() {
+        const expected = Math.random()
+
+        this.render({ viewPadding: expected })
+
+        const fake = await this.simulateRfInstance()
+
+        assert.isEqual(
+            fake.passedFitViewOptions?.padding,
+            expected,
+            'Should pass viewPadding prop!'
+        )
+    }
+
+    private static async simulateRfInstance() {
         const fake = new FakeReactFlowInstance()
 
         const { onInit } = lastFakeReactFlowProps ?? {}
         onInit?.(fake as ReactFlowInstance)
-
         await this.waitFiveMs()
 
-        assert.isEqual(
-            fake.passedFitViewOptions?.minZoom,
-            expectedMinZoom,
-            'Should pass minZoom prop!'
-        )
+        return fake
     }
 
     private static renderWithMidlineNodes() {
@@ -616,6 +636,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
             nodes,
             edges,
             minZoom,
+            viewPadding,
             showControls,
         } = options ?? {}
 
@@ -634,6 +655,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
                 onEdgeMouseEnter={this.onEdgeMouseEnter}
                 onEdgeMouseLeave={this.onEdgeMouseLeave}
                 minZoom={minZoom}
+                viewPadding={viewPadding}
                 showControls={showControls}
             />
         )
@@ -662,6 +684,7 @@ export interface RenderOptions {
     nodes?: EnrichedNode[]
     edges?: EnrichedEdge[]
     minZoom?: number
+    viewPadding?: number
     showControls?: boolean
 }
 
