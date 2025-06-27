@@ -195,10 +195,11 @@ export default class LateralGraphStylizer {
     private get midlineNodes() {
         const bottomParams = {
             positionX: 0,
-            positionY: (-this.graphRadius * 2) / 5,
+            positionY: -this.graphRadius * 1.1,
             rotationDegrees: 0,
             handlePosition: 'top',
             sidedStyles: {
+                width: '1px',
                 color: '#baedaf',
                 borderWidth: '0',
                 padding: '0',
@@ -210,10 +211,11 @@ export default class LateralGraphStylizer {
 
         const topParams = {
             positionX: 0,
-            positionY: (this.graphRadius * 2) / 5,
+            positionY: this.graphRadius * 1.1,
             rotationDegrees: 0,
             handlePosition: 'bottom',
             sidedStyles: {
+                width: '1px',
                 color: '#baedaf',
                 borderWidth: '0',
                 padding: '0',
