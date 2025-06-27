@@ -134,7 +134,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
             (_: any, node: Node) => {
                 const { id: nodeId } = node
 
-                if (isMidlineNode(nodeId)) {
+                if (shouldIgnoreHoverForNode(nodeId)) {
                     return
                 }
                 if (hoveredId !== nodeId) {
@@ -151,7 +151,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
             (_: any, node: Node) => {
                 const { id: nodeId } = node
 
-                if (isMidlineNode(nodeId)) {
+                if (shouldIgnoreHoverForNode(nodeId)) {
                     return
                 }
                 if (hoveredId !== null) {
@@ -225,7 +225,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
         })
     }
 
-    function isMidlineNode(id: string) {
+    function shouldIgnoreHoverForNode(id: string) {
         return ['bottom-midline', 'top-midline'].includes(id)
     }
 }
