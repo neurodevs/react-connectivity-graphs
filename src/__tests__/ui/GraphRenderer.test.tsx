@@ -158,8 +158,14 @@ export default class GraphRendererTest extends AbstractPackageTest {
     }
 
     @test()
-    protected static async rendersControls() {
+    protected static async doesNotRenderControlsByDefault() {
         const control = this.renderAndGetControls()
+        assert.isFalsy(control, 'Should not render controls by default!')
+    }
+
+    @test()
+    protected static async providesOptionToEnableControls() {
+        const control = this.renderAndGetControls({ showControls: true })
 
         assert.isTruthy(
             control,
@@ -431,19 +437,19 @@ export default class GraphRendererTest extends AbstractPackageTest {
         return this.createElement(GraphRenderer)
     }
 
-    private static renderAndGetTopLevelDiv() {
-        const { getByTestId } = this.render()
-        return getByTestId('graph-renderer')
-    }
-
     private static renderAndGetReactFlow() {
         const div = this.renderAndGetTopLevelDiv()
         return div.querySelector('.react-flow')
     }
 
-    private static renderAndGetControls() {
-        const div = this.renderAndGetTopLevelDiv()
+    private static renderAndGetControls(options?: RenderOptions) {
+        const div = this.renderAndGetTopLevelDiv(options)
         return div.querySelector('.react-flow__controls')
+    }
+
+    private static renderAndGetTopLevelDiv(options?: RenderOptions) {
+        const { getByTestId } = this.render(options)
+        return getByTestId('graph-renderer')
     }
 
     private static renderThreeNodesFireMouseEnter() {
@@ -479,44 +485,6 @@ export default class GraphRendererTest extends AbstractPackageTest {
         })
 
         return renderedNode
-    }
-
-    private static render(options?: RenderOptions) {
-        const { useFakeReactFlow = true, nodes, edges, minZoom } = options ?? {}
-        const reactflow = useFakeReactFlow ? FakeReactFlow : ReactFlow
-
-        setReactFlowComponent(reactflow)
-
-        return this.renderWithProvider(
-            <GraphRenderer
-                nodes={nodes ?? this.oneFakeNodes}
-                edges={edges ?? this.oneFakeEdges}
-                onNodeClick={this.onNodeClick}
-                onNodeMouseEnter={this.onNodeMouseEnter}
-                onNodeMouseLeave={this.onNodeMouseLeave}
-                onEdgeClick={this.onEdgeClick}
-                onEdgeMouseEnter={this.onEdgeMouseEnter}
-                onEdgeMouseLeave={this.onEdgeMouseLeave}
-                minZoom={minZoom}
-            />
-        )
-    }
-
-    private static rerender(
-        useFakeReactFlow = false,
-        nodes?: EnrichedNode[],
-        edges?: EnrichedEdge[]
-    ) {
-        const { rerender } = this.render({ useFakeReactFlow, nodes, edges })
-
-        rerender?.(
-            <ReactFlowProvider>
-                <GraphRenderer
-                    nodes={nodes ?? this.twoFakeNodes}
-                    edges={edges ?? this.twoFakeEdges}
-                />
-            </ReactFlowProvider>
-        )
     }
 
     private static readonly onNodeClick = () => {
@@ -601,6 +569,52 @@ export default class GraphRendererTest extends AbstractPackageTest {
     private static async waitFiveMs() {
         await new Promise((resolve) => setTimeout(resolve, 5))
     }
+
+    private static render(options?: RenderOptions) {
+        const {
+            useFakeReactFlow = true,
+            nodes,
+            edges,
+            minZoom,
+            showControls,
+        } = options ?? {}
+
+        const reactflow = useFakeReactFlow ? FakeReactFlow : ReactFlow
+
+        setReactFlowComponent(reactflow)
+
+        return this.renderWithProvider(
+            <GraphRenderer
+                nodes={nodes ?? this.oneFakeNodes}
+                edges={edges ?? this.oneFakeEdges}
+                onNodeClick={this.onNodeClick}
+                onNodeMouseEnter={this.onNodeMouseEnter}
+                onNodeMouseLeave={this.onNodeMouseLeave}
+                onEdgeClick={this.onEdgeClick}
+                onEdgeMouseEnter={this.onEdgeMouseEnter}
+                onEdgeMouseLeave={this.onEdgeMouseLeave}
+                minZoom={minZoom}
+                showControls={showControls}
+            />
+        )
+    }
+
+    private static rerender(
+        useFakeReactFlow = false,
+        nodes?: EnrichedNode[],
+        edges?: EnrichedEdge[]
+    ) {
+        const { rerender } = this.render({ useFakeReactFlow, nodes, edges })
+
+        rerender?.(
+            <ReactFlowProvider>
+                <GraphRenderer
+                    nodes={nodes ?? this.twoFakeNodes}
+                    edges={edges ?? this.twoFakeEdges}
+                />
+            </ReactFlowProvider>
+        )
+    }
 }
 
 export interface RenderOptions {
@@ -608,6 +622,7 @@ export interface RenderOptions {
     nodes?: EnrichedNode[]
     edges?: EnrichedEdge[]
     minZoom?: number
+    showControls?: boolean
 }
 
 export interface WasCalledByCallbacks {
