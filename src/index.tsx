@@ -2,17 +2,15 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 
 import '@xyflow/react/dist/style.css'
-import { App, GraphRendererProps } from './exports'
+import { App, LateralFlowGraphProps } from './exports'
+import props from './scripts/ctactile-simple'
 
 async function main() {
-    const res = await fetch('/dist/ctactile-simple.json')
-    const props: GraphRendererProps = await res.json()
-
     const root = ReactDOM.createRoot(document.getElementById('root')!)
 
     root.render(
         <React.StrictMode>
-            <App {...props} />
+            <App {...(props as LateralFlowGraphProps)} />
         </React.StrictMode>
     )
 }

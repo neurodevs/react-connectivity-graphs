@@ -1,12 +1,12 @@
 import { ReactFlowProvider } from '@xyflow/react'
 import React from 'react'
-import { GraphRenderer, GraphRendererProps } from '../exports'
+import { LateralFlowGraph, LateralFlowGraphProps } from '../exports'
 
-const App: React.FC<GraphRendererProps> = (props: GraphRendererProps) => {
+const App: React.FC<LateralFlowGraphProps> = (props: LateralFlowGraphProps) => {
     return (
         <div id="app" data-testid="app">
             <ProviderComponentApp>
-                <RendererComponentApp {...props} />
+                <GraphComponent {...props} />
             </ProviderComponentApp>
         </div>
     )
@@ -22,10 +22,8 @@ export function setProviderComponentApp(component: typeof ReactFlowProvider) {
     ProviderComponentApp = component
 }
 
-export let RendererComponentApp: React.FC<GraphRendererProps> = GraphRenderer
+export let GraphComponent: React.FC<LateralFlowGraphProps> = LateralFlowGraph
 
-export function setRendererComponentApp(
-    component: React.FC<GraphRendererProps>
-) {
-    RendererComponentApp = component
+export function setGraphComponent(component: React.FC<LateralFlowGraphProps>) {
+    GraphComponent = component
 }

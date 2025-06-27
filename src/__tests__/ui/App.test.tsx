@@ -3,8 +3,11 @@ import { render, RenderResult } from '@testing-library/react'
 import React from 'react'
 import {
     providerWasCreated,
-    lastFakeGraphRendererProps,
     App,
+    setGraphComponent,
+    FakeLateralFlowGraph,
+    resetFakeLateralFlowGraphProps,
+    lastFakeLateralFlowGraphProps,
 } from '../../exports'
 import AbstractPackageTest from '../AbstractPackageTest'
 
@@ -15,7 +18,9 @@ export default class AppTest extends AbstractPackageTest {
         await super.beforeEach()
 
         this.setFakeReactFlowProvider()
-        this.setFakeGraphRendererOnApp()
+
+        setGraphComponent(FakeLateralFlowGraph)
+        resetFakeLateralFlowGraphProps()
 
         this.element = this.render()
     }
@@ -36,11 +41,11 @@ export default class AppTest extends AbstractPackageTest {
     }
 
     @test()
-    protected static async rendersGraphRendererWithProps() {
+    protected static async rendersLateralFlowGraphWithProps() {
         this.render()
 
         assert.isTruthy(
-            lastFakeGraphRendererProps,
+            lastFakeLateralFlowGraphProps,
             'Should render GraphRenderer with props!'
         )
     }

@@ -3,8 +3,8 @@
 export { default as LateralFlowGraph } from './ui/LateralFlowGraph'
 export * from './ui/LateralFlowGraph'
 
-export { default as FakeFlowGraph } from './testDoubles/FakeFlowGraph'
-export * from './testDoubles/FakeFlowGraph'
+export { default as FakeLateralFlowGraph } from './testDoubles/FakeLateralFlowGraph'
+export * from './testDoubles/FakeLateralFlowGraph'
 
 // LateralGraphStylizer.ts
 
