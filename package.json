@@ -1,6 +1,6 @@
 {
   "name": "@neurodevs/react-connectivity-graphs",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "main": "build/exports.js",
   "repository": "https://github.com/neurodevs/react-connectivity-graphs.git",
   "scripts": {
