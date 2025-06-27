@@ -95,6 +95,8 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                 onInit={setRfInstance}
                 panOnDrag={false}
                 panOnScroll={false}
+                zoomOnPinch={false}
+                zoomOnScroll={false}
             />
             {showControls && <Controls />}
         </div>

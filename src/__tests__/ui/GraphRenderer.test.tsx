@@ -211,7 +211,27 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
         assert.isFalse(
             lastFakeReactFlowProps?.panOnScroll as boolean,
-            'Should set panOnDrag to false on ReactFlow!'
+            'Should set panOnScroll to false on ReactFlow!'
+        )
+    }
+
+    @test()
+    protected static async disablesZoomOnPinch() {
+        this.render()
+
+        assert.isFalse(
+            lastFakeReactFlowProps?.zoomOnPinch as boolean,
+            'Should set zoomOnPinch to false on ReactFlow!'
+        )
+    }
+
+    @test()
+    protected static async disablesZoomOnScroll() {
+        this.render()
+
+        assert.isFalse(
+            lastFakeReactFlowProps?.zoomOnScroll as boolean,
+            'Should set zoomOnScroll to false on ReactFlow!'
         )
     }
 
