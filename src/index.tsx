@@ -8,9 +8,11 @@ import props from './scripts/ctactile-simple'
 async function main() {
     const root = ReactDOM.createRoot(document.getElementById('root')!)
 
+    const expanded = { ...props, viewPadding: 2.5 } as LateralFlowGraphProps
+
     root.render(
         <React.StrictMode>
-            <App {...(props as LateralFlowGraphProps)} />
+            <App {...expanded} />
         </React.StrictMode>
     )
 }
