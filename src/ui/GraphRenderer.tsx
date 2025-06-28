@@ -46,7 +46,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     const [isLoaded, setIsLoaded] = useState(false)
     const [isAbbreviationsActive, setIsAbbreviationsActive] = useState(false)
 
-    const suppressHoverRef = useRef(false)
+    const disableHoverRef = useRef(false)
 
     const [rfInstance, setRfInstance] = useState<ReactFlowInstance | null>(null)
 
@@ -156,7 +156,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     function useCallbackNodeClick() {
         return useCallback(
             (_: any, node: Node) => {
-                suppressHoverRef.current = true
+                disableHoverRef.current = !disableHoverRef.current
 
                 const { id: nodeId } = node
 
@@ -177,7 +177,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                 if (shouldIgnoreHoverForNode(nodeId)) {
                     return
                 }
-                if (suppressHoverRef.current) {
+                if (disableHoverRef.current) {
                     return
                 }
                 if (hoveredId !== nodeId) {
@@ -197,7 +197,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                 if (shouldIgnoreHoverForNode(nodeId)) {
                     return
                 }
-                if (suppressHoverRef.current) {
+                if (disableHoverRef.current) {
                     return
                 }
                 if (hoveredId !== null) {

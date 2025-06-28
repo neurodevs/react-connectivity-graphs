@@ -440,7 +440,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
     }
 
     @test()
-    protected static async nodeClickSuppressesMouseEnter() {
+    protected static async nodeClickDisablesMouseEnter() {
         const { toggle } = this.renderAndClickAbbreviationsToggle()
 
         act(() => {
@@ -449,12 +449,12 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
         assert.isFalse(
             this.called.onNodeMouseEnter,
-            'Should suppress onNodeMouseEnter after node click!'
+            'Should disable onNodeMouseEnter after node click!'
         )
     }
 
     @test()
-    protected static async mouseEnterTwiceIsStillSuppressed() {
+    protected static async mouseEnterTwiceIsStillDisabled() {
         const { toggle } = this.renderAndClickAbbreviationsToggle()
 
         act(() => {
@@ -464,12 +464,12 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
         assert.isFalse(
             this.called.onNodeMouseEnter,
-            'Should permanently suppress onNodeMouseEnter after click!'
+            'Should disable onNodeMouseEnter until clicked again!'
         )
     }
 
     @test()
-    protected static async nodeClickSuppressesMouseLeave() {
+    protected static async nodeClickDisablesMouseLeave() {
         const { toggle } = this.renderAndClickAbbreviationsToggle()
 
         act(() => {
@@ -478,12 +478,12 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
         assert.isFalse(
             this.called.onNodeMouseLeave,
-            'Should suppress onNodeMouseLeave after node click!'
+            'Should disable onNodeMouseLeave after node click!'
         )
     }
 
     @test()
-    protected static async mouseLeaveTwiceIsStillSuppressed() {
+    protected static async mouseLeaveTwiceIsStillDisabled() {
         const { toggle } = this.renderAndClickAbbreviationsToggle()
 
         act(() => {
@@ -493,7 +493,22 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
         assert.isFalse(
             this.called.onNodeMouseLeave,
-            'Should permanently suppress onNodeMouseLeave after click!'
+            'Should disable onNodeMouseLeave until clicked again!'
+        )
+    }
+
+    @test()
+    protected static async clickingTwiceEnablesMouseEnter() {
+        const { toggle } = this.renderAndClickAbbreviationsToggle()
+
+        act(() => {
+            fireEvent.click(toggle)
+            fireEvent.mouseEnter(toggle)
+        })
+
+        assert.isTrue(
+            this.called.onNodeMouseEnter,
+            'Should enable onNodeMouseEnter after two clicks!'
         )
     }
 
