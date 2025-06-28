@@ -15,19 +15,17 @@ html, body, #root, #app {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 41vmin;
-  height: 41vmin;
+  width: 25vmin;
+  height: 35vmin;
   transform: translate(-50%, -50%) translateX(-6px) translateY(-6px);
   background: rgba(255, 255, 255, 0.8);
   z-index: 10;
   backdrop-filter: blur(4px);
-  border-radius: 50%;
+  border-radius: 10%;
   backdrop-filter: blur(4px);
   box-shadow: 0 0 0 2px rgba(200, 200, 200, 0.6),
-              0 0 0 6px rgba(200, 200, 200, 0.3),
-              0 0 0 10px rgba(200, 200, 200, 0.15),
-              0 0 0 14px rgba(200, 200, 200, 0.10),
-              0 0 0 18px rgba(200, 200, 200, 0.05);
+              0 0 0 4px rgba(200, 200, 200, 0.3),
+              0 0 0 6px rgba(200, 200, 200, 0.15);
 }
 
 .react-flow__node {
