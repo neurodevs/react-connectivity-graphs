@@ -19,6 +19,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
     private static called: WasCalledByCallbacks
     private static readonly highlightStrColor = 'dodgerblue'
     private static readonly highlightRgbColor = 'rgb(30, 144, 255)'
+    private static midlineNodes: EnrichedNode[] = []
 
     protected static async beforeEach() {
         await super.beforeEach()
@@ -450,6 +451,21 @@ export default class GraphRendererTest extends AbstractPackageTest {
     }
 
     @test()
+    protected static async abbreviationsModalListsAllNodes() {
+        this.renderAndClickToggle()
+
+        this.twoFakeNodes.forEach((node) => {
+            const row = screen.getByTestId(`row-${node.id}`)
+
+            assert.isEqual(
+                row.textContent,
+                `${node.abbreviation}${node.label}`,
+                `Should render row for node ${node.id} in modal!`
+            )
+        })
+    }
+
+    @test()
     protected static async rendersAbbreviationsModalWithId() {
         const modal = this.renderAndGetAbbreviationsModal()
 
@@ -628,6 +644,35 @@ export default class GraphRendererTest extends AbstractPackageTest {
     }
 
     private static renderWithMidlineNodes() {
+        this.generateMidlineNodes()
+
+        setReactFlowComponent(ReactFlow)
+
+        this.renderWithProvider(
+            <GraphRenderer
+                nodes={[...this.twoFakeNodes, ...this.midlineNodes]}
+                edges={this.oneFakeEdges}
+                onNodeMouseEnter={this.onNodeMouseEnter}
+                onNodeMouseLeave={this.onNodeMouseLeave}
+            />
+        )
+
+        const midlineTop = screen.getByTestId(
+            `rf__node-${this.midlineNodes[0].id}`
+        )
+        const midlineBottom = screen.getByTestId(
+            `rf__node-${this.midlineNodes[1].id}`
+        )
+        const toggle = screen.getByTestId(`rf__node-${this.midlineNodes[2].id}`)
+
+        return {
+            midlineTop,
+            midlineBottom,
+            toggle,
+        }
+    }
+
+    private static generateMidlineNodes() {
         // Undesirable coupling with LateralGraphStylizer
         const id1 = 'bottom-midline'
         const id2 = 'top-midline'
@@ -637,28 +682,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
         const midlineNode2 = this.generateFakeNode(id2)
         const midlineNode3 = this.generateFakeNode(id3)
 
-        const nodes = [midlineNode1, midlineNode2, midlineNode3]
-
-        setReactFlowComponent(ReactFlow)
-
-        this.renderWithProvider(
-            <GraphRenderer
-                nodes={nodes}
-                edges={this.oneFakeEdges}
-                onNodeMouseEnter={this.onNodeMouseEnter}
-                onNodeMouseLeave={this.onNodeMouseLeave}
-            />
-        )
-
-        const midlineTop = screen.getByTestId(`rf__node-${id1}`)
-        const midlineBottom = screen.getByTestId(`rf__node-${id2}`)
-        const toggle = screen.getByTestId(`rf__node-${id3}`)
-
-        return {
-            midlineTop,
-            midlineBottom,
-            toggle,
-        }
+        this.midlineNodes = [midlineNode1, midlineNode2, midlineNode3]
     }
 
     private static createRenderer() {

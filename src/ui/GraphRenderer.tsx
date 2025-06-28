@@ -128,13 +128,36 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
             />
             {showControls && <Controls />}
             {isToggleActive && (
-                <div
-                    id="abbreviations-modal"
-                    data-testid="abbreviations-modal"
-                />
+                <div id="abbreviations-modal" data-testid="abbreviations-modal">
+                    <table style={{ width: '100%', borderSpacing: '0.5rem' }}>
+                        <tbody>
+                            {nodes
+                                .filter((node) => shouldInclude(node.id))
+                                .map((node) => (
+                                    <tr
+                                        key={node.id}
+                                        data-testid={`row-${node.id}`}
+                                    >
+                                        <td>{node.abbreviation}</td>
+                                        <td>{node.label}</td>
+                                    </tr>
+                                ))}
+                        </tbody>
+                    </table>
+                </div>
             )}
         </div>
     )
+
+    function shouldInclude(nodeId: string) {
+        if (nodeId.includes('-')) {
+            return (
+                nodeId.includes('left') && !isNaN(Number(nodeId.split('-')[0]))
+            )
+        } else {
+            return !isNaN(Number(nodeId))
+        }
+    }
 
     function setOriginalNodeStyles() {
         if (Object.keys(originalNodeStyles.current).length === 0) {
