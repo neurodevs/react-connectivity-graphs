@@ -454,6 +454,21 @@ export default class GraphRendererTest extends AbstractPackageTest {
     }
 
     @test()
+    protected static async mouseEnterTwiceTurnsOffSuppression() {
+        const { toggle } = this.renderAndClickAbbreviationsToggle()
+
+        act(() => {
+            fireEvent.mouseEnter(toggle)
+            fireEvent.mouseEnter(toggle)
+        })
+
+        assert.isTrue(
+            this.called.onNodeMouseEnter,
+            'Should unsuppress after onNodeMouseEnter twice!'
+        )
+    }
+
+    @test()
     protected static async exposesMinZoomProp() {
         const expected = Math.random()
 

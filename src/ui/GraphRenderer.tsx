@@ -171,7 +171,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                     return
                 }
                 if (suppressHoverRef.current) {
-                    // suppressHoverRef.current = false
+                    suppressHoverRef.current = false
                     return
                 }
                 if (hoveredId !== nodeId) {
