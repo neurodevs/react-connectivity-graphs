@@ -456,7 +456,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
         assert.isEqual(
             modal.id,
             'abbreviations-modal',
-            'Should render Abbreviations modal with id "abbreviations-modal"!'
+            'Should render Abbreviations modal with id!'
         )
     }
 
