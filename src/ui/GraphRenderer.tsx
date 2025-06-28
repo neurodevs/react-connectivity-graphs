@@ -133,6 +133,9 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                         <tbody>
                             {nodes
                                 .filter((node) => shouldInclude(node.id))
+                                .sort((a, b) =>
+                                    a.abbreviation.localeCompare(b.abbreviation)
+                                )
                                 .map((node) => (
                                     <tr
                                         key={node.id}

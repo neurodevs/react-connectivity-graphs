@@ -454,7 +454,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
     protected static async abbreviationsModalListsAllNodes() {
         this.renderAndClickToggle()
 
-        this.twoFakeNodes.forEach((node) => {
+        this.threeFakeNodes.forEach((node) => {
             const row = screen.getByTestId(`row-${node.id}`)
 
             assert.isEqual(
@@ -463,6 +463,19 @@ export default class GraphRendererTest extends AbstractPackageTest {
                 `Should render row for node ${node.id} in modal!`
             )
         })
+    }
+
+    @test()
+    protected static async abbreviationsModalSortsAlphabetically() {
+        this.renderAndClickToggle()
+
+        const rows = screen.queryAllByTestId(/row-\d/)
+
+        const ids = rows.map((row) =>
+            row.getAttribute('data-testid')?.replace('row-', '')
+        )
+
+        assert.isEqualDeep(ids, ['1', '2', '3'])
     }
 
     @test()
@@ -650,7 +663,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
         this.renderWithProvider(
             <GraphRenderer
-                nodes={[...this.twoFakeNodes, ...this.midlineNodes]}
+                nodes={[...this.threeFakeNodes, ...this.midlineNodes]}
                 edges={this.oneFakeEdges}
                 onNodeMouseEnter={this.onNodeMouseEnter}
                 onNodeMouseLeave={this.onNodeMouseLeave}
@@ -767,15 +780,15 @@ export default class GraphRendererTest extends AbstractPackageTest {
         rotatableNode: RotatableNode,
     }
 
-    private static generateFakeNode(nodeId = '1') {
+    private static generateFakeNode(nodeId = '1', text?: string) {
         const label = `Node ${nodeId}`
         const abbreviation = `N${nodeId}`
 
         return {
             id: nodeId,
             position: { x: 0, y: 0 },
-            label,
-            abbreviation,
+            label: text ?? label,
+            abbreviation: text ?? abbreviation,
             style: {
                 color: 'black',
                 borderColor: 'black',
@@ -796,6 +809,12 @@ export default class GraphRendererTest extends AbstractPackageTest {
     private static twoFakeNodes: EnrichedNode[] = [
         this.generateFakeNode(),
         this.generateFakeNode('2'),
+    ]
+
+    private static threeFakeNodes: EnrichedNode[] = [
+        this.generateFakeNode('1', 'A'),
+        this.generateFakeNode('3', 'C'),
+        this.generateFakeNode('2', 'B'),
     ]
 
     private static generateFakeEdge(edgeId = 'e1-2') {
