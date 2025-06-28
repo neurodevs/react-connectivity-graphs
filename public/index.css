@@ -8,6 +8,26 @@ html, body, #root, #app {
 .graph-renderer {
     height: 100%;
     width: 100%;
+    position: relative;
+}
+
+#abbreviations-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 41vmin;
+  height: 41vmin;
+  transform: translate(-50%, -50%) translateX(-6px) translateY(-6px);
+  background: rgba(255, 255, 255, 0.8);
+  z-index: 10;
+  backdrop-filter: blur(4px);
+  border-radius: 50%;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 0 0 2px rgba(200, 200, 200, 0.6),
+              0 0 0 6px rgba(200, 200, 200, 0.3),
+              0 0 0 10px rgba(200, 200, 200, 0.15),
+              0 0 0 14px rgba(200, 200, 200, 0.10),
+              0 0 0 18px rgba(200, 200, 200, 0.05);
 }
 
 .react-flow__node {
