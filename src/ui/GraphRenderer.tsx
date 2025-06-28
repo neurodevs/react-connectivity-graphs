@@ -127,6 +127,12 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                 zoomOnScroll={false}
             />
             {showControls && <Controls />}
+            {isToggleActive && (
+                <div
+                    id="abbreviations-modal"
+                    data-testid="abbreviations-modal"
+                />
+            )}
         </div>
     )
 

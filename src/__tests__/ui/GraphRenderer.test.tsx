@@ -440,6 +440,27 @@ export default class GraphRendererTest extends AbstractPackageTest {
     }
 
     @test()
+    protected static async clickingToggleOpensAbbreviationsModal() {
+        const modal = this.renderAndGetAbbreviationsModal()
+
+        assert.isTruthy(
+            modal,
+            'Should open Abbreviations modal when clicking toggle!'
+        )
+    }
+
+    @test()
+    protected static async rendersAbbreviationsModalWithId() {
+        const modal = this.renderAndGetAbbreviationsModal()
+
+        assert.isEqual(
+            modal.id,
+            'abbreviations-modal',
+            'Should render Abbreviations modal with id "abbreviations-modal"!'
+        )
+    }
+
+    @test()
     protected static async nodeClickDisablesMouseEnter() {
         const { toggle } = this.renderAndClickToggle()
 
@@ -588,6 +609,11 @@ export default class GraphRendererTest extends AbstractPackageTest {
         })
 
         return nodes
+    }
+
+    private static renderAndGetAbbreviationsModal() {
+        this.renderAndClickToggle()
+        return screen.getByTestId('abbreviations-modal')
     }
 
     private static renderAndClickToggle() {
