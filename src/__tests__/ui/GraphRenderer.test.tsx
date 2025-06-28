@@ -428,8 +428,8 @@ export default class GraphRendererTest extends AbstractPackageTest {
     }
 
     @test()
-    protected static async clickingAbbreviationsToggleSetsColorToDodgerblue() {
-        const { toggle } = this.renderAndClickAbbreviationsToggle()
+    protected static async clickingToggleSetsColorToDodgerblue() {
+        const { toggle } = this.renderAndClickToggle()
         const { color } = window.getComputedStyle(toggle)
 
         assert.isEqual(
@@ -441,7 +441,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
     @test()
     protected static async nodeClickDisablesMouseEnter() {
-        const { toggle } = this.renderAndClickAbbreviationsToggle()
+        const { toggle } = this.renderAndClickToggle()
 
         act(() => {
             fireEvent.mouseEnter(toggle)
@@ -455,7 +455,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
     @test()
     protected static async mouseEnterTwiceIsStillDisabled() {
-        const { toggle } = this.renderAndClickAbbreviationsToggle()
+        const { toggle } = this.renderAndClickToggle()
 
         act(() => {
             fireEvent.mouseEnter(toggle)
@@ -470,7 +470,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
     @test()
     protected static async nodeClickDisablesMouseLeave() {
-        const { toggle } = this.renderAndClickAbbreviationsToggle()
+        const { toggle } = this.renderAndClickToggle()
 
         act(() => {
             fireEvent.mouseLeave(toggle)
@@ -484,7 +484,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
     @test()
     protected static async mouseLeaveTwiceIsStillDisabled() {
-        const { toggle } = this.renderAndClickAbbreviationsToggle()
+        const { toggle } = this.renderAndClickToggle()
 
         act(() => {
             fireEvent.mouseLeave(toggle)
@@ -499,10 +499,9 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
     @test()
     protected static async clickingTwiceEnablesMouseEnter() {
-        const { toggle } = this.renderAndClickAbbreviationsToggle()
+        const { toggle } = this.renderAndClickToggleTwice()
 
         act(() => {
-            fireEvent.click(toggle)
             fireEvent.mouseEnter(toggle)
         })
 
@@ -514,16 +513,31 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
     @test()
     protected static async clickingTwiceEnablesMouseLeave() {
-        const { toggle } = this.renderAndClickAbbreviationsToggle()
+        const { toggle } = this.renderAndClickToggleTwice()
 
         act(() => {
-            fireEvent.click(toggle)
             fireEvent.mouseLeave(toggle)
         })
 
         assert.isTrue(
             this.called.onNodeMouseLeave,
             'Should enable onNodeMouseLeave after two clicks!'
+        )
+    }
+
+    @test()
+    protected static async clickingTwiceResetsColorToOriginal() {
+        this.renderAndClickToggleTwice()
+
+        const toggle = screen.getByTestId('rf__node-abbreviations-toggle')
+        const style = window.getComputedStyle(toggle)
+
+        debugger
+
+        assert.isEqual(
+            style.color,
+            'rgb(204, 204, 204)',
+            'Should reset color to original after clicking twice!'
         )
     }
 
@@ -567,12 +581,23 @@ export default class GraphRendererTest extends AbstractPackageTest {
         return fake
     }
 
-    private static renderAndClickAbbreviationsToggle() {
-        const nodes = this.renderWithMidlineNodes()
-        const { toggle: renderedNode3 } = nodes
+    private static renderAndClickToggleTwice() {
+        const nodes = this.renderAndClickToggle()
+        const { toggle } = nodes
 
         act(() => {
-            fireEvent.click(renderedNode3)
+            fireEvent.click(toggle)
+        })
+
+        return nodes
+    }
+
+    private static renderAndClickToggle() {
+        const nodes = this.renderWithMidlineNodes()
+        const { toggle } = nodes
+
+        act(() => {
+            fireEvent.click(toggle)
         })
 
         return nodes

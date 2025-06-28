@@ -44,7 +44,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     const [edges, setEdges] = useState<EnrichedEdge[]>(initialEdges)
     const [hoveredId, setHoveredId] = useState<string | null>(null)
     const [isLoaded, setIsLoaded] = useState(false)
-    const [isAbbreviationsActive, setIsAbbreviationsActive] = useState(false)
+    const [isToggleActive, setIsToggleActive] = useState(false)
 
     const disableHoverRef = useRef(false)
 
@@ -75,24 +75,26 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     }, [initialNodes, initialEdges])
 
     useEffect(() => {
+        const color = isToggleActive ? 'dodgerblue' : '#ccc'
+
         setNodes((nodes) =>
             nodes.map((node) =>
                 node.id === 'abbreviations-toggle'
                     ? {
                           ...node,
-                          style: { ...node.style, color: 'dodgerblue' },
+                          style: { ...node.style, color },
                           data: {
                               ...node.data,
                               style: {
                                   ...node.data?.style,
-                                  color: 'dodgerblue',
+                                  color,
                               },
                           },
                       }
                     : node
             )
         )
-    }, [isAbbreviationsActive])
+    }, [isToggleActive])
 
     useEffect(() => {
         const highlightedNodes = highlightNodes()
@@ -161,11 +163,11 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                 const { id: nodeId } = node
 
                 if (nodeId == 'abbreviations-toggle') {
-                    setIsAbbreviationsActive(true)
+                    setIsToggleActive(!isToggleActive)
                 }
                 onNodeClick?.(_, node)
             },
-            [onNodeClick]
+            [isToggleActive, onNodeClick]
         )
     }
 
