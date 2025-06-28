@@ -428,6 +428,23 @@ export default class GraphRendererTest extends AbstractPackageTest {
     }
 
     @test()
+    protected static async clickingAbbreviationsToggleSetsColorToDodgerblue() {
+        const { renderedNode3 } = this.renderWithMidlineNodes()
+
+        act(() => {
+            fireEvent.click(renderedNode3)
+        })
+
+        const { color } = window.getComputedStyle(renderedNode3)
+
+        assert.isEqual(
+            color,
+            'rgb(30, 144, 255)',
+            'Should render Abbreviations toggle as dodgerblue when clicked!'
+        )
+    }
+
+    @test()
     protected static async exposesMinZoomProp() {
         const expected = Math.random()
 
@@ -471,11 +488,13 @@ export default class GraphRendererTest extends AbstractPackageTest {
         // Undesirable coupling with LateralGraphStylizer
         const id1 = 'bottom-midline'
         const id2 = 'top-midline'
+        const id3 = 'abbreviations-toggle'
 
         const midlineNode1 = this.generateFakeNode(id1)
         const midlineNode2 = this.generateFakeNode(id2)
+        const midlineNode3 = this.generateFakeNode(id3)
 
-        const nodes = [midlineNode1, midlineNode2]
+        const nodes = [midlineNode1, midlineNode2, midlineNode3]
 
         setReactFlowComponent(ReactFlow)
 
@@ -490,7 +509,9 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
         const renderedNode1 = screen.getByTestId(`rf__node-${id1}`)
         const renderedNode2 = screen.getByTestId(`rf__node-${id2}`)
-        return { renderedNode1, renderedNode2 }
+        const renderedNode3 = screen.getByTestId(`rf__node-${id3}`)
+
+        return { renderedNode1, renderedNode2, renderedNode3 }
     }
 
     private static createRenderer() {

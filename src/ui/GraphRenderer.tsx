@@ -13,7 +13,7 @@ import RotatableNode from './RotatableNode'
 export interface GraphRendererProps {
     nodes: EnrichedNode[]
     edges: EnrichedEdge[]
-    onNodeClick?: () => void
+    onNodeClick?: (event: any, node: Node) => void
     onNodeMouseEnter?: (event: any, node: Node) => void
     onNodeMouseLeave?: () => void
     onEdgeClick?: () => void
@@ -44,14 +44,16 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     const [edges, setEdges] = useState<EnrichedEdge[]>(initialEdges)
     const [hoveredId, setHoveredId] = useState<string | null>(null)
     const [isLoaded, setIsLoaded] = useState(false)
+    const [isAbbreviationsActive, setIsAbbreviationsActive] = useState(false)
+
+    const [rfInstance, setRfInstance] = useState<ReactFlowInstance | null>(null)
 
     const originalNodeStyles = useRef<HighlightNodeStyles>({})
     const originalEdgeStyles = useRef<HighlightEdgeStyles>({})
 
+    const handleNodeClick = useCallbackNodeClick()
     const handleNodeMouseEnter = useCallbackNodeMouseEnter()
     const handleNodeMouseLeave = useCallbackNodeMouseLeave()
-
-    const [rfInstance, setRfInstance] = useState<ReactFlowInstance | null>(null)
 
     useEffect(() => {
         if (rfInstance) {
@@ -61,6 +63,19 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
             }, 0)
         }
     }, [rfInstance])
+
+    useEffect(() => {
+        const toggle = nodes.find((node) => node.id === 'abbreviations-toggle')
+
+        const updated: EnrichedNode = {
+            ...toggle,
+            style: { ...toggle?.style, color: 'dodgerblue' },
+            // @ts-ignore
+            data: { style: { ...toggle?.data?.style, color: 'dodgerblue' } },
+        }
+
+        setNodes([...nodes, updated])
+    }, [isAbbreviationsActive])
 
     useEffect(() => {
         setNodes(initialNodes)
@@ -88,7 +103,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                 nodes={nodes as unknown as Node[]}
                 edges={edges as unknown as Edge[]}
                 nodeTypes={nodeTypes}
-                onNodeClick={onNodeClick}
+                onNodeClick={handleNodeClick}
                 onNodeMouseEnter={handleNodeMouseEnter}
                 onNodeMouseLeave={handleNodeMouseLeave}
                 onEdgeClick={onEdgeClick}
@@ -127,6 +142,20 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                 }
             }
         }
+    }
+
+    function useCallbackNodeClick() {
+        return useCallback(
+            (_: any, node: Node) => {
+                const { id: nodeId } = node
+
+                if (nodeId == 'abbreviations-toggle') {
+                    setIsAbbreviationsActive(true)
+                }
+                onNodeClick?.(_, node)
+            },
+            [isAbbreviationsActive, onNodeClick]
+        )
     }
 
     function useCallbackNodeMouseEnter() {
