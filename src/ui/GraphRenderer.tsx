@@ -67,25 +67,32 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     }, [rfInstance])
 
     useEffect(() => {
-        const toggle = nodes.find((node) => node.id === 'abbreviations-toggle')
-
-        const updated: EnrichedNode = {
-            ...toggle,
-            style: { ...toggle?.style, color: 'dodgerblue' },
-            // @ts-ignore
-            data: { style: { ...toggle?.data?.style, color: 'dodgerblue' } },
-        }
-
-        setNodes([...nodes, updated])
-    }, [isAbbreviationsActive])
-
-    useEffect(() => {
         setNodes(initialNodes)
         setEdges(initialEdges)
 
         setOriginalNodeStyles()
         setOriginalEdgeStyles()
     }, [initialNodes, initialEdges])
+
+    useEffect(() => {
+        setNodes((nodes) =>
+            nodes.map((node) =>
+                node.id === 'abbreviations-toggle'
+                    ? {
+                          ...node,
+                          style: { ...node.style, color: 'dodgerblue' },
+                          data: {
+                              ...node.data,
+                              style: {
+                                  ...node.data?.style,
+                                  color: 'dodgerblue',
+                              },
+                          },
+                      }
+                    : node
+            )
+        )
+    }, [isAbbreviationsActive])
 
     useEffect(() => {
         const highlightedNodes = highlightNodes()
@@ -158,7 +165,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                 }
                 onNodeClick?.(_, node)
             },
-            [isAbbreviationsActive, onNodeClick]
+            [onNodeClick]
         )
     }
 
