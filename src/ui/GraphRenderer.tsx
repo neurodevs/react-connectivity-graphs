@@ -197,6 +197,9 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                 if (shouldIgnoreHoverForNode(nodeId)) {
                     return
                 }
+                if (suppressHoverRef.current) {
+                    return
+                }
                 if (hoveredId !== null) {
                     setHoveredId(null)
                 }

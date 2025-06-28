@@ -469,6 +469,35 @@ export default class GraphRendererTest extends AbstractPackageTest {
     }
 
     @test()
+    protected static async nodeClickSuppressesMouseLeave() {
+        const { toggle } = this.renderAndClickAbbreviationsToggle()
+
+        act(() => {
+            fireEvent.mouseLeave(toggle)
+        })
+
+        assert.isFalse(
+            this.called.onNodeMouseLeave,
+            'Should suppress onNodeMouseLeave after node click!'
+        )
+    }
+
+    @test()
+    protected static async mouseLeaveTwiceIsStillSuppressed() {
+        const { toggle } = this.renderAndClickAbbreviationsToggle()
+
+        act(() => {
+            fireEvent.mouseLeave(toggle)
+            fireEvent.mouseLeave(toggle)
+        })
+
+        assert.isFalse(
+            this.called.onNodeMouseLeave,
+            'Should permanently suppress onNodeMouseLeave after click!'
+        )
+    }
+
+    @test()
     protected static async exposesMinZoomProp() {
         const expected = Math.random()
 
