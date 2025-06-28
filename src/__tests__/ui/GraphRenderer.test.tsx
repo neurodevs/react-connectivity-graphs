@@ -454,7 +454,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
     }
 
     @test()
-    protected static async mouseEnterTwiceTurnsOffSuppression() {
+    protected static async mouseEnterTwiceIsStillSuppressed() {
         const { toggle } = this.renderAndClickAbbreviationsToggle()
 
         act(() => {
@@ -462,9 +462,9 @@ export default class GraphRendererTest extends AbstractPackageTest {
             fireEvent.mouseEnter(toggle)
         })
 
-        assert.isTrue(
+        assert.isFalse(
             this.called.onNodeMouseEnter,
-            'Should unsuppress after onNodeMouseEnter twice!'
+            'Should permanently suppress onNodeMouseEnter after click!'
         )
     }
 
