@@ -513,6 +513,21 @@ export default class GraphRendererTest extends AbstractPackageTest {
     }
 
     @test()
+    protected static async clickingTwiceEnablesMouseLeave() {
+        const { toggle } = this.renderAndClickAbbreviationsToggle()
+
+        act(() => {
+            fireEvent.click(toggle)
+            fireEvent.mouseLeave(toggle)
+        })
+
+        assert.isTrue(
+            this.called.onNodeMouseLeave,
+            'Should enable onNodeMouseLeave after two clicks!'
+        )
+    }
+
+    @test()
     protected static async exposesMinZoomProp() {
         const expected = Math.random()
 
