@@ -532,8 +532,6 @@ export default class GraphRendererTest extends AbstractPackageTest {
         const toggle = screen.getByTestId('rf__node-abbreviations-toggle')
         const style = window.getComputedStyle(toggle)
 
-        debugger
-
         assert.isEqual(
             style.color,
             'rgb(204, 204, 204)',
