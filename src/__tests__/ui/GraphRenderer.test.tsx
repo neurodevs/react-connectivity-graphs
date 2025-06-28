@@ -106,16 +106,16 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
         const callbacks = [
             {
-                name: 'onNodeClick',
-                callback: onNodeClick,
-            },
-            {
                 name: 'onNodeMouseEnter',
                 callback: onNodeMouseEnter,
             },
             {
                 name: 'onNodeMouseLeave',
                 callback: onNodeMouseLeave,
+            },
+            {
+                name: 'onNodeClick',
+                callback: onNodeClick,
             },
             {
                 name: 'onEdgeClick',
@@ -286,11 +286,11 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
     @test()
     protected static async doesNotUseOnNodeMouseEnterOnMidlineNodes() {
-        const { renderedNode1, renderedNode2 } = this.renderWithMidlineNodes()
+        const { midlineTop, midlineBottom } = this.renderWithMidlineNodes()
 
         act(() => {
-            fireEvent.mouseEnter(renderedNode1)
-            fireEvent.mouseEnter(renderedNode2)
+            fireEvent.mouseEnter(midlineTop)
+            fireEvent.mouseEnter(midlineBottom)
         })
 
         assert.isFalse(
@@ -301,11 +301,11 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
     @test()
     protected static async doesNotUseOnNodeMouseLeaveOnMidlineNodes() {
-        const { renderedNode1, renderedNode2 } = this.renderWithMidlineNodes()
+        const { midlineTop, midlineBottom } = this.renderWithMidlineNodes()
 
         act(() => {
-            fireEvent.mouseLeave(renderedNode1)
-            fireEvent.mouseLeave(renderedNode2)
+            fireEvent.mouseLeave(midlineTop)
+            fireEvent.mouseLeave(midlineBottom)
         })
 
         assert.isFalse(
@@ -429,18 +429,27 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
     @test()
     protected static async clickingAbbreviationsToggleSetsColorToDodgerblue() {
-        const { renderedNode3 } = this.renderWithMidlineNodes()
-
-        act(() => {
-            fireEvent.click(renderedNode3)
-        })
-
-        const { color } = window.getComputedStyle(renderedNode3)
+        const { toggle } = this.renderAndClickAbbreviationsToggle()
+        const { color } = window.getComputedStyle(toggle)
 
         assert.isEqual(
             color,
             'rgb(30, 144, 255)',
             'Should render Abbreviations toggle as dodgerblue when clicked!'
+        )
+    }
+
+    @test()
+    protected static async nodeClickSuppressesMouseEnter() {
+        const { toggle } = this.renderAndClickAbbreviationsToggle()
+
+        act(() => {
+            fireEvent.mouseEnter(toggle)
+        })
+
+        assert.isFalse(
+            this.called.onNodeMouseEnter,
+            'Should suppress onNodeMouseEnter after node click!'
         )
     }
 
@@ -484,6 +493,17 @@ export default class GraphRendererTest extends AbstractPackageTest {
         return fake
     }
 
+    private static renderAndClickAbbreviationsToggle() {
+        const nodes = this.renderWithMidlineNodes()
+        const { toggle: renderedNode3 } = nodes
+
+        act(() => {
+            fireEvent.click(renderedNode3)
+        })
+
+        return nodes
+    }
+
     private static renderWithMidlineNodes() {
         // Undesirable coupling with LateralGraphStylizer
         const id1 = 'bottom-midline'
@@ -507,11 +527,15 @@ export default class GraphRendererTest extends AbstractPackageTest {
             />
         )
 
-        const renderedNode1 = screen.getByTestId(`rf__node-${id1}`)
-        const renderedNode2 = screen.getByTestId(`rf__node-${id2}`)
-        const renderedNode3 = screen.getByTestId(`rf__node-${id3}`)
+        const midlineTop = screen.getByTestId(`rf__node-${id1}`)
+        const midlineBottom = screen.getByTestId(`rf__node-${id2}`)
+        const toggle = screen.getByTestId(`rf__node-${id3}`)
 
-        return { renderedNode1, renderedNode2, renderedNode3 }
+        return {
+            midlineTop,
+            midlineBottom,
+            toggle,
+        }
     }
 
     private static createRenderer() {

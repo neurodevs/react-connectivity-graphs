@@ -46,6 +46,8 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     const [isLoaded, setIsLoaded] = useState(false)
     const [isAbbreviationsActive, setIsAbbreviationsActive] = useState(false)
 
+    const suppressHoverRef = useRef(false)
+
     const [rfInstance, setRfInstance] = useState<ReactFlowInstance | null>(null)
 
     const originalNodeStyles = useRef<HighlightNodeStyles>({})
@@ -147,6 +149,8 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     function useCallbackNodeClick() {
         return useCallback(
             (_: any, node: Node) => {
+                suppressHoverRef.current = true
+
                 const { id: nodeId } = node
 
                 if (nodeId == 'abbreviations-toggle') {
@@ -164,6 +168,10 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                 const { id: nodeId } = node
 
                 if (shouldIgnoreHoverForNode(nodeId)) {
+                    return
+                }
+                if (suppressHoverRef.current) {
+                    // suppressHoverRef.current = false
                     return
                 }
                 if (hoveredId !== nodeId) {
