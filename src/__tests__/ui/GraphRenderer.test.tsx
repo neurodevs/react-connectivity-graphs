@@ -369,7 +369,10 @@ export default class GraphRendererTest extends AbstractPackageTest {
     @test()
     protected static async unhighlightSwapsLabelForAbbreviationInNodes() {
         const renderedNode = this.renderThreeNodesFireMouseEnter()
-        fireEvent.mouseLeave(renderedNode)
+
+        act(() => {
+            fireEvent.mouseLeave(renderedNode)
+        })
 
         const node1 = screen.getByTestId('rf__node-1')
         const node2 = screen.getByTestId('rf__node-2')
