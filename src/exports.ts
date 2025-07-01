@@ -6,14 +6,6 @@ export * from './ui/LateralFlowGraph'
 export { default as FakeLateralFlowGraph } from './testDoubles/FakeLateralFlowGraph'
 export * from './testDoubles/FakeLateralFlowGraph'
 
-// LateralGraphStylizer.ts
-
-export { default as LateralGraphStylizer } from './ui/LateralGraphStylizer'
-export * from './ui/LateralGraphStylizer'
-
-export { default as FakeGraphStylizer } from './testDoubles/FakeGraphStylizer'
-export * from './testDoubles/FakeGraphStylizer'
-
 // MultiNetworkRenderer.tsx
 
 export { default as MultiNetworkRenderer } from './ui/MultiNetworkRenderer'

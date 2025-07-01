@@ -5,8 +5,6 @@ import React from 'react'
 import {
     FakeReactFlowProvider,
     resetProviderWasCreated,
-    LateralGraphStylizer,
-    FakeGraphStylizer,
     setHandleComponent,
     FakeHandle,
     resetFakeHandleProps,
@@ -41,11 +39,6 @@ export default class AbstractPackageTest extends AbstractSpruceTest {
     protected static setFakeReactFlow() {
         setReactFlowComponent(FakeReactFlow)
         resetFakeReactFlowProps()
-    }
-
-    protected static setFakeGraphStylizer() {
-        LateralGraphStylizer.Class = FakeGraphStylizer
-        FakeGraphStylizer.resetTestDouble()
     }
 
     protected static setFakeHandle() {

@@ -3,9 +3,8 @@ import { ReactFlowProviderProps } from '@xyflow/react/dist/esm/components/ReactF
 import React, { useMemo } from 'react'
 import {
     GraphRendererProps,
-    GraphStylizer,
-    LateralGraphStylizer,
     LateralizedEdge,
+    SimpleEdge,
     SimpleNode,
 } from '../exports'
 import GraphRenderer from './GraphRenderer'
@@ -21,17 +20,51 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
     edges,
     viewPadding,
 }) => {
+    const graphRadius = 70
+    const defaultNodeWidth = 0
+    const bottomDegrees = 90
+    const gapDegrees = 40
+    const halfDegrees = gapDegrees / 2
+    const degreesPerSide = 180 - gapDegrees
+
+    const topMidlineNode = {
+        id: 'top-midline',
+        label: 'Top Midline Node',
+        abbreviation: 'L   R',
+    } as SimpleNode
+
+    const bottomMidlineNode = {
+        id: 'bottom-midline',
+        label: 'Bottom Midline Node',
+        abbreviation: 'L   R',
+    } as SimpleNode
+
+    const abbreviationsToggleNode = {
+        id: 'abbreviations-toggle',
+        label: 'Abbreviations',
+        abbreviation: 'Abbreviations',
+    }
+
+    const verticalMidlineEdge: SimpleEdge = {
+        id: 'vertical-midline',
+        source: bottomMidlineNode.id,
+        target: topMidlineNode.id,
+    }
+
+    const defaultNodeStyle = {
+        width: defaultNodeWidth,
+        fontFamily: 'sans-serif',
+        fontSize: '0.9em',
+        fontWeight: 100,
+        color: '#777',
+        borderStyle: 'solid',
+        borderColor: '#888',
+        backgroundColor: 'transparent',
+    }
+
     const { enrichedNodes, enrichedEdges } = useMemo(() => {
-        if (edges.length > 0 && nodes.length === 0) {
-            throw new Error('Cannot create a graph with edges but no nodes!')
-        }
-
-        const stylizer: GraphStylizer = LateralGraphStylizer.Create()
-
-        const { nodes: enrichedNodes, edges: enrichedEdges } =
-            stylizer.lateralize(nodes, edges)
-
-        return { enrichedNodes, enrichedEdges }
+        throwIfEdgesAndZeroNodes()
+        return enrichGraph()
     }, [nodes, edges])
 
     return (
@@ -43,6 +76,221 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
             />
         </ProviderComponent>
     )
+
+    function throwIfEdgesAndZeroNodes() {
+        if (edges.length > 0 && nodes.length === 0) {
+            throw new Error('Cannot create a graph with edges but no nodes!')
+        }
+    }
+
+    function enrichGraph() {
+        return {
+            enrichedNodes: [
+                ...mapSimpleNodes('left'),
+                ...mapSimpleNodes('right'),
+                ...getMidlineNodes(),
+            ],
+            enrichedEdges: [
+                ...mapSimpleEdges('left'),
+                ...mapSimpleEdges('right'),
+                ...getMidlineEdges(),
+            ],
+        } as EnrichedGraph
+    }
+
+    function mapSimpleNodes(side: 'left' | 'right') {
+        const onLeftSide = side == 'left'
+        const oppositeSide = opposite(side)
+        const flex = onLeftSide ? 'flex-end' : 'flex-start'
+        const sign = onLeftSide ? 1 : -1
+        const startDegrees = bottomDegrees + halfDegrees * sign
+        const degreesPerNode = degreesPerSide / (nodes.length - 1)
+
+        const sidedStyles = {
+            borderWidth: `0 ${onLeftSide ? '1.5px' : 0} 0 ${onLeftSide ? 0 : '1.5px'}`,
+            padding: '0.5rem',
+            textAlign: onLeftSide ? 'right' : 'left',
+            justifyContent: flex,
+            WebkitJustifyContent: flex,
+        }
+
+        return nodes.map((node, idx) => {
+            const degrees = startDegrees + degreesPerNode * idx * sign
+            const radians = (Math.PI * degrees) / 180
+
+            const positionX = graphRadius * Math.cos(radians) - 4
+            const positionY = graphRadius * Math.sin(radians) - 4
+
+            const rotationDegrees = onLeftSide ? degrees + 180 : degrees
+
+            const sidedId = `${node.id}-${side}`
+
+            const lateralizedNode = {
+                ...node,
+                id: sidedId,
+            }
+
+            return enrichNode(lateralizedNode, {
+                positionX,
+                positionY,
+                rotationDegrees,
+                handlePosition: oppositeSide,
+                sidedStyles,
+            })
+        }) as EnrichedNode[]
+    }
+
+    function enrichNode(node: SimpleNode, params: EnrichNodeParams) {
+        const {
+            positionX,
+            positionY,
+            rotationDegrees,
+            handlePosition,
+            sidedStyles,
+        } = params
+
+        const individualStyles: IndividualNodeStyle = {
+            transform: `translateX(${positionX.toFixed(1)}px) translateY(${positionY.toFixed(1)}px) rotate(${rotationDegrees}deg)`,
+        }
+
+        return {
+            ...node,
+            type: 'rotatableNode',
+            position: { x: positionX, y: positionY },
+            style: {},
+            data: {
+                id: node.id,
+                label: node.abbreviation,
+                sourcePosition: handlePosition,
+                targetPosition: handlePosition,
+                style: {
+                    ...defaultNodeStyle,
+                    ...sidedStyles,
+                    ...individualStyles,
+                },
+            },
+        } as EnrichedNode
+    }
+
+    function mapSimpleEdges(side: 'left' | 'right') {
+        return edges.flatMap((edge) => {
+            switch (edge.side) {
+                case 'ipsilateral':
+                    return [lateralizeEdge(edge, side, side)]
+                case 'contralateral':
+                    return [lateralizeEdge(edge, side, opposite(side))]
+                case 'bilateral':
+                    return [
+                        lateralizeEdge(edge, side, side),
+                        lateralizeEdge(edge, side, opposite(side)),
+                    ]
+            }
+        })
+    }
+
+    function lateralizeEdge(
+        edge: SimpleEdge,
+        sourceSide: Side,
+        targetSide: Side
+    ) {
+        const id = `${edge.id}-${sourceSide}-${targetSide}`
+        const sourceId = `${edge.source}-${sourceSide}`
+        const targetId = `${edge.target}-${targetSide}`
+
+        const lateralizedEdge = {
+            ...edge,
+            id,
+            source: sourceId,
+            target: targetId,
+        }
+
+        return enrichEdge(lateralizedEdge)
+    }
+
+    function enrichEdge(edge: SimpleEdge, params?: EnrichEdgeParams) {
+        const {
+            animated = true,
+            type = 'default',
+            stroke = 'lightgray',
+            strokeWidth = 1.5,
+        } = params || {}
+
+        return {
+            ...edge,
+            type,
+            animated,
+            style: {
+                strokeWidth,
+                stroke,
+            },
+        } as EnrichedEdge
+    }
+
+    function getMidlineNodes() {
+        const sidedStyles = {
+            width: '1px',
+            fontSize: '0.7rem',
+            color: '#baedaf',
+            borderWidth: '0',
+            padding: '0',
+            textAlign: 'center',
+            justifyContent: 'center',
+            WebkitJustifyContent: 'center',
+        }
+
+        const baseStyles = {
+            positionX: 0,
+            rotationDegrees: 0,
+            sidedStyles,
+        }
+
+        const midlineTopY = -graphRadius * 1.1 + 1
+        const midlineBottomY = graphRadius * 1.1 + 1
+
+        const bottomParams = {
+            ...baseStyles,
+            positionY: midlineTopY,
+            handlePosition: 'top',
+        }
+
+        const topParams = {
+            ...baseStyles,
+            positionY: midlineBottomY,
+            handlePosition: 'bottom',
+        }
+
+        const toggleParams = {
+            ...baseStyles,
+            positionY: midlineBottomY + 10,
+            handlePosition: 'top',
+            sidedStyles: {
+                ...sidedStyles,
+                color: '#ccc',
+                fontSize: '0.6rem',
+            },
+        }
+
+        return [
+            enrichNode(bottomMidlineNode, bottomParams),
+            enrichNode(topMidlineNode, topParams),
+            enrichNode(abbreviationsToggleNode, toggleParams),
+        ]
+    }
+
+    function getMidlineEdges() {
+        return [
+            enrichEdge(verticalMidlineEdge, {
+                animated: false,
+                type: 'straight',
+                stroke: '#75ed5a',
+                strokeWidth: 0.5,
+            }),
+        ]
+    }
+
+    function opposite(side: string) {
+        return side == 'left' ? 'right' : 'left'
+    }
 }
 
 export default LateralFlowGraph
@@ -64,4 +312,81 @@ export function setRendererComponentGraph(
     component: React.FC<GraphRendererProps>
 ) {
     RendererComponentGraph = component
+}
+
+// Stylizer
+
+export interface EnrichedGraph {
+    enrichedNodes: EnrichedNode[]
+    enrichedEdges: EnrichedEdge[]
+}
+
+export interface EnrichedNode extends SimpleNode {
+    type: string
+    position: PositionXY
+    style: any
+    data: EnrichedNodeData
+}
+
+export interface EnrichedNodeData {
+    id: string
+    label: string
+    sourcePosition: string
+    targetPosition: string
+    style: NodeStyle
+}
+
+export type NodeStyle = BaseNodeStyle & SidedNodeStyle & IndividualNodeStyle
+
+export interface BaseNodeStyle {
+    width: number
+    fontSize: string
+    fontWeight: number
+    color: string
+    borderStyle: string
+    borderColor: string
+    backgroundColor: string
+}
+
+export interface SidedNodeStyle {
+    borderWidth: string
+    textAlign: string
+    justifyContent: string
+    WebkitJustifyContent: string
+}
+
+export interface IndividualNodeStyle {
+    transform: string
+}
+
+export interface PositionXY {
+    x: number
+    y: number
+}
+
+export interface EnrichedEdge extends SimpleEdge {
+    animated: boolean
+    style: EnrichedEdgeStyle
+}
+
+export interface EnrichedEdgeStyle {
+    stroke: string
+    strokeWidth: number
+}
+
+export type Side = 'left' | 'right'
+
+export interface EnrichNodeParams {
+    positionX: number
+    positionY: number
+    rotationDegrees: number
+    handlePosition: string
+    sidedStyles: SidedNodeStyle
+}
+
+export interface EnrichEdgeParams {
+    animated?: boolean
+    type?: string
+    stroke?: string
+    strokeWidth?: number
 }
