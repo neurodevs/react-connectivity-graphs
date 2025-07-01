@@ -579,7 +579,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
     protected static async clickingTwiceResetsColorToOriginal() {
         this.renderAndClickToggleTwice()
 
-        const toggle = screen.getByTestId('rf__node-abbreviations-toggle')
+        const toggle = this.getAbbreviationsToggle()
         const style = window.getComputedStyle(toggle)
 
         assert.isEqual(
@@ -676,7 +676,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
         const midlineBottom = screen.getByTestId(
             `rf__node-${this.midlineNodes[1].id}`
         )
-        const toggle = screen.getByTestId(`rf__node-${this.midlineNodes[2].id}`)
+        const toggle = this.getAbbreviationsToggle()
 
         return {
             midlineTop,
@@ -750,6 +750,10 @@ export default class GraphRendererTest extends AbstractPackageTest {
         })
 
         return renderedNode
+    }
+
+    private static getAbbreviationsToggle() {
+        return screen.getByTestId(`rf__node-${this.midlineNodes[2].id}`)
     }
 
     private static readonly onNodeClick = () => {
