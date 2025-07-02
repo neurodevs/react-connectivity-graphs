@@ -1,14 +1,13 @@
 import { test, assert } from '@sprucelabs/test-utils'
 import { render, RenderResult } from '@testing-library/react'
 import React from 'react'
-import {
-    providerWasCreated,
-    App,
-    setGraphComponent,
-    FakeLateralFlowGraph,
-    resetFakeLateralFlowGraphProps,
+
+import FakeLateralFlowGraph, {
     lastFakeLateralFlowGraphProps,
-} from '../../exports'
+    resetFakeLateralFlowGraphProps,
+} from '../../testDoubles/FakeLateralFlowGraph'
+import { providerWasCreated } from '../../testDoubles/FakeReactFlowProvider'
+import App, { setGraphComponent } from '../../ui/App'
 import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class AppTest extends AbstractPackageTest {

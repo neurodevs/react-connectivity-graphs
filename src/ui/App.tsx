@@ -1,6 +1,6 @@
 import { ReactFlowProvider } from '@xyflow/react'
 import React from 'react'
-import { LateralFlowGraph, LateralFlowGraphProps } from '../exports'
+import LateralFlowGraph, { LateralFlowGraphProps } from '../ui/LateralFlowGraph'
 
 const App: React.FC<LateralFlowGraphProps> = (props: LateralFlowGraphProps) => {
     return (

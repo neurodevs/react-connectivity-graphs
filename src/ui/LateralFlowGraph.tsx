@@ -1,13 +1,8 @@
 import { ReactFlowProvider } from '@xyflow/react'
 import { ReactFlowProviderProps } from '@xyflow/react/dist/esm/components/ReactFlowProvider'
 import React, { useMemo } from 'react'
-import {
-    GraphRendererProps,
-    LateralizedEdge,
-    SimpleEdge,
-    SimpleNode,
-} from '../exports'
-import GraphRenderer from './GraphRenderer'
+import { LateralizedEdge, SimpleEdge, SimpleNode } from '../types'
+import GraphRenderer, { GraphRendererProps } from './GraphRenderer'
 
 export interface LateralFlowGraphProps {
     nodes: SimpleNode[]

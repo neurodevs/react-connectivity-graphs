@@ -1,5 +1,5 @@
 import React from 'react'
-import { LateralFlowGraphProps } from '../exports'
+import { LateralFlowGraphProps } from '../ui/LateralFlowGraph'
 
 export let lastFakeLateralFlowGraphProps: LateralFlowGraphProps | undefined
 

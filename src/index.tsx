@@ -2,8 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 
 import '@xyflow/react/dist/style.css'
-import { App, LateralFlowGraphProps } from './exports'
 import props from './scripts/ctactile-simple'
+import App from './ui/App'
+import { LateralFlowGraphProps } from './ui/LateralFlowGraph'
 
 async function main() {
     const root = ReactDOM.createRoot(document.getElementById('root')!)

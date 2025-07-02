@@ -1,26 +1,25 @@
 import { test, assert } from '@sprucelabs/test-utils'
 import { render, RenderResult } from '@testing-library/react'
 import React from 'react'
-import {
-    LateralizedEdge,
-    LateralFlowGraph,
-    LateralFlowGraphProps,
-    SimpleNode,
+import FakeGraphRenderer, {
     lastFakeGraphRendererProps,
-    setRendererComponentGraph,
-    FakeGraphRenderer,
     resetFakeGraphRendererProps,
-    FakeReactFlowProvider,
+} from '../../testDoubles/FakeGraphRenderer'
+import FakeReactFlowProvider, {
     providerWasCreated,
-    setProviderComponentOnGraph,
+} from '../../testDoubles/FakeReactFlowProvider'
+import { LateralizedEdge, SimpleEdge, SimpleNode } from '../../types'
+import LateralFlowGraph, {
     EnrichedEdge,
     EnrichEdgeParams,
-    EnrichNodeParams,
     EnrichedNode,
+    EnrichNodeParams,
     IndividualNodeStyle,
+    LateralFlowGraphProps,
+    setProviderComponentOnGraph,
+    setRendererComponentGraph,
     Side,
-    SimpleEdge,
-} from '../../exports'
+} from '../../ui/LateralFlowGraph'
 import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class LateralFlowGraphTest extends AbstractPackageTest {

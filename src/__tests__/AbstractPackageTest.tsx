@@ -2,20 +2,17 @@ import AbstractSpruceTest, { generateId } from '@sprucelabs/test-utils'
 import { render } from '@testing-library/react'
 import { ReactFlowProvider } from '@xyflow/react'
 import React from 'react'
-import {
-    FakeReactFlowProvider,
-    resetProviderWasCreated,
-    setHandleComponent,
-    FakeHandle,
-    resetFakeHandleProps,
-    LateralizedEdge,
-    setProviderComponentApp,
-    SimpleEdge,
-    SimpleNode,
-    setReactFlowComponent,
-    FakeReactFlow,
+import FakeHandle, { resetFakeHandleProps } from '../testDoubles/FakeHandle'
+import FakeReactFlow, {
     resetFakeReactFlowProps,
-} from '../exports'
+} from '../testDoubles/FakeReactFlow'
+import FakeReactFlowProvider, {
+    resetProviderWasCreated,
+} from '../testDoubles/FakeReactFlowProvider'
+import { SimpleNode, SimpleEdge, LateralizedEdge } from '../types'
+import { setProviderComponentApp } from '../ui/App'
+import { setReactFlowComponent } from '../ui/GraphRenderer'
+import { setHandleComponent } from '../ui/RotatableNode'
 
 export default class AbstractPackageTest extends AbstractSpruceTest {
     protected static simpleNodes: SimpleNode[] = this.generateSimpleNodes(2)

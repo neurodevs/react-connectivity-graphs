@@ -1,7 +1,7 @@
 import { test, assert } from '@sprucelabs/test-utils'
 import { render } from '@testing-library/react'
 import React from 'react'
-import { MultiNetworkRenderer } from '../../exports'
+import MultiNetworkRenderer from '../../ui/MultiNetworkRenderer'
 import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class MultiNetworkRendererTest extends AbstractPackageTest {
