@@ -15,7 +15,6 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
     edges,
     viewPadding,
 }) => {
-    const graphRadius = 70
     const defaultNodeWidth = 0
     const gapDegrees = 40
 
@@ -200,8 +199,10 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
             sidedStyles,
         }
 
-        const midlineTopY = -graphRadius * 1.1 + 1
-        const midlineBottomY = graphRadius * 1.1 + 1
+        const radius = computeRadius(nodes.length)
+
+        const midlineTopY = -radius
+        const midlineBottomY = radius
 
         const bottomParams = {
             ...baseStyles,

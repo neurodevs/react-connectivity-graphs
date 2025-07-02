@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
-import props from './scripts/ctactile-simple'
+import props from './scripts/ctactile-complex'
 import App from './ui/App'
 import { LateralFlowGraphProps } from './ui/LateralFlowGraph'
 

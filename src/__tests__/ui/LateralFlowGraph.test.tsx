@@ -24,7 +24,6 @@ import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class LateralFlowGraphTest extends AbstractPackageTest {
     private static result: RenderResult
-    private static graphRadius = 70
     private static gapDegrees = 40
     private static nodeWidth = 0
 
@@ -233,8 +232,10 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
             sidedStyles,
         }
 
-        const midlineTopY = -this.graphRadius * 1.1 + 1
-        const midlineBottomY = this.graphRadius * 1.1 + 1
+        const radius = this.computeRadius(this.numNodes)
+
+        const midlineTopY = -radius
+        const midlineBottomY = radius
 
         const bottomParams = {
             ...baseStyles,
