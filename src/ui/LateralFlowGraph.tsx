@@ -298,7 +298,7 @@ export interface EnrichedGraph {
 export interface EnrichedNode extends SimpleNode {
     type: string
     position: PositionXY
-    style: any
+    style: TopLevelStyle
     data: EnrichedNodeData
 }
 
@@ -308,6 +308,11 @@ export interface EnrichedNodeData {
     sourcePosition: string
     targetPosition: string
     style: NodeStyle
+}
+
+export interface TopLevelStyle {
+    color?: string
+    borderColor?: string
 }
 
 export type NodeStyle = BaseNodeStyle & SidedNodeStyle & IndividualNodeStyle
