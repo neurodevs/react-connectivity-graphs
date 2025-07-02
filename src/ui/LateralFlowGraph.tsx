@@ -140,38 +140,6 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
         }) as EnrichedNode[]
     }
 
-    function enrichNode(node: SimpleNode, params: EnrichNodeParams) {
-        const {
-            positionX,
-            positionY,
-            rotationDegrees,
-            handlePosition,
-            sidedStyles,
-        } = params
-
-        const individualStyles: IndividualNodeStyle = {
-            transform: `translateX(${positionX.toFixed(1)}px) translateY(${positionY.toFixed(1)}px) rotate(${rotationDegrees}deg)`,
-        }
-
-        return {
-            ...node,
-            type: 'rotatableNode',
-            position: { x: positionX, y: positionY },
-            style: {},
-            data: {
-                id: node.id,
-                label: node.abbreviation,
-                sourcePosition: handlePosition,
-                targetPosition: handlePosition,
-                style: {
-                    ...defaultNodeStyle,
-                    ...sidedStyles,
-                    ...individualStyles,
-                },
-            },
-        } as EnrichedNode
-    }
-
     function mapSimpleEdges(side: 'left' | 'right') {
         return edges.flatMap((edge) => {
             switch (edge.side) {
@@ -205,25 +173,6 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
         }
 
         return enrichEdge(lateralizedEdge)
-    }
-
-    function enrichEdge(edge: SimpleEdge, params?: EnrichEdgeParams) {
-        const {
-            animated = true,
-            type = 'default',
-            stroke = 'lightgray',
-            strokeWidth = 1.5,
-        } = params || {}
-
-        return {
-            ...edge,
-            type,
-            animated,
-            style: {
-                strokeWidth,
-                stroke,
-            },
-        } as EnrichedEdge
     }
 
     function getMidlineNodes() {
@@ -288,33 +237,63 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
         ]
     }
 
+    function enrichNode(node: SimpleNode, params: EnrichNodeParams) {
+        const {
+            positionX,
+            positionY,
+            rotationDegrees,
+            handlePosition,
+            sidedStyles,
+        } = params
+
+        const individualStyles: IndividualNodeStyle = {
+            transform: `translateX(${positionX.toFixed(1)}px) translateY(${positionY.toFixed(1)}px) rotate(${rotationDegrees}deg)`,
+        }
+
+        return {
+            ...node,
+            type: 'rotatableNode',
+            position: { x: positionX, y: positionY },
+            style: {},
+            data: {
+                id: node.id,
+                label: node.abbreviation,
+                sourcePosition: handlePosition,
+                targetPosition: handlePosition,
+                style: {
+                    ...defaultNodeStyle,
+                    ...sidedStyles,
+                    ...individualStyles,
+                },
+            },
+        } as EnrichedNode
+    }
+
+    function enrichEdge(edge: SimpleEdge, params?: EnrichEdgeParams) {
+        const {
+            animated = true,
+            type = 'default',
+            stroke = 'lightgray',
+            strokeWidth = 1.5,
+        } = params || {}
+
+        return {
+            ...edge,
+            type,
+            animated,
+            style: {
+                strokeWidth,
+                stroke,
+            },
+        } as EnrichedEdge
+    }
+
     function opposite(side: string) {
         return side == 'left' ? 'right' : 'left'
     }
 }
 
 export default LateralFlowGraph
-
-// For test doubles
-
-export let ProviderComponent: React.FC<ReactFlowProviderProps> =
-    ReactFlowProvider
-
-export function setProviderComponentOnGraph(
-    component: React.FC<ReactFlowProviderProps>
-) {
-    ProviderComponent = component
-}
-
-export let RendererComponentGraph: React.FC<GraphRendererProps> = GraphRenderer
-
-export function setRendererComponentGraph(
-    component: React.FC<GraphRendererProps>
-) {
-    RendererComponentGraph = component
-}
-
-// Stylizer
 
 export interface EnrichedGraph {
     enrichedNodes: EnrichedNode[]
@@ -389,4 +368,23 @@ export interface EnrichEdgeParams {
     type?: string
     stroke?: string
     strokeWidth?: number
+}
+
+// For test doubles
+
+export let ProviderComponent: React.FC<ReactFlowProviderProps> =
+    ReactFlowProvider
+
+export function setProviderComponentOnGraph(
+    component: React.FC<ReactFlowProviderProps>
+) {
+    ProviderComponent = component
+}
+
+export let RendererComponentGraph: React.FC<GraphRendererProps> = GraphRenderer
+
+export function setRendererComponentGraph(
+    component: React.FC<GraphRendererProps>
+) {
+    RendererComponentGraph = component
 }
