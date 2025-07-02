@@ -49,5 +49,7 @@ export * from './types'
 
 // CSS
 
-import './styles/index.css'
-import '@xyflow/react/dist/style.css'
+if (typeof window !== 'undefined') {
+    require('./styles/index.css')
+    require('@xyflow/react/dist/style.css')
+}
