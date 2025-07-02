@@ -6,7 +6,7 @@ const App: React.FC<LateralFlowGraphProps> = (props: LateralFlowGraphProps) => {
     return (
         <div id="app" data-testid="app">
             <ProviderComponentApp>
-                <GraphComponent {...props} />
+                <RendererComponent {...props} />
             </ProviderComponentApp>
         </div>
     )
@@ -22,8 +22,10 @@ export function setProviderComponentApp(component: typeof ReactFlowProvider) {
     ProviderComponentApp = component
 }
 
-export let GraphComponent: React.FC<LateralFlowGraphProps> = LateralFlowGraph
+export let RendererComponent: React.FC<LateralFlowGraphProps> = LateralFlowGraph
 
-export function setGraphComponent(component: React.FC<LateralFlowGraphProps>) {
-    GraphComponent = component
+export function setRendererComponent(
+    component: React.FC<LateralFlowGraphProps>
+) {
+    RendererComponent = component
 }
