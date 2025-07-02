@@ -25,6 +25,7 @@ import AbstractPackageTest from '../AbstractPackageTest'
 export default class LateralFlowGraphTest extends AbstractPackageTest {
     private static result: RenderResult
     private static graphRadius = 70
+    private static gapDegrees = 40
     private static nodeWidth = 0
 
     protected static async beforeEach() {
@@ -111,19 +112,20 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
         const invertedSide = onLeftSide ? 'right' : 'left'
         const flex = onLeftSide ? 'flex-end' : 'flex-start'
 
-        const radiusBottomDegrees = 90
-        const gapDegrees = 40
-        const degreesPerSide = 180 - gapDegrees
+        const degreesAtBottom = 90
+        const degreesPerSide = 180 - this.gapDegrees
         const degreesPerNode = degreesPerSide / (this.numNodes + 1)
+
+        const radius = this.computeRadius(this.numNodes)
 
         return this.simpleNodes.map((node, idx) => {
             const sign = onLeftSide ? 1 : -1
-            const startDegrees = radiusBottomDegrees + (gapDegrees / 2) * sign
+            const startDegrees = degreesAtBottom + (this.gapDegrees / 2) * sign
             const degrees = startDegrees + degreesPerNode * (idx + 1) * sign
             const radians = (Math.PI * degrees) / 180
 
-            const positionX = this.graphRadius * Math.cos(radians) - 4 // = 0.5rem = 16 px / 4 ?
-            const positionY = this.graphRadius * Math.sin(radians) - 4
+            const positionX = radius * Math.cos(radians) - 4 // = 0.5rem = 16 px / 4 ?
+            const positionY = radius * Math.sin(radians) - 4
 
             const sidedId = `${node.id}-${side}`
 
@@ -157,6 +159,15 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
                 },
             }
         }) as EnrichedNode[]
+    }
+
+    private static computeRadius(numNodes: number) {
+        const pixelsBetweenNodes = 20
+        const degreesPerSide = 180 - this.gapDegrees
+        const degreesPerNode = degreesPerSide / (numNodes + 1)
+        const radiansPerNode = (Math.PI * degreesPerNode) / 180
+
+        return pixelsBetweenNodes / radiansPerNode
     }
 
     private static enrichNode(node: SimpleNode, params: EnrichNodeParams) {

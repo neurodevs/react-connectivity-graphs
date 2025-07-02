@@ -100,6 +100,8 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
         const startDegrees = degreesAtBottom + (gapDegrees / 2) * sign
         const degreesPerNode = degreesPerSide / (nodes.length + 1)
 
+        const radius = computeRadius(nodes.length)
+
         const flex = onLeftSide ? 'flex-end' : 'flex-start'
 
         const sidedStyles = {
@@ -114,8 +116,8 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
             const degrees = startDegrees + degreesPerNode * (idx + 1) * sign
             const radians = (Math.PI * degrees) / 180
 
-            const positionX = graphRadius * Math.cos(radians) - 4
-            const positionY = graphRadius * Math.sin(radians) - 4
+            const positionX = radius * Math.cos(radians) - 4
+            const positionY = radius * Math.sin(radians) - 4
 
             const rotationDegrees = onLeftSide ? degrees + 180 : degrees
 
@@ -134,6 +136,15 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
                 sidedStyles,
             })
         }) as EnrichedNode[]
+    }
+
+    function computeRadius(numNodes: number) {
+        const pixelsBetweenNodes = 20
+        const degreesPerSide = 180 - gapDegrees
+        const degreesPerNode = degreesPerSide / (numNodes + 1)
+        const radiansPerNode = (Math.PI * degreesPerNode) / 180
+
+        return pixelsBetweenNodes / radiansPerNode
     }
 
     function mapSimpleEdges(side: 'left' | 'right') {
