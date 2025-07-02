@@ -95,10 +95,10 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
         const oppositeSide = opposite(side)
         const sign = onLeftSide ? 1 : -1
 
-        const bottomDegrees = 90
+        const degreesAtBottom = 90
         const degreesPerSide = 180 - gapDegrees
-        const startDegrees = bottomDegrees + (gapDegrees / 2) * sign
-        const degreesPerNode = degreesPerSide / (nodes.length - 1)
+        const startDegrees = degreesAtBottom + (gapDegrees / 2) * sign
+        const degreesPerNode = degreesPerSide / (nodes.length + 1)
 
         const flex = onLeftSide ? 'flex-end' : 'flex-start'
 
@@ -111,7 +111,7 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
         }
 
         return nodes.map((node, idx) => {
-            const degrees = startDegrees + degreesPerNode * idx * sign
+            const degrees = startDegrees + degreesPerNode * (idx + 1) * sign
             const radians = (Math.PI * degrees) / 180
 
             const positionX = graphRadius * Math.cos(radians) - 4

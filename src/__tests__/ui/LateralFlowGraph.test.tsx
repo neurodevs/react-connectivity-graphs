@@ -114,12 +114,12 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
         const radiusBottomDegrees = 90
         const gapDegrees = 40
         const degreesPerSide = 180 - gapDegrees
-        const degreesPerNode = degreesPerSide / (this.numNodes - 1)
+        const degreesPerNode = degreesPerSide / (this.numNodes + 1)
 
         return this.simpleNodes.map((node, idx) => {
             const sign = onLeftSide ? 1 : -1
             const startDegrees = radiusBottomDegrees + (gapDegrees / 2) * sign
-            const degrees = startDegrees + degreesPerNode * idx * sign
+            const degrees = startDegrees + degreesPerNode * (idx + 1) * sign
             const radians = (Math.PI * degrees) / 180
 
             const positionX = this.graphRadius * Math.cos(radians) - 4 // = 0.5rem = 16 px / 4 ?
