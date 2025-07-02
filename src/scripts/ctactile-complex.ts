@@ -236,12 +236,6 @@ export default {
             side: 'contralateral',
         },
         {
-            id: 'e7-8',
-            source: '7',
-            target: '8',
-            side: 'ipsilateral',
-        },
-        {
             id: 'e9-11',
             source: '9',
             target: '11',
