@@ -46,3 +46,8 @@ export * from './ui/App'
 // Types
 
 export * from './types'
+
+// CSS
+
+import './styles/index.css'
+import '@xyflow/react/dist/style.css'

@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
-import '@xyflow/react/dist/style.css'
 import props from './scripts/ctactile-simple'
 import App from './ui/App'
 import { LateralFlowGraphProps } from './ui/LateralFlowGraph'
