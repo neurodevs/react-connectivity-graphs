@@ -17,10 +17,7 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
 }) => {
     const graphRadius = 70
     const defaultNodeWidth = 0
-    const bottomDegrees = 90
     const gapDegrees = 40
-    const halfDegrees = gapDegrees / 2
-    const degreesPerSide = 180 - gapDegrees
 
     const topMidlineNode = {
         id: 'top-midline',
@@ -96,10 +93,14 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
     function mapSimpleNodes(side: 'left' | 'right') {
         const onLeftSide = side == 'left'
         const oppositeSide = opposite(side)
-        const flex = onLeftSide ? 'flex-end' : 'flex-start'
         const sign = onLeftSide ? 1 : -1
-        const startDegrees = bottomDegrees + halfDegrees * sign
+
+        const bottomDegrees = 90
+        const degreesPerSide = 180 - gapDegrees
+        const startDegrees = bottomDegrees + (gapDegrees / 2) * sign
         const degreesPerNode = degreesPerSide / (nodes.length - 1)
+
+        const flex = onLeftSide ? 'flex-end' : 'flex-start'
 
         const sidedStyles = {
             borderWidth: `0 ${onLeftSide ? '1.5px' : 0} 0 ${onLeftSide ? 0 : '1.5px'}`,
