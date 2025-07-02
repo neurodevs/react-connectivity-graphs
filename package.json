@@ -9,10 +9,10 @@
   "repository": "https://github.com/neurodevs/react-connectivity-graphs.git",
   "scripts": {
     "build.ci": "yarn run build.tsc && yarn run build.resolve-paths && yarn run lint",
-    "build.dev": "yarn run build.tsc --sourceMap && yarn run build.exports && yarn run build.index && yarn run build.css; yarn run resolve-paths.lint",
+    "build.dev": "yarn run build.tsc --sourceMap && yarn run build.exports && yarn run build.dist && yarn run build.demo; yarn run resolve-paths.lint",
     "build.exports": "esbuild src/exports.ts --bundle --outfile=build/index.js --platform=browser --loader:.tsx=tsx --loader:.css=css",
-    "build.index": "esbuild src/index.tsx --bundle --outfile=public/dist/index.js --platform=browser --loader:.tsx=tsx --loader:.css=css",
-    "build.css": "esbuild src/styles/index.css --bundle --outfile=dist/index.css --loader:.css=css",
+    "build.dist": "esbuild src/styles/index.css --bundle --outfile=dist/index.css --loader:.css=css",
+    "build.demo": "esbuild src/index.tsx --bundle --outfile=public/dist/index.js --platform=browser --loader:.tsx=tsx --loader:.css=css",
     "build.copy-files": "mkdir -p build && rsync -avzq --exclude='*.ts' --exclude='*.tsx' ./src/ ./build/",
     "build.resolve-paths": "resolve-path-aliases --target build --patterns '**/*.js,**/*.d.ts'",
     "build.tsc": "yarn run build.copy-files && tsc",
