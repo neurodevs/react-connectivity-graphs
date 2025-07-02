@@ -76,7 +76,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
     protected static async passesPropsToReactFlow() {
         this.render()
 
-        const { nodes, edges, nodeTypes } = lastFakeReactFlowProps as any
+        const { nodes, edges, nodeTypes } = lastFakeReactFlowProps ?? {}
 
         assert.isEqualDeep(
             { nodes, edges, nodeTypes },
@@ -392,7 +392,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
         const fakeRfInstance = new FakeReactFlowInstance()
 
-        onInit?.(fakeRfInstance as any)
+        onInit?.(fakeRfInstance as ReactFlowInstance)
 
         await new Promise((resolve) => setTimeout(resolve, 5))
 
@@ -417,7 +417,9 @@ export default class GraphRendererTest extends AbstractPackageTest {
             'Should set "display: none" until isLoaded!'
         )
 
-        lastFakeReactFlowProps?.onInit?.(new FakeReactFlowInstance() as any)
+        lastFakeReactFlowProps?.onInit?.(
+            new FakeReactFlowInstance() as ReactFlowInstance
+        )
         await this.waitFiveMs()
 
         this.rerender()

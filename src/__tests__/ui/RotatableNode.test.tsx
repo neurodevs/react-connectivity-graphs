@@ -160,7 +160,7 @@ export default class RotatableNodeTest extends AbstractPackageTest {
 
         const useUpdateNodeInternals = () => {
             calledUseUpdateNodeInternals = true
-            return (() => {}) as any
+            return () => {}
         }
 
         setUseUpdateNodeInternals(useUpdateNodeInternals)

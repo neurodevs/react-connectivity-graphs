@@ -6,19 +6,25 @@ import {
     ReactFlowInstance,
     ReactFlowProps,
 } from '@xyflow/react'
-import React, { useState, useCallback, useRef, useEffect } from 'react'
+import React, {
+    useState,
+    useCallback,
+    useRef,
+    useEffect,
+    MouseEvent,
+} from 'react'
 import { EnrichedEdge, EnrichedNode } from './LateralFlowGraph'
 import RotatableNode from './RotatableNode'
 
 export interface GraphRendererProps {
     nodes: EnrichedNode[]
     edges: EnrichedEdge[]
-    onNodeClick?: (event: any, node: Node) => void
-    onNodeMouseEnter?: (event: any, node: Node) => void
-    onNodeMouseLeave?: () => void
-    onEdgeClick?: () => void
-    onEdgeMouseEnter?: () => void
-    onEdgeMouseLeave?: () => void
+    onNodeClick?: (event: MouseEvent, node: Node) => void
+    onNodeMouseEnter?: (event: MouseEvent, node: Node) => void
+    onNodeMouseLeave?: (event: MouseEvent, node: Node) => void
+    onEdgeClick?: (event: MouseEvent, edge: Edge) => void
+    onEdgeMouseEnter?: (event: MouseEvent, edge: Edge) => void
+    onEdgeMouseLeave?: (event: MouseEvent, edge: Edge) => void
     minZoom?: number
     viewPadding?: number
     showControls?: boolean
@@ -165,7 +171,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     function setOriginalNodeStyles() {
         if (Object.keys(originalNodeStyles.current).length === 0) {
             for (const node of nodes) {
-                const style = node.data.style as any
+                const style = node.data.style
 
                 originalNodeStyles.current[node.id] = {
                     color: style.color,
@@ -178,7 +184,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     function setOriginalEdgeStyles() {
         if (Object.keys(originalEdgeStyles.current).length === 0) {
             for (const edge of edges) {
-                const style = edge.style as any
+                const style = edge.style
 
                 originalEdgeStyles.current[edge.id] = {
                     stroke: style.stroke,
@@ -189,7 +195,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
 
     function useCallbackNodeClick() {
         return useCallback(
-            (_: any, node: Node) => {
+            (event: MouseEvent, node: Node) => {
                 disableHoverRef.current = !disableHoverRef.current
 
                 const { id: nodeId } = node
@@ -197,7 +203,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                 if (nodeId == 'abbreviations-toggle') {
                     setIsToggleActive(!isToggleActive)
                 }
-                onNodeClick?.(_, node)
+                onNodeClick?.(event, node)
             },
             [isToggleActive, onNodeClick]
         )
@@ -205,7 +211,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
 
     function useCallbackNodeMouseEnter() {
         return useCallback(
-            (_: any, node: Node) => {
+            (event: MouseEvent, node: Node) => {
                 const { id: nodeId } = node
 
                 if (shouldIgnoreHoverForNode(nodeId)) {
@@ -217,7 +223,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                 if (hoveredId !== nodeId) {
                     setHoveredId(nodeId)
                 }
-                onNodeMouseEnter?.(_, node)
+                onNodeMouseEnter?.(event, node)
             },
             [hoveredId, onNodeMouseEnter]
         )
@@ -225,7 +231,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
 
     function useCallbackNodeMouseLeave() {
         return useCallback(
-            (_: any, node: Node) => {
+            (event: MouseEvent, node: Node) => {
                 const { id: nodeId } = node
 
                 if (shouldIgnoreHoverForNode(nodeId)) {
@@ -237,7 +243,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                 if (hoveredId !== null) {
                     setHoveredId(null)
                 }
-                onNodeMouseLeave?.()
+                onNodeMouseLeave?.(event, node)
             },
             [hoveredId, onNodeMouseLeave]
         )
