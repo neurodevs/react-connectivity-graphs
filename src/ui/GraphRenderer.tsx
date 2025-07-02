@@ -48,66 +48,34 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
 }) => {
     const [nodes, setNodes] = useState<EnrichedNode[]>(initialNodes)
     const [edges, setEdges] = useState<EnrichedEdge[]>(initialEdges)
-    const [hoveredId, setHoveredId] = useState<string | null>(null)
     const [isLoaded, setIsLoaded] = useState(false)
     const [isToggleActive, setIsToggleActive] = useState(false)
-
-    const disableHoverRef = useRef(false)
+    const [hoveredId, setHoveredId] = useState<string | null>(null)
 
     const [rfInstance, setRfInstance] = useState<ReactFlowInstance | null>(null)
 
-    const originalNodeStyles = useRef<HighlightNodeStyles>({})
-    const originalEdgeStyles = useRef<HighlightEdgeStyles>({})
+    const disableHoverRef = useRef(false)
+    const originalNodeStylesRef = useRef<HighlightNodeStyles>({})
+    const originalEdgeStylesRef = useRef<HighlightEdgeStyles>({})
 
     const handleNodeClick = useCallbackNodeClick()
     const handleNodeMouseEnter = useCallbackNodeMouseEnter()
     const handleNodeMouseLeave = useCallbackNodeMouseLeave()
 
     useEffect(() => {
-        if (rfInstance) {
-            setTimeout(() => {
-                void rfInstance.fitView({ padding: viewPadding, minZoom })
-                setIsLoaded(true)
-            }, 0)
-        }
+        fitViewWithPadding()
     }, [rfInstance])
 
     useEffect(() => {
-        setNodes(initialNodes)
-        setEdges(initialEdges)
-
-        setOriginalNodeStyles()
-        setOriginalEdgeStyles()
+        setGraphAndOriginalStyles()
     }, [initialNodes, initialEdges])
 
     useEffect(() => {
-        const color = isToggleActive ? 'dodgerblue' : '#ccc'
-
-        setNodes((nodes) =>
-            nodes.map((node) =>
-                node.id === 'abbreviations-toggle'
-                    ? {
-                          ...node,
-                          style: { ...node.style, color },
-                          data: {
-                              ...node.data,
-                              style: {
-                                  ...node.data?.style,
-                                  color,
-                              },
-                          },
-                      }
-                    : node
-            )
-        )
+        updateStyleOnToggle()
     }, [isToggleActive])
 
     useEffect(() => {
-        const highlightedNodes = highlightNodes()
-        const highlightedEdges = highlightEdges()
-
-        setNodes(highlightedNodes)
-        setEdges(highlightedEdges)
+        updateStyleOnHover()
     }, [hoveredId])
 
     return (
@@ -158,22 +126,29 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
         </div>
     )
 
-    function shouldInclude(nodeId: string) {
-        if (nodeId.includes('-')) {
-            return (
-                nodeId.includes('left') && !isNaN(Number(nodeId.split('-')[0]))
-            )
-        } else {
-            return !isNaN(Number(nodeId))
+    function fitViewWithPadding() {
+        if (rfInstance) {
+            setTimeout(() => {
+                void rfInstance.fitView({ padding: viewPadding, minZoom })
+                setIsLoaded(true)
+            }, 0)
         }
     }
 
+    function setGraphAndOriginalStyles() {
+        setNodes(initialNodes)
+        setEdges(initialEdges)
+
+        setOriginalNodeStyles()
+        setOriginalEdgeStyles()
+    }
+
     function setOriginalNodeStyles() {
-        if (Object.keys(originalNodeStyles.current).length === 0) {
+        if (Object.keys(originalNodeStylesRef.current).length === 0) {
             for (const node of nodes) {
                 const style = node.data.style
 
-                originalNodeStyles.current[node.id] = {
+                originalNodeStylesRef.current[node.id] = {
                     color: style.color,
                     borderColor: style.borderColor,
                 }
@@ -182,15 +157,107 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     }
 
     function setOriginalEdgeStyles() {
-        if (Object.keys(originalEdgeStyles.current).length === 0) {
+        if (Object.keys(originalEdgeStylesRef.current).length === 0) {
             for (const edge of edges) {
                 const style = edge.style
 
-                originalEdgeStyles.current[edge.id] = {
+                originalEdgeStylesRef.current[edge.id] = {
                     stroke: style.stroke,
                 }
             }
         }
+    }
+
+    function updateStyleOnToggle() {
+        const color = isToggleActive ? 'dodgerblue' : '#ccc'
+
+        setNodes((nodes) =>
+            nodes.map((node) =>
+                node.id === 'abbreviations-toggle'
+                    ? {
+                          ...node,
+                          style: { ...node.style, color },
+                          data: {
+                              ...node.data,
+                              style: {
+                                  ...node.data?.style,
+                                  color,
+                              },
+                          },
+                      }
+                    : node
+            )
+        )
+    }
+
+    function updateStyleOnHover() {
+        const highlightedNodes = highlightNodes()
+        const highlightedEdges = highlightEdges()
+
+        setNodes(highlightedNodes)
+        setEdges(highlightedEdges)
+    }
+
+    function highlightNodes() {
+        return nodes.map((node) => {
+            const shouldHighlight =
+                hoveredId &&
+                (node.id === hoveredId || isConnectedToHovered(node.id))
+
+            const original = originalNodeStylesRef.current[node.id]
+
+            const color = shouldHighlight ? highlightColor : original.color
+
+            const borderColor = shouldHighlight
+                ? highlightColor
+                : original.borderColor
+
+            return {
+                ...node,
+                style: {
+                    ...node.style,
+                    color,
+                    borderColor,
+                },
+                data: {
+                    ...node.data,
+                    label: shouldHighlight ? node.label : node.abbreviation,
+                    style: {
+                        ...node.data.style!,
+                        color,
+                        borderColor,
+                    },
+                },
+            }
+        })
+    }
+
+    function isConnectedToHovered(nodeId: string) {
+        return edges.some(
+            (edge) =>
+                (edge.source === hoveredId && edge.target === nodeId) ||
+                (edge.target === hoveredId && edge.source === nodeId)
+        )
+    }
+
+    function highlightEdges() {
+        return edges.map((edge) => {
+            const shouldHighlight =
+                hoveredId &&
+                (edge.source === hoveredId || edge.target === hoveredId)
+
+            const original = originalEdgeStylesRef.current[edge.id]
+
+            const stroke = shouldHighlight ? highlightColor : original.stroke
+
+            return {
+                ...edge,
+                style: {
+                    ...edge.style,
+                    stroke,
+                },
+            }
+        })
     }
 
     function useCallbackNodeClick() {
@@ -249,70 +316,18 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
         )
     }
 
-    function highlightNodes() {
-        return nodes.map((node) => {
-            const shouldHighlight =
-                hoveredId &&
-                (node.id === hoveredId || isConnectedToHovered(node.id))
-
-            const original = originalNodeStyles.current[node.id]
-
-            const color = shouldHighlight ? highlightColor : original.color
-
-            const borderColor = shouldHighlight
-                ? highlightColor
-                : original.borderColor
-
-            return {
-                ...node,
-                style: {
-                    ...node.style,
-                    color,
-                    borderColor,
-                },
-                data: {
-                    ...node.data,
-                    label: shouldHighlight ? node.label : node.abbreviation,
-                    style: {
-                        ...node.data.style!,
-                        color,
-                        borderColor,
-                    },
-                },
-            }
-        })
+    function shouldIgnoreHoverForNode(nodeId: string) {
+        return ['bottom-midline', 'top-midline'].includes(nodeId)
     }
 
-    function isConnectedToHovered(nodeId: string) {
-        return edges.some(
-            (edge) =>
-                (edge.source === hoveredId && edge.target === nodeId) ||
-                (edge.target === hoveredId && edge.source === nodeId)
-        )
-    }
-
-    function highlightEdges() {
-        return edges.map((edge) => {
-            const shouldHighlight =
-                hoveredId &&
-                (edge.source === hoveredId || edge.target === hoveredId)
-
-            const original = originalEdgeStyles.current[edge.id]
-
-            const stroke = shouldHighlight ? highlightColor : original.stroke
-
-            return {
-                ...edge,
-                style: {
-                    ...edge.style,
-                    stroke,
-                },
-            }
-        })
-    }
-
-    function shouldIgnoreHoverForNode(id: string) {
-        return ['bottom-midline', 'top-midline'].includes(id)
+    function shouldInclude(nodeId: string) {
+        if (nodeId.includes('-')) {
+            return (
+                nodeId.includes('left') && !isNaN(Number(nodeId.split('-')[0]))
+            )
+        } else {
+            return !isNaN(Number(nodeId))
+        }
     }
 }
 
