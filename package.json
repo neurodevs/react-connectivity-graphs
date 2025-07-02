@@ -3,14 +3,16 @@
   "version": "3.0.3",
   "main": "build/exports.js",
   "files": [
-    "build/"
+    "build/",
+    "dist/"
   ],
   "repository": "https://github.com/neurodevs/react-connectivity-graphs.git",
   "scripts": {
     "build.ci": "yarn run build.tsc && yarn run build.resolve-paths && yarn run lint",
-    "build.dev": "yarn run build.tsc --sourceMap && yarn run build.exports; yarn run resolve-paths.lint",
+    "build.dev": "yarn run build.tsc --sourceMap && yarn run build.exports && yarn run build.index && yarn run build.css; yarn run resolve-paths.lint",
     "build.exports": "esbuild src/exports.ts --bundle --outfile=build/index.js --platform=browser --loader:.tsx=tsx --loader:.css=css",
     "build.index": "esbuild src/index.tsx --bundle --outfile=public/dist/index.js --platform=browser --loader:.tsx=tsx --loader:.css=css",
+    "build.css": "esbuild src/styles/index.css --bundle --outfile=dist/index.css --loader:.css=css",
     "build.copy-files": "mkdir -p build && rsync -avzq --exclude='*.ts' --exclude='*.tsx' ./src/ ./build/",
     "build.resolve-paths": "resolve-path-aliases --target build --patterns '**/*.js,**/*.d.ts'",
     "build.tsc": "yarn run build.copy-files && tsc",
@@ -18,7 +20,7 @@
     "clean.all": "yarn run clean.dependencies && yarn run clean.build",
     "clean.build": "rm -rf build/",
     "clean.dependencies": "rm -rf node_modules/ package-lock.json yarn.lock",
-    "dev": "cp src/styles/index.css public/dist/ && cp node_modules/@xyflow/react/dist/style.css public/dist/reactflow.css && yarn build.index & npx serve -s public",
+    "dev": "yarn run build.dev && cp dist/index.css public/dist/; npx serve -s public",
     "fix.lint": "eslint --fix --cache '**/*.ts'",
     "lint": "eslint --cache '**/*.ts'",
     "lint.tsc": "tsc -p . --noEmit",

@@ -1,3 +1,5 @@
+@import '@xyflow/react/dist/style.css';
+
 html, body, #root, #app {
     height: 100%;
     width: 100%;
