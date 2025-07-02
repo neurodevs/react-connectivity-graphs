@@ -46,10 +46,3 @@ export * from './ui/App'
 // Types
 
 export * from './types'
-
-// CSS
-
-if (typeof window !== 'undefined') {
-    require('./styles/index.css')
-    require('@xyflow/react/dist/style.css')
-}
