@@ -491,12 +491,10 @@ export default class GraphRendererTest extends AbstractPackageTest {
         const midlineBottom = screen.getByTestId(
             `rf__node-${this.midlineNodes[1].id}`
         )
-        const toggle = this.getAbbreviationsToggle()
 
         return {
             midlineTop,
             midlineBottom,
-            toggle,
         }
     }
 
@@ -504,13 +502,11 @@ export default class GraphRendererTest extends AbstractPackageTest {
         // Undesirable coupling with LateralGraphStylizer
         const id1 = 'bottom-midline'
         const id2 = 'top-midline'
-        const id3 = 'abbreviations-toggle'
 
         const midlineNode1 = this.generateEnrichedNode(id1)
         const midlineNode2 = this.generateEnrichedNode(id2)
-        const midlineNode3 = this.generateEnrichedNode(id3)
 
-        this.midlineNodes = [midlineNode1, midlineNode2, midlineNode3]
+        this.midlineNodes = [midlineNode1, midlineNode2]
     }
 
     private static createRenderer() {
@@ -565,10 +561,6 @@ export default class GraphRendererTest extends AbstractPackageTest {
         })
 
         return renderedNode
-    }
-
-    private static getAbbreviationsToggle() {
-        return screen.getByTestId(`rf__node-${this.midlineNodes[2].id}`)
     }
 
     private static readonly onNodeClick = () => {

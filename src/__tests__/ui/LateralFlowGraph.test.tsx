@@ -236,7 +236,6 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
         }
 
         const radius = this.computeRadius(this.numNodes)
-        const modalSize = this.getSquareSideLengthFromRadius(radius)
 
         const midlineTopY = -radius
         const midlineBottomY = radius
@@ -253,50 +252,10 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
             handlePosition: 'bottom',
         }
 
-        const toggleParams = {
-            ...baseStyles,
-            positionY: midlineBottomY + 10,
-            handlePosition: 'top',
-            sidedStyles: {
-                ...sidedStyles,
-                color: '#ccc',
-                fontSize: '0.6rem',
-            },
-        }
-
-        const modalParams = {
-            ...baseStyles,
-            nodeType: 'tabularNode',
-            positionX: -modalSize / 2,
-            positionY: -modalSize / 2 + 3,
-            sidedStyles: {
-                ...sidedStyles,
-                color: '#ccc',
-                fontSize: '0.6rem',
-            },
-            overrideStyles: {
-                width: 2 * modalSize,
-                height: 2 * modalSize,
-                backgroundColor: '#fcfcfc',
-                borderColor: '#ccc',
-                borderWidth: '1px',
-                borderRadius: '5%',
-            },
-        }
-
         return [
             this.enrichNode(this.bottomMidlineNode, bottomParams),
             this.enrichNode(this.topMidlineNode, topParams),
-            this.enrichNode(this.abbreviationsToggleNode, toggleParams),
-            this.enrichNode(this.abbreviationsModalNode, modalParams),
         ]
-    }
-
-    private static getSquareSideLengthFromRadius(
-        radius: number,
-        scaleFactor = 0.9
-    ) {
-        return scaleFactor * radius * Math.SQRT2
     }
 
     private static get bottomMidlineNode() {
@@ -312,22 +271,6 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
             id: 'top-midline',
             label: 'Top Midline Node',
             abbreviation: 'L   R',
-        } as SimpleNode
-    }
-
-    private static get abbreviationsToggleNode() {
-        return {
-            id: 'abbreviations-toggle',
-            label: 'Abbreviations',
-            abbreviation: 'Abbreviations',
-        }
-    }
-
-    private static get abbreviationsModalNode() {
-        return {
-            id: 'abbreviations-modal',
-            label: 'Abbreviations Modal',
-            abbreviation: 'abbreviations modal',
         } as SimpleNode
     }
 
