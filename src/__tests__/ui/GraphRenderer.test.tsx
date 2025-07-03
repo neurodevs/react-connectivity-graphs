@@ -2,13 +2,13 @@ import { test, assert } from '@sprucelabs/test-utils'
 import { act, fireEvent, screen } from '@testing-library/react'
 import { ReactFlow, ReactFlowInstance, ReactFlowProvider } from '@xyflow/react'
 import React from 'react'
-import { PreformattedNode } from '../../exports'
 import FakeReactFlow, {
     lastFakeReactFlowProps,
 } from '../../testDoubles/FakeReactFlow'
 import FakeReactFlowInstance from '../../testDoubles/FakeReactFlowInstance'
 import GraphRenderer, { setReactFlowComponent } from '../../ui/GraphRenderer'
 import { EnrichedEdge, EnrichedNode } from '../../ui/LateralFlowGraph'
+import PreformattedNode from '../../ui/PreformattedNode'
 import RotatableNode from '../../ui/RotatableNode'
 import AbstractPackageTest from '../AbstractPackageTest'
 
@@ -694,9 +694,9 @@ export default class GraphRendererTest extends AbstractPackageTest {
         const id2 = 'top-midline'
         const id3 = 'abbreviations-toggle'
 
-        const midlineNode1 = this.generateFakeNode(id1)
-        const midlineNode2 = this.generateFakeNode(id2)
-        const midlineNode3 = this.generateFakeNode(id3)
+        const midlineNode1 = this.generateEnrichedNode(id1)
+        const midlineNode2 = this.generateEnrichedNode(id2)
+        const midlineNode3 = this.generateEnrichedNode(id3)
 
         this.midlineNodes = [midlineNode1, midlineNode2, midlineNode3]
     }
@@ -722,9 +722,9 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
     private static renderThreeNodesFireMouseEnter() {
         const nodes = [
-            this.generateFakeNode('1'),
-            this.generateFakeNode('2'),
-            this.generateFakeNode('3'),
+            this.generateEnrichedNode('1'),
+            this.generateEnrichedNode('2'),
+            this.generateEnrichedNode('3'),
         ]
 
         const edges = [
@@ -788,41 +788,11 @@ export default class GraphRendererTest extends AbstractPackageTest {
         preformattedNode: PreformattedNode,
     }
 
-    private static generateFakeNode(nodeId = '1', text?: string) {
-        const label = `Node ${nodeId}`
-        const abbreviation = `N${nodeId}`
-
-        return {
-            id: nodeId,
-            position: { x: 0, y: 0 },
-            label: text ?? label,
-            abbreviation: text ?? abbreviation,
-            style: {
-                color: 'black',
-                borderColor: 'black',
-            },
-            data: {
-                id: nodeId,
-                label: abbreviation,
-                style: {
-                    color: 'black',
-                    borderColor: 'black',
-                },
-            },
-        } as EnrichedNode
-    }
-
-    private static oneFakeNodes: EnrichedNode[] = [this.generateFakeNode()]
+    private static oneFakeNodes: EnrichedNode[] = [this.generateEnrichedNode()]
 
     private static twoFakeNodes: EnrichedNode[] = [
-        this.generateFakeNode(),
-        this.generateFakeNode('2'),
-    ]
-
-    private static threeFakeNodes: EnrichedNode[] = [
-        this.generateFakeNode('1', 'A'),
-        this.generateFakeNode('3', 'C'),
-        this.generateFakeNode('2', 'B'),
+        this.generateEnrichedNode(),
+        this.generateEnrichedNode('2'),
     ]
 
     private static generateFakeEdge(edgeId = 'e1-2') {

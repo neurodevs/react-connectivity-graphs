@@ -12,6 +12,7 @@ import FakeReactFlowProvider, {
 import { SimpleNode, SimpleEdge, LateralizedEdge } from '../types'
 import { setProviderComponentApp } from '../ui/App'
 import { setReactFlowComponent } from '../ui/GraphRenderer'
+import { EnrichedNode } from '../ui/LateralFlowGraph'
 import { setHandlePre } from '../ui/PreformattedNode'
 import { setHandleComponentRotatable } from '../ui/RotatableNode'
 
@@ -49,8 +50,42 @@ export default class AbstractPackageTest extends AbstractSpruceTest {
         resetFakeHandleProps()
     }
 
+    protected static formatNodeTestId(nodeId: string) {
+        return `rf__node-${nodeId}`
+    }
+
     protected static generateSimpleNodes(n: number) {
         return Array.from({ length: n }, () => this.generateSimpleNode())
+    }
+
+    protected static threeFakeNodes: EnrichedNode[] = [
+        this.generateEnrichedNode('1', 'Node 1'),
+        this.generateEnrichedNode('2', 'Node 2'),
+        this.generateEnrichedNode('3', 'Node 3'),
+    ]
+
+    protected static generateEnrichedNode(nodeId = '1', text?: string) {
+        const label = `Node ${nodeId}`
+        const abbreviation = `N${nodeId}`
+
+        return {
+            id: nodeId,
+            position: { x: 0, y: 0 },
+            label: text ?? label,
+            abbreviation: text ?? abbreviation,
+            style: {
+                color: 'black',
+                borderColor: 'black',
+            },
+            data: {
+                id: nodeId,
+                label: abbreviation,
+                style: {
+                    color: 'black',
+                    borderColor: 'black',
+                },
+            },
+        } as EnrichedNode
     }
 
     protected static generateSimpleNode() {
