@@ -5,7 +5,7 @@ import {
     useUpdateNodeInternals,
 } from '@xyflow/react'
 import { UpdateNodeInternals } from '@xyflow/system'
-import React from 'react'
+import React, { DependencyList, EffectCallback, useEffect } from 'react'
 
 export interface RotatableNodeProps {
     data: {
@@ -20,17 +20,17 @@ export interface RotatableNodeProps {
 const RotatableNode: React.FC<RotatableNodeProps> = ({ data }) => {
     function renderHandle(type: 'source' | 'target', position: Position) {
         return (
-            <HandleComponent
+            <HandleComponentRotatable
                 type={type}
                 position={position}
                 isConnectable={false}
-            ></HandleComponent>
+            ></HandleComponentRotatable>
         )
     }
 
-    const updateNodeInternals = useUpdateNodeInternalsFn()
+    const updateNodeInternals = useUpdateNodeInternalsRotatable()
 
-    useEffect(() => {
+    useEffectRotatable(() => {
         updateNodeInternals(data.id)
     }, [data.id, data.style.transform, updateNodeInternals])
 
@@ -52,22 +52,24 @@ export default RotatableNode
 
 // For test doubles
 
-export let HandleComponent = Handle
+export let HandleComponentRotatable = Handle
 
-export function setHandleComponent(handle: React.FC<HandleProps>) {
-    HandleComponent = handle as unknown as typeof Handle
+export function setHandleComponentRotatable(handle: React.FC<HandleProps>) {
+    HandleComponentRotatable = handle as unknown as typeof Handle
 }
 
-export let useUpdateNodeInternalsFn = useUpdateNodeInternals
+export let useUpdateNodeInternalsRotatable = useUpdateNodeInternals
 
-export function setUseUpdateNodeInternals(fn: () => UpdateNodeInternals) {
-    useUpdateNodeInternalsFn = fn
-}
-
-export let useEffect = React.useEffect
-
-export function setUseEffect(
-    fn: (effect: React.EffectCallback, deps?: React.DependencyList) => void
+export function setUseUpdateNodeInternalsRotatable(
+    fn: () => UpdateNodeInternals
 ) {
-    useEffect = fn
+    useUpdateNodeInternalsRotatable = fn
+}
+
+export let useEffectRotatable = useEffect
+
+export function setUseEffectRotatable(
+    fn: (effect: EffectCallback, deps?: DependencyList) => void
+) {
+    useEffectRotatable = fn
 }

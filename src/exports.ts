@@ -24,6 +24,11 @@ export * from './testDoubles/FakeGraphRenderer'
 export { default as RotatableNode } from './ui/RotatableNode'
 export * from './ui/RotatableNode'
 
+// TabularNode.tsx
+
+export { default as TabularNode } from './ui/TabularNode'
+export * from './ui/TabularNode'
+
 // Custom ReactFlow test doubles
 
 export { default as FakeReactFlow } from './testDoubles/FakeReactFlow'

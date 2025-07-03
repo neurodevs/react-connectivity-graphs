@@ -2,29 +2,29 @@ import { assert, generateId, test } from '@sprucelabs/test-utils'
 import { Position } from '@xyflow/react'
 import React from 'react'
 import { fakeHandleProps } from '../../testDoubles/FakeHandle'
-import RotatableNode, {
-    setUseEffectRotatable,
-    setUseUpdateNodeInternalsRotatable,
-} from '../../ui/RotatableNode'
+import TabularNode, {
+    setUseEffectTabular,
+    setUseUpdateNodeInternalsTabular,
+} from '../../ui/TabularNode'
 import AbstractPackageTest from '../AbstractPackageTest'
 
-export default class RotatableNodeTest extends AbstractPackageTest {
+export default class TabularNodeTest extends AbstractPackageTest {
     private static element: React.ReactElement
 
     protected static async beforeEach() {
         await super.beforeEach()
 
-        this.setFakeHandleOnRotatable()
+        this.setFakeHandleOnTabular()
 
-        setUseUpdateNodeInternalsRotatable(() => {
+        setUseUpdateNodeInternalsTabular(() => {
             return () => {}
         })
 
-        this.element = this.createElement(RotatableNode)
+        this.element = this.createElement(TabularNode)
     }
 
     @test()
-    protected static async canCreateRotatableNode() {
+    protected static async canCreateTabularNode() {
         assert.isTruthy(this.element, 'Should create an instance!')
     }
 
@@ -34,14 +34,14 @@ export default class RotatableNodeTest extends AbstractPackageTest {
 
         assert.isEqual(
             div.className,
-            'rotatable-node',
-            'Should render div with className="rotatable-node"!'
+            'tabular-node',
+            'Should render div with className="tabular-node"!'
         )
     }
 
     @test()
     protected static async rendersReactflowTargetHandle() {
-        this.render('left')
+        this.render()
 
         const { type } = fakeHandleProps[0] ?? {}
         assert.isEqual(type, 'target', 'Should render a target handle!')
@@ -49,7 +49,7 @@ export default class RotatableNodeTest extends AbstractPackageTest {
 
     @test()
     protected static async rendersTargetHandleAsNotConnectable() {
-        this.render('left')
+        this.render()
 
         const { isConnectable } = fakeHandleProps[0] ?? {}
 
@@ -61,13 +61,13 @@ export default class RotatableNodeTest extends AbstractPackageTest {
 
     @test()
     protected static async rendersTargetHandleWithPassedPosition() {
-        this.render('right')
+        this.render()
 
         const { position } = fakeHandleProps[0] ?? {}
 
         assert.isEqual(
             position,
-            'right' as Position,
+            'left' as Position,
             'Should pass position to target handle!'
         )
     }
@@ -107,7 +107,7 @@ export default class RotatableNodeTest extends AbstractPackageTest {
 
     @test()
     protected static async rendersReactflowSourceHandle() {
-        this.render('left')
+        this.render()
 
         const { type } = fakeHandleProps[1] ?? {}
         assert.isEqual(type, 'source', 'Should render a source handle!')
@@ -115,7 +115,7 @@ export default class RotatableNodeTest extends AbstractPackageTest {
 
     @test()
     protected static async rendersSourceHandleAsNotConnectable() {
-        this.render('left')
+        this.render()
 
         const { isConnectable } = fakeHandleProps[1] ?? {}
 
@@ -127,7 +127,7 @@ export default class RotatableNodeTest extends AbstractPackageTest {
 
     @test()
     protected static async rendersSourceHandleWithPassedPosition() {
-        this.render('right')
+        this.render()
 
         const { position } = fakeHandleProps[1] ?? {}
 
@@ -163,7 +163,7 @@ export default class RotatableNodeTest extends AbstractPackageTest {
             return () => {}
         }
 
-        setUseUpdateNodeInternalsRotatable(useUpdateNodeInternals)
+        setUseUpdateNodeInternalsTabular(useUpdateNodeInternals)
 
         this.render()
 
@@ -182,7 +182,7 @@ export default class RotatableNodeTest extends AbstractPackageTest {
             fn()
         }
 
-        setUseEffectRotatable(useEffect)
+        setUseEffectTabular(useEffect)
 
         this.render()
 
@@ -197,7 +197,7 @@ export default class RotatableNodeTest extends AbstractPackageTest {
         let passedDeps: React.DependencyList | undefined
 
         const updateNodeInternals = () => {}
-        setUseUpdateNodeInternalsRotatable(() => updateNodeInternals)
+        setUseUpdateNodeInternalsTabular(() => updateNodeInternals)
 
         const useEffect = (
             fn: React.EffectCallback,
@@ -207,13 +207,13 @@ export default class RotatableNodeTest extends AbstractPackageTest {
             fn()
         }
 
-        setUseEffectRotatable(useEffect)
+        setUseEffectTabular(useEffect)
 
         this.render()
 
         assert.isEqualDeep(
             passedDeps,
-            [this.id, this.transform, updateNodeInternals],
+            [this.id, updateNodeInternals],
             'Should pass correct deps to useEffect!'
         )
     }
@@ -225,7 +225,7 @@ export default class RotatableNodeTest extends AbstractPackageTest {
         const updateNodeInternals = (id: string | string[]) => {
             passedId = id
         }
-        setUseUpdateNodeInternalsRotatable(() => updateNodeInternals)
+        setUseUpdateNodeInternalsTabular(() => updateNodeInternals)
 
         this.render()
 
@@ -237,8 +237,8 @@ export default class RotatableNodeTest extends AbstractPackageTest {
     }
 
     private static renderAndGetTopLevelDiv() {
-        const { getByTestId } = this.render('left')
-        return getByTestId('rotatable-node')
+        const { getByTestId } = this.render()
+        return getByTestId('tabular-node')
     }
 
     private static extractInlineStyles(style: CSSStyleDeclaration) {
@@ -255,21 +255,18 @@ export default class RotatableNodeTest extends AbstractPackageTest {
 
     private static readonly id = generateId()
     private static readonly label = generateId()
-    private static readonly transform = generateId()
 
     private static readonly style = {
-        transform: this.transform,
+        color: 'red',
     }
 
-    private static render(position: 'left' | 'right' = 'left') {
+    private static render() {
         return this.renderWithProvider(
-            <RotatableNode
+            <TabularNode
                 data={{
                     id: this.id,
                     label: this.label,
                     style: this.style,
-                    targetPosition: position as Position,
-                    sourcePosition: position as Position,
                 }}
             />
         )
