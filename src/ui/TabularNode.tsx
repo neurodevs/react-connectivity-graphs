@@ -5,7 +5,7 @@ import {
     useUpdateNodeInternals,
 } from '@xyflow/react'
 import { UpdateNodeInternals } from '@xyflow/system'
-import React from 'react'
+import React, { DependencyList, EffectCallback, useEffect } from 'react'
 
 export interface TabularNodeProps {
     data: {
@@ -64,10 +64,10 @@ export function setUseUpdateNodeInternalsTabular(
     useUpdateNodeInternalsTabular = fn
 }
 
-export let useEffectTabular = React.useEffect
+export let useEffectTabular = useEffect
 
 export function setUseEffectTabular(
-    fn: (effect: React.EffectCallback, deps?: React.DependencyList) => void
+    fn: (effect: EffectCallback, deps?: DependencyList) => void
 ) {
     useEffectTabular = fn
 }
