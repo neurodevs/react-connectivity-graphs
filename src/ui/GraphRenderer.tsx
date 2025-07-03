@@ -55,7 +55,6 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     const [nodes, setNodes] = useState<EnrichedNode[]>(initialNodes)
     const [edges, setEdges] = useState<EnrichedEdge[]>(initialEdges)
     const [isLoaded, setIsLoaded] = useState(false)
-    const [isToggleActive, setIsToggleActive] = useState(false)
     const [hoveredId, setHoveredId] = useState<string | null>(null)
 
     const [rfInstance, setRfInstance] = useState<ReactFlowInstance | null>(null)
@@ -75,10 +74,6 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
     useEffect(() => {
         setGraphAndOriginalStyles()
     }, [initialNodes, initialEdges])
-
-    useEffect(() => {
-        updateStyleOnToggle()
-    }, [isToggleActive])
 
     useEffect(() => {
         updateStyleOnHover()
@@ -107,28 +102,6 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                 zoomOnScroll={false}
             />
             {showControls && <Controls />}
-            {isToggleActive && (
-                <div id="abbreviations-modal" data-testid="abbreviations-modal">
-                    <table style={{ width: '100%', borderSpacing: '0.5rem' }}>
-                        <tbody>
-                            {nodes
-                                .filter((node) => shouldInclude(node.id))
-                                .sort((a, b) =>
-                                    a.abbreviation.localeCompare(b.abbreviation)
-                                )
-                                .map((node) => (
-                                    <tr
-                                        key={node.id}
-                                        data-testid={`row-${node.id}`}
-                                    >
-                                        <td>{node.abbreviation}</td>
-                                        <td>{node.label}</td>
-                                    </tr>
-                                ))}
-                        </tbody>
-                    </table>
-                </div>
-            )}
         </div>
     )
 
@@ -172,28 +145,6 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                 }
             }
         }
-    }
-
-    function updateStyleOnToggle() {
-        const color = isToggleActive ? 'dodgerblue' : '#ccc'
-
-        setNodes((nodes) =>
-            nodes.map((node) =>
-                node.id === 'abbreviations-toggle'
-                    ? {
-                          ...node,
-                          style: { ...node.style, color },
-                          data: {
-                              ...node.data,
-                              style: {
-                                  ...node.data?.style,
-                                  color,
-                              },
-                          },
-                      }
-                    : node
-            )
-        )
     }
 
     function updateStyleOnHover() {
@@ -270,15 +221,9 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
         return useCallback(
             (event: MouseEvent, node: Node) => {
                 disableHoverRef.current = !disableHoverRef.current
-
-                const { id: nodeId } = node
-
-                if (nodeId == 'abbreviations-toggle') {
-                    setIsToggleActive(!isToggleActive)
-                }
                 onNodeClick?.(event, node)
             },
-            [isToggleActive, onNodeClick]
+            [onNodeClick]
         )
     }
 
@@ -324,16 +269,6 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
 
     function shouldIgnoreHoverForNode(nodeId: string) {
         return ['bottom-midline', 'top-midline'].includes(nodeId)
-    }
-
-    function shouldInclude(nodeId: string) {
-        if (nodeId.includes('-')) {
-            return (
-                nodeId.includes('left') && !isNaN(Number(nodeId.split('-')[0]))
-            )
-        } else {
-            return !isNaN(Number(nodeId))
-        }
     }
 }
 
