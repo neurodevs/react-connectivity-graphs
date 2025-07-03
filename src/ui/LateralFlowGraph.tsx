@@ -39,6 +39,12 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
         abbreviation: 'Abbreviations',
     }
 
+    const abbreviationsModalNode = {
+        id: 'abbreviations-modal',
+        label: 'Abbreviations Modal',
+        abbreviation: 'abbreviations modal',
+    } as SimpleNode
+
     const verticalMidlineEdge: SimpleEdge = {
         id: 'vertical-midline',
         source: bottomMidlineNode.id,
@@ -203,6 +209,7 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
         }
 
         const radius = computeRadius(nodes.length)
+        const modalSize = getSquareSideLengthFromRadius(radius)
 
         const midlineTopY = -radius
         const midlineBottomY = radius
@@ -230,11 +237,37 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
             },
         }
 
+        const modalParams = {
+            ...baseStyles,
+            nodeType: 'tabularNode',
+            positionX: -modalSize / 2,
+            positionY: -modalSize / 2 + 3,
+            sidedStyles: {
+                ...sidedStyles,
+                color: '#ccc',
+                backgroundColor: 'red',
+                fontSize: '0.6rem',
+            },
+            overrideStyles: {
+                width: 2 * modalSize,
+                height: 2 * modalSize,
+                backgroundColor: '#fcfcfc',
+                borderColor: '#ccc',
+                borderWidth: '1px',
+                borderRadius: '5%',
+            },
+        }
+
         return [
             enrichNode(bottomMidlineNode, bottomParams),
             enrichNode(topMidlineNode, topParams),
             enrichNode(abbreviationsToggleNode, toggleParams),
+            enrichNode(abbreviationsModalNode, modalParams),
         ]
+    }
+
+    function getSquareSideLengthFromRadius(radius: number, scaleFactor = 0.9) {
+        return scaleFactor * radius * Math.SQRT2
     }
 
     function getMidlineEdges() {
@@ -255,6 +288,7 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
             rotationDegrees,
             handlePosition,
             sidedStyles,
+            overrideStyles = {},
             nodeType = 'rotatableNode',
         } = params
 
@@ -276,6 +310,7 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
                     ...defaultNodeStyle,
                     ...sidedStyles,
                     ...individualStyles,
+                    ...overrideStyles,
                 },
             },
         } as EnrichedNode
@@ -376,8 +411,9 @@ export interface EnrichNodeParams {
     positionX: number
     positionY: number
     rotationDegrees: number
-    handlePosition: string
     sidedStyles: SidedNodeStyle
+    handlePosition?: string
+    overrideStyles?: React.CSSProperties
     nodeType?: keyof CustomNodeTypes
 }
 

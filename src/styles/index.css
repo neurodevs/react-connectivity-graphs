@@ -34,7 +34,7 @@ html, body, #root, #app {
     pointer-events: none !important;
 }
 
-.rotatable-node {
+.rotatable-node, .tabular-node {
     display: flex;
     box-shadow: none;
     background: white;
