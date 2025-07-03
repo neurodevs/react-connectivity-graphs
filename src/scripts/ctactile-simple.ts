@@ -17,23 +17,23 @@ export default {
         },
         {
             id: '4',
-            label: 'Ventromedial posterior nucleus',
+            label: 'Ventromedial posterior thalamic nucleus',
             abbreviation: 'VMpo',
         },
         {
             id: '5',
-            label: 'Dorsal posterior insula',
-            abbreviation: 'dpIC',
+            label: 'Insular dorsal fundus posterior',
+            abbreviation: 'Idfp',
         },
         {
             id: '6',
-            label: 'Mid insula',
-            abbreviation: 'mIC',
+            label: 'Middle insular cortex',
+            abbreviation: 'mid-IC',
         },
         {
             id: '7',
-            label: 'Anterior insula',
-            abbreviation: 'aIC',
+            label: 'Ventral anterior insular cortex',
+            abbreviation: 'vAIC',
         },
     ],
     edges: [
