@@ -2,6 +2,7 @@ import { test, assert } from '@sprucelabs/test-utils'
 import { act, fireEvent, screen } from '@testing-library/react'
 import { ReactFlow, ReactFlowInstance, ReactFlowProvider } from '@xyflow/react'
 import React from 'react'
+import { PreformattedNode } from '../../exports'
 import FakeReactFlow, {
     lastFakeReactFlowProps,
 } from '../../testDoubles/FakeReactFlow'
@@ -9,7 +10,6 @@ import FakeReactFlowInstance from '../../testDoubles/FakeReactFlowInstance'
 import GraphRenderer, { setReactFlowComponent } from '../../ui/GraphRenderer'
 import { EnrichedEdge, EnrichedNode } from '../../ui/LateralFlowGraph'
 import RotatableNode from '../../ui/RotatableNode'
-import TabularNode from '../../ui/TabularNode'
 import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class GraphRendererTest extends AbstractPackageTest {
@@ -785,7 +785,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
     private static readonly nodeTypes = {
         rotatableNode: RotatableNode,
-        tabularNode: TabularNode,
+        preformattedNode: PreformattedNode,
     }
 
     private static generateFakeNode(nodeId = '1', text?: string) {

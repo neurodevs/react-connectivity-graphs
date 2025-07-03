@@ -12,8 +12,8 @@ import FakeReactFlowProvider, {
 import { SimpleNode, SimpleEdge, LateralizedEdge } from '../types'
 import { setProviderComponentApp } from '../ui/App'
 import { setReactFlowComponent } from '../ui/GraphRenderer'
+import { setHandlePre } from '../ui/PreformattedNode'
 import { setHandleComponentRotatable } from '../ui/RotatableNode'
-import { setHandleTabular } from '../ui/TabularNode'
 
 export default class AbstractPackageTest extends AbstractSpruceTest {
     protected static simpleNodes: SimpleNode[] = this.generateSimpleNodes(2)
@@ -44,8 +44,8 @@ export default class AbstractPackageTest extends AbstractSpruceTest {
         resetFakeHandleProps()
     }
 
-    protected static setFakeHandleOnTabular() {
-        setHandleTabular(FakeHandle)
+    protected static setFakeHandleOnPre() {
+        setHandlePre(FakeHandle)
         resetFakeHandleProps()
     }
 

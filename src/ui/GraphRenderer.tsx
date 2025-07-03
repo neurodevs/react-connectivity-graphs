@@ -15,8 +15,8 @@ import React, {
     MouseEvent,
 } from 'react'
 import { EnrichedEdge, EnrichedNode } from './LateralFlowGraph'
+import PreformattedNode from './PreformattedNode'
 import RotatableNode from './RotatableNode'
-import TabularNode from './TabularNode'
 
 export interface GraphRendererProps {
     nodes: EnrichedNode[]
@@ -36,7 +36,7 @@ export const highlightColor = 'dodgerblue'
 
 export const nodeTypes: CustomNodeTypes = {
     rotatableNode: RotatableNode,
-    tabularNode: TabularNode,
+    preformattedNode: PreformattedNode,
 }
 
 const GraphRenderer: React.FC<GraphRendererProps> = ({
@@ -341,7 +341,7 @@ export default GraphRenderer
 
 export interface CustomNodeTypes extends NodeTypes {
     rotatableNode: typeof RotatableNode
-    tabularNode: typeof TabularNode
+    preformattedNode: typeof PreformattedNode
 }
 
 export type HighlightNodeStyles = Record<

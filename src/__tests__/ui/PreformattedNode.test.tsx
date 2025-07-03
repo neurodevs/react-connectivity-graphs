@@ -2,29 +2,30 @@ import { assert, generateId, test } from '@sprucelabs/test-utils'
 import { Position } from '@xyflow/react'
 import React from 'react'
 import { fakeHandleProps } from '../../testDoubles/FakeHandle'
-import TabularNode, {
-    setUseEffectTabular,
-    setUseUpdateNodeInternalsTabular,
-} from '../../ui/TabularNode'
+import PreformattedNode, {
+    setUseEffectPre,
+    setUseUpdateNodeInternalsPre,
+} from '../../ui/PreformattedNode'
 import AbstractPackageTest from '../AbstractPackageTest'
 
-export default class TabularNodeTest extends AbstractPackageTest {
+export default class PreforamttedNodeTest extends AbstractPackageTest {
     private static element: React.ReactElement
+    private static label = generateId()
 
     protected static async beforeEach() {
         await super.beforeEach()
 
-        this.setFakeHandleOnTabular()
+        this.setFakeHandleOnPre()
 
-        setUseUpdateNodeInternalsTabular(() => {
+        setUseUpdateNodeInternalsPre(() => {
             return () => {}
         })
 
-        this.element = this.createElement(TabularNode)
+        this.element = this.createElement(PreformattedNode)
     }
 
     @test()
-    protected static async canCreateTabularNode() {
+    protected static async canCreatePreformattedNode() {
         assert.isTruthy(this.element, 'Should create an instance!')
     }
 
@@ -34,8 +35,8 @@ export default class TabularNodeTest extends AbstractPackageTest {
 
         assert.isEqual(
             div.className,
-            'tabular-node',
-            'Should render div with className="tabular-node"!'
+            'preformatted-node',
+            'Should render div with className="preformatted-node"!'
         )
     }
 
@@ -73,24 +74,13 @@ export default class TabularNodeTest extends AbstractPackageTest {
     }
 
     @test()
-    protected static async rendersElementWithPassedLabel() {
+    protected static async rendersElementWithPassedTable() {
         const div = this.renderAndGetTopLevelDiv()
 
         assert.isEqual(
             div.textContent,
-            this.label,
+            `Column 1Column 2${this.label}Data 2`,
             'Should pass label to element!'
-        )
-    }
-
-    @test()
-    protected static async rendersElementWithAriaLabel() {
-        const div = this.renderAndGetTopLevelDiv()
-
-        assert.isEqual(
-            div.ariaLabel,
-            this.label,
-            'Should pass aria-label to element!'
         )
     }
 
@@ -147,8 +137,10 @@ export default class TabularNodeTest extends AbstractPackageTest {
 
         const expectedOrder = [targetHandle, sourceHandle]
 
+        const actual = Array.from(div.children)
+
         assert.isEqualDeep(
-            Array.from(div.children),
+            [actual[0], actual[2]],
             expectedOrder,
             'Should render target handle before source!'
         )
@@ -163,7 +155,7 @@ export default class TabularNodeTest extends AbstractPackageTest {
             return () => {}
         }
 
-        setUseUpdateNodeInternalsTabular(useUpdateNodeInternals)
+        setUseUpdateNodeInternalsPre(useUpdateNodeInternals)
 
         this.render()
 
@@ -182,7 +174,7 @@ export default class TabularNodeTest extends AbstractPackageTest {
             fn()
         }
 
-        setUseEffectTabular(useEffect)
+        setUseEffectPre(useEffect)
 
         this.render()
 
@@ -197,7 +189,7 @@ export default class TabularNodeTest extends AbstractPackageTest {
         let passedDeps: React.DependencyList | undefined
 
         const updateNodeInternals = () => {}
-        setUseUpdateNodeInternalsTabular(() => updateNodeInternals)
+        setUseUpdateNodeInternalsPre(() => updateNodeInternals)
 
         const useEffect = (
             fn: React.EffectCallback,
@@ -207,7 +199,7 @@ export default class TabularNodeTest extends AbstractPackageTest {
             fn()
         }
 
-        setUseEffectTabular(useEffect)
+        setUseEffectPre(useEffect)
 
         this.render()
 
@@ -225,7 +217,7 @@ export default class TabularNodeTest extends AbstractPackageTest {
         const updateNodeInternals = (id: string | string[]) => {
             passedId = id
         }
-        setUseUpdateNodeInternalsTabular(() => updateNodeInternals)
+        setUseUpdateNodeInternalsPre(() => updateNodeInternals)
 
         this.render()
 
@@ -238,7 +230,7 @@ export default class TabularNodeTest extends AbstractPackageTest {
 
     private static renderAndGetTopLevelDiv() {
         const { getByTestId } = this.render()
-        return getByTestId('tabular-node')
+        return getByTestId('preformatted-node')
     }
 
     private static extractInlineStyles(style: CSSStyleDeclaration) {
@@ -254,18 +246,31 @@ export default class TabularNodeTest extends AbstractPackageTest {
     }
 
     private static readonly id = generateId()
-    private static readonly label = generateId()
+    private static readonly style = { color: 'red' }
 
-    private static readonly style = {
-        color: 'red',
-    }
+    private static readonly table = (
+        <table>
+            <thead>
+                <tr>
+                    <th>Column 1</th>
+                    <th>Column 2</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{this.label}</td>
+                    <td>Data 2</td>
+                </tr>
+            </tbody>
+        </table>
+    )
 
     private static render() {
         return this.renderWithProvider(
-            <TabularNode
+            <PreformattedNode
                 data={{
                     id: this.id,
-                    label: this.label,
+                    preContents: this.table,
                     style: this.style,
                 }}
             />
