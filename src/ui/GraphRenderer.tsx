@@ -15,6 +15,7 @@ import React, {
 } from 'react'
 import { EnrichedEdge, EnrichedNode } from './LateralFlowGraph'
 import RotatableNode from './RotatableNode'
+import TabularNode from './TabularNode'
 
 export interface GraphRendererProps {
     nodes: EnrichedNode[]
@@ -31,7 +32,11 @@ export interface GraphRendererProps {
 }
 
 export const highlightColor = 'dodgerblue'
-export const nodeTypes = { rotatableNode: RotatableNode }
+
+export const nodeTypes = {
+    rotatableNode: RotatableNode,
+    tabularNode: TabularNode,
+}
 
 const GraphRenderer: React.FC<GraphRendererProps> = ({
     nodes: initialNodes,

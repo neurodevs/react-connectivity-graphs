@@ -9,6 +9,7 @@ import FakeReactFlowInstance from '../../testDoubles/FakeReactFlowInstance'
 import GraphRenderer, { setReactFlowComponent } from '../../ui/GraphRenderer'
 import { EnrichedEdge, EnrichedNode } from '../../ui/LateralFlowGraph'
 import RotatableNode from '../../ui/RotatableNode'
+import TabularNode from '../../ui/TabularNode'
 import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class GraphRendererTest extends AbstractPackageTest {
@@ -784,6 +785,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
     private static readonly nodeTypes = {
         rotatableNode: RotatableNode,
+        tabularNode: TabularNode,
     }
 
     private static generateFakeNode(nodeId = '1', text?: string) {
