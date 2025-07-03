@@ -413,8 +413,8 @@ export default class GraphRendererTest extends AbstractPackageTest {
         const div = this.renderAndGetTopLevelDiv()
 
         assert.isTrue(
-            div.style.display === 'none',
-            'Should set "display: none" until isLoaded!'
+            div.style.visibility === 'hidden',
+            'Should set "visibility: hidden" until isLoaded!'
         )
 
         lastFakeReactFlowProps?.onInit?.(
@@ -426,7 +426,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
 
         assert.isTrue(
             div.style.display !== 'none',
-            'Should not set "display: none" after isLoaded!'
+            'Should not set "visibility: hidden" after isLoaded!'
         )
     }
 

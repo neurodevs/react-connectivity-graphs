@@ -82,7 +82,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
         <div
             className="graph-renderer"
             data-testid="graph-renderer"
-            style={isLoaded ? {} : { display: 'none' }}
+            style={isLoaded ? {} : { visibility: 'hidden' }}
         >
             <ReactFlowComponent
                 nodes={nodes as unknown as Node[]}
