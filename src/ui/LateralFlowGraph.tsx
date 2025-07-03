@@ -2,7 +2,10 @@ import { ReactFlowProvider } from '@xyflow/react'
 import { ReactFlowProviderProps } from '@xyflow/react/dist/esm/components/ReactFlowProvider'
 import React, { useMemo } from 'react'
 import { LateralizedEdge, SimpleEdge, SimpleNode } from '../types'
-import GraphRenderer, { GraphRendererProps } from './GraphRenderer'
+import GraphRenderer, {
+    CustomNodeTypes,
+    GraphRendererProps,
+} from './GraphRenderer'
 
 export interface LateralFlowGraphProps {
     nodes: SimpleNode[]
@@ -252,6 +255,7 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
             rotationDegrees,
             handlePosition,
             sidedStyles,
+            nodeType = 'rotatableNode',
         } = params
 
         const individualStyles: IndividualNodeStyle = {
@@ -260,7 +264,7 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
 
         return {
             ...node,
-            type: 'rotatableNode',
+            type: nodeType,
             position: { x: positionX, y: positionY },
             style: {},
             data: {
@@ -374,6 +378,7 @@ export interface EnrichNodeParams {
     rotationDegrees: number
     handlePosition: string
     sidedStyles: SidedNodeStyle
+    nodeType?: keyof CustomNodeTypes
 }
 
 export interface EnrichEdgeParams {

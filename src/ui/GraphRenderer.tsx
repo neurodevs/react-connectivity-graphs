@@ -2,6 +2,7 @@ import {
     Controls,
     Edge,
     Node,
+    NodeTypes,
     ReactFlow,
     ReactFlowInstance,
     ReactFlowProps,
@@ -33,7 +34,7 @@ export interface GraphRendererProps {
 
 export const highlightColor = 'dodgerblue'
 
-export const nodeTypes = {
+export const nodeTypes: CustomNodeTypes = {
     rotatableNode: RotatableNode,
     tabularNode: TabularNode,
 }
@@ -337,6 +338,11 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
 }
 
 export default GraphRenderer
+
+export interface CustomNodeTypes extends NodeTypes {
+    rotatableNode: typeof RotatableNode
+    tabularNode: typeof TabularNode
+}
 
 export type HighlightNodeStyles = Record<
     string,
