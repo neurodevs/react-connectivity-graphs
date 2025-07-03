@@ -5,7 +5,12 @@ import {
     useUpdateNodeInternals,
 } from '@xyflow/react'
 import { UpdateNodeInternals } from '@xyflow/system'
-import React, { DependencyList, EffectCallback, useEffect } from 'react'
+import React, {
+    CSSProperties,
+    DependencyList,
+    EffectCallback,
+    useEffect,
+} from 'react'
 
 export interface RotatableNodeProps {
     data: {
@@ -13,7 +18,7 @@ export interface RotatableNodeProps {
         label: string
         targetPosition: Position
         sourcePosition: Position
-        style: React.CSSProperties
+        style: CSSProperties
     }
 }
 
