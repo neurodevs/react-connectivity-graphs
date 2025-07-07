@@ -12,7 +12,7 @@ export default {
         },
         {
             id: '3',
-            label: 'Spinal cord lamina I/II',
+            label: 'Spinal cord laminae I/II',
             abbreviation: 'SpI/II',
         },
         {
