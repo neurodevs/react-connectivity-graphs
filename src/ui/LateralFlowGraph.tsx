@@ -18,7 +18,7 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
     edges,
     viewPadding,
 }) => {
-    const defaultNodeWidth = 0
+    const defaultNodeWidth = '8rem'
     const gapDegrees = 40
 
     const topMidlineNode = {
@@ -41,6 +41,7 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
 
     const defaultNodeStyle = {
         width: defaultNodeWidth,
+        height: '1.2rem',
         fontFamily: 'sans-serif',
         fontSize: '0.9rem',
         fontWeight: 100,
@@ -112,8 +113,8 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
             const degrees = startDegrees + degreesPerNode * (idx + 1) * sign
             const radians = (Math.PI * degrees) / 180
 
-            const positionX = radius * Math.cos(radians) - 4
-            const positionY = radius * Math.sin(radians) - 4
+            const positionX = radius * Math.cos(radians)
+            const positionY = radius * Math.sin(radians)
 
             const rotationDegrees = onLeftSide ? degrees + 180 : degrees
 
@@ -135,7 +136,7 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
     }
 
     function computeRadius(numNodes: number) {
-        const pixelsBetweenNodes = 20
+        const pixelsBetweenNodes = 30
         const degreesPerSide = 180 - gapDegrees
         const degreesPerNode = degreesPerSide / (numNodes + 1)
         const radiansPerNode = (Math.PI * degreesPerNode) / 180
@@ -180,7 +181,7 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
 
     function getMidlineNodes() {
         const sidedStyles = {
-            width: '1px',
+            width: '2rem',
             fontSize: '0.7rem',
             color: '#baedaf',
             borderWidth: '0',
@@ -188,28 +189,29 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
             textAlign: 'center',
             justifyContent: 'center',
             WebkitJustifyContent: 'center',
+            whiteSpace: 'pre',
         }
 
-        const baseStyles = {
-            positionX: 0,
+        const baseParams = {
+            positionX: 28,
             rotationDegrees: 0,
             sidedStyles,
         }
 
         const radius = computeRadius(nodes.length)
 
-        const midlineTopY = -radius
-        const midlineBottomY = radius
+        const midlineTopY = (-radius * 2) / 3
+        const midlineBottomY = (radius * 2) / 3
 
         const bottomParams = {
-            ...baseStyles,
-            positionY: midlineTopY,
+            ...baseParams,
+            positionY: midlineTopY + 4,
             handlePosition: 'top',
         }
 
         const topParams = {
-            ...baseStyles,
-            positionY: midlineBottomY,
+            ...baseParams,
+            positionY: midlineBottomY + 4,
             handlePosition: 'bottom',
         }
 
@@ -319,7 +321,8 @@ export interface TopLevelStyle {
 export type NodeStyle = BaseNodeStyle & SidedNodeStyle & IndividualNodeStyle
 
 export interface BaseNodeStyle {
-    width: number
+    width: number | string
+    height: number | string
     fontSize: string
     fontWeight: number
     color: string

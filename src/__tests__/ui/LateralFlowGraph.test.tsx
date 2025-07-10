@@ -24,8 +24,9 @@ import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class LateralFlowGraphTest extends AbstractPackageTest {
     private static result: RenderResult
+
+    private static nodeWidth = '8rem'
     private static gapDegrees = 40
-    private static nodeWidth = 0
 
     protected static async beforeEach() {
         await super.beforeEach()
@@ -123,8 +124,8 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
             const degrees = startDegrees + degreesPerNode * (idx + 1) * sign
             const radians = (Math.PI * degrees) / 180
 
-            const positionX = radius * Math.cos(radians) - 4 // = 0.5rem = 16 px / 4 ?
-            const positionY = radius * Math.sin(radians) - 4
+            const positionX = radius * Math.cos(radians)
+            const positionY = radius * Math.sin(radians)
 
             const sidedId = `${node.id}-${side}`
 
@@ -141,6 +142,7 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
                     targetPosition: invertedSide,
                     style: {
                         width: this.nodeWidth,
+                        height: '1.2rem',
                         fontFamily: 'sans-serif',
                         fontSize: '0.9rem',
                         fontWeight: 100,
@@ -161,7 +163,7 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
     }
 
     private static computeRadius(numNodes: number) {
-        const pixelsBetweenNodes = 20
+        const pixelsBetweenNodes = 30
         const degreesPerSide = 180 - this.gapDegrees
         const degreesPerNode = degreesPerSide / (numNodes + 1)
         const radiansPerNode = (Math.PI * degreesPerNode) / 180
@@ -207,6 +209,7 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
     private static get defaultNodeStyle() {
         return {
             width: this.nodeWidth,
+            height: '1.2rem',
             fontFamily: 'sans-serif',
             fontSize: '0.9em',
             fontWeight: 100,
@@ -219,7 +222,7 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
 
     private static get midlineNodes() {
         const sidedStyles = {
-            width: '1px',
+            width: '2rem',
             fontSize: '0.7rem',
             color: '#baedaf',
             borderWidth: '0',
@@ -227,28 +230,29 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
             textAlign: 'center',
             justifyContent: 'center',
             WebkitJustifyContent: 'center',
+            whiteSpace: 'pre',
         }
 
         const baseStyles = {
-            positionX: 0,
+            positionX: 28,
             rotationDegrees: 0,
             sidedStyles,
         }
 
         const radius = this.computeRadius(this.numNodes)
 
-        const midlineTopY = -radius
-        const midlineBottomY = radius
+        const midlineTopY = (-radius * 2) / 3
+        const midlineBottomY = (radius * 2) / 3
 
         const bottomParams = {
             ...baseStyles,
-            positionY: midlineTopY,
+            positionY: midlineTopY + 4,
             handlePosition: 'top',
         }
 
         const topParams = {
             ...baseStyles,
-            positionY: midlineBottomY,
+            positionY: midlineBottomY + 4,
             handlePosition: 'bottom',
         }
 
