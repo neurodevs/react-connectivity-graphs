@@ -142,7 +142,7 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
                     style: {
                         width: this.nodeWidth,
                         fontFamily: 'sans-serif',
-                        fontSize: '0.9em',
+                        fontSize: '0.9rem',
                         fontWeight: 100,
                         color: '#777',
                         borderWidth: `0 ${onLeftSide ? '1.5px' : 0} 0 ${onLeftSide ? 0 : '1.5px'}`,

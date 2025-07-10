@@ -42,7 +42,7 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
     const defaultNodeStyle = {
         width: defaultNodeWidth,
         fontFamily: 'sans-serif',
-        fontSize: '0.9em',
+        fontSize: '0.9rem',
         fontWeight: 100,
         color: '#777',
         borderStyle: 'solid',
