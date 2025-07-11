@@ -5,9 +5,7 @@ import LateralFlowGraph, { LateralFlowGraphProps } from '../ui/LateralFlowGraph'
 const App: React.FC<LateralFlowGraphProps> = (props: LateralFlowGraphProps) => {
     return (
         <div id="app" data-testid="app">
-            <ProviderComponentApp>
-                <RendererComponent {...props} />
-            </ProviderComponentApp>
+            <RendererComponent {...props} />
         </div>
     )
 }

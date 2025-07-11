@@ -6,7 +6,6 @@ import FakeLateralFlowGraph, {
     lastFakeLateralFlowGraphProps,
     resetFakeLateralFlowGraphProps,
 } from '../../testDoubles/FakeLateralFlowGraph'
-import { providerWasCreated } from '../../testDoubles/FakeReactFlowProvider'
 import App, { setRendererComponent } from '../../ui/App'
 import AbstractPackageTest from '../AbstractPackageTest'
 
@@ -27,16 +26,6 @@ export default class AppTest extends AbstractPackageTest {
     @test()
     protected static async rendersApp() {
         assert.isTruthy(this.element, 'App failed to render!')
-    }
-
-    @test()
-    protected static async wrapsWithReactFlowProvider() {
-        this.render()
-
-        assert.isTruthy(
-            providerWasCreated,
-            'Should wrap with ReactFlowProvider!'
-        )
     }
 
     @test()
