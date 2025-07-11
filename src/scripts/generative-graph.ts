@@ -1,4 +1,4 @@
-const numNodes = 50
+const numNodes = 10
 
 export default {
     nodes: Array.from({ length: numNodes }, (_, i) => {
