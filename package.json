@@ -1,6 +1,6 @@
 {
   "name": "@neurodevs/react-connectivity-graphs",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "main": "build/exports.js",
   "files": [
     "build/",
