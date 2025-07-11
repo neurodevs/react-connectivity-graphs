@@ -19,6 +19,7 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
     viewPadding,
 }) => {
     const defaultNodeWidth = '8rem'
+    const defaultNodeWidthRem = 8 * 16
     const gapDegrees = 40
 
     const topMidlineNode = {
@@ -35,8 +36,8 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
 
     const verticalMidlineEdge: SimpleEdge = {
         id: 'vertical-midline',
-        source: bottomMidlineNode.id,
-        target: topMidlineNode.id,
+        source: topMidlineNode.id,
+        target: bottomMidlineNode.id,
     }
 
     const defaultNodeStyle = {
@@ -202,16 +203,16 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
 
         const radius = computeRadius(nodes.length)
 
-        const midlineTopY = (-radius * 2) / 3
-        const midlineBottomY = (radius * 2) / 3
+        const midlineTopY = -radius + defaultNodeWidthRem / 4
+        const midlineBottomY = radius - defaultNodeWidthRem / 4
 
-        const bottomParams = {
+        const topParams = {
             ...baseParams,
             positionY: midlineTopY + 4,
             handlePosition: 'top',
         }
 
-        const topParams = {
+        const bottomParams = {
             ...baseParams,
             positionY: midlineBottomY + 4,
             handlePosition: 'bottom',

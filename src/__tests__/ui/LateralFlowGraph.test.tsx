@@ -26,6 +26,7 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
     private static result: RenderResult
 
     private static nodeWidth = '8rem'
+    private static nodeWidthRem = 8 * 16
     private static gapDegrees = 40
 
     protected static async beforeEach() {
@@ -244,16 +245,16 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
 
         const radius = this.computeRadius(this.numNodes)
 
-        const midlineTopY = (-radius * 2) / 3
-        const midlineBottomY = (radius * 2) / 3
+        const midlineTopY = -radius + this.nodeWidthRem / 4
+        const midlineBottomY = radius - this.nodeWidthRem / 4
 
-        const bottomParams = {
+        const topParams = {
             ...baseStyles,
             positionY: midlineTopY + 4,
             handlePosition: 'top',
         }
 
-        const topParams = {
+        const bottomParams = {
             ...baseStyles,
             positionY: midlineBottomY + 4,
             handlePosition: 'bottom',
@@ -357,8 +358,8 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
     private static get verticalMidlineEdge() {
         return {
             id: 'vertical-midline',
-            source: this.bottomMidlineNode.id,
-            target: this.topMidlineNode.id,
+            source: this.topMidlineNode.id,
+            target: this.bottomMidlineNode.id,
         } as SimpleEdge
     }
 
