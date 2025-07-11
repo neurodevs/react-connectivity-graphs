@@ -137,10 +137,11 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
     }
 
     function computeRadius(numNodes: number) {
-        const pixelsBetweenNodes = 30
         const degreesPerSide = 180 - gapDegrees
         const degreesPerNode = degreesPerSide / (numNodes + 1)
         const radiansPerNode = (Math.PI * degreesPerNode) / 180
+
+        const pixelsBetweenNodes = 120 / (1 + Math.log2(numNodes + 1))
 
         return pixelsBetweenNodes / radiansPerNode
     }

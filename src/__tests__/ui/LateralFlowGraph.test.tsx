@@ -124,8 +124,8 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
             const degrees = startDegrees + degreesPerNode * (idx + 1) * sign
             const radians = (Math.PI * degrees) / 180
 
-            const positionX = radius * Math.cos(radians)
-            const positionY = radius * Math.sin(radians)
+            const positionX = radius * Math.cos(radians) + 4
+            const positionY = radius * Math.sin(radians) + 4
 
             const sidedId = `${node.id}-${side}`
 
@@ -142,7 +142,8 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
                     targetPosition: invertedSide,
                     style: {
                         width: this.nodeWidth,
-                        height: '1.2rem',
+                        boxSizing: 'border-box',
+                        height: '2.2rem',
                         fontFamily: 'sans-serif',
                         fontSize: '0.9rem',
                         fontWeight: 100,
@@ -163,10 +164,11 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
     }
 
     private static computeRadius(numNodes: number) {
-        const pixelsBetweenNodes = 30
         const degreesPerSide = 180 - this.gapDegrees
         const degreesPerNode = degreesPerSide / (numNodes + 1)
         const radiansPerNode = (Math.PI * degreesPerNode) / 180
+
+        const pixelsBetweenNodes = 120 / (1 + Math.log2(numNodes + 1))
 
         return pixelsBetweenNodes / radiansPerNode
     }
@@ -209,7 +211,8 @@ export default class LateralFlowGraphTest extends AbstractPackageTest {
     private static get defaultNodeStyle() {
         return {
             width: this.nodeWidth,
-            height: '1.2rem',
+            boxSizing: 'border-box',
+            height: '2.2rem',
             fontFamily: 'sans-serif',
             fontSize: '0.9em',
             fontWeight: 100,
