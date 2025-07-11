@@ -76,6 +76,7 @@ export default class AbstractPackageTest extends AbstractSpruceTest {
             style: {
                 color: 'black',
                 borderColor: 'black',
+                fontSize: '0.9rem',
             },
             data: {
                 id: nodeId,
@@ -83,6 +84,7 @@ export default class AbstractPackageTest extends AbstractSpruceTest {
                 style: {
                     color: 'black',
                     borderColor: 'black',
+                    fontSize: '0.9rem',
                 },
             },
         } as EnrichedNode

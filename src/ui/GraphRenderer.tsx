@@ -169,12 +169,15 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                 ? highlightColor
                 : original.borderColor
 
+            const fontSize = shouldHighlight ? '0.8rem' : '0.9rem'
+
             return {
                 ...node,
                 style: {
                     ...node.style,
                     color,
                     borderColor,
+                    fontSize,
                 },
                 data: {
                     ...node.data,
@@ -183,6 +186,7 @@ const GraphRenderer: React.FC<GraphRendererProps> = ({
                         ...node.data.style!,
                         color,
                         borderColor,
+                        fontSize,
                     },
                 },
             }

@@ -316,6 +316,7 @@ export interface EnrichedNodeData {
 export interface TopLevelStyle {
     color?: string
     borderColor?: string
+    fontSize?: string
 }
 
 export type NodeStyle = BaseNodeStyle & SidedNodeStyle & IndividualNodeStyle

@@ -195,6 +195,32 @@ export default class GraphRendererTest extends AbstractPackageTest {
     }
 
     @test()
+    protected static async decreasesFontSizeOnMouseEnter() {
+        const style = this.renderFireMouseEnterAndGetStyle()
+
+        assert.isEqual(
+            style.fontSize,
+            '0.8rem',
+            `Should set node fontSize to 0.8rem on hover!`
+        )
+    }
+
+    @test()
+    protected static async increasesFontSizeOnMouseLeave() {
+        const node = this.renderAndFireMouseEnter()
+
+        this.fireMouseLeave(node)
+
+        const style = window.getComputedStyle(node)
+
+        assert.isEqual(
+            style.fontSize,
+            '0.9rem',
+            `Should set node fontSize to 0.9rem off hover!`
+        )
+    }
+
+    @test()
     protected static async disablesPanOnDrag() {
         this.render()
 
@@ -368,9 +394,7 @@ export default class GraphRendererTest extends AbstractPackageTest {
     protected static async unhighlightSwapsLabelForAbbreviationInNodes() {
         const renderedNode = this.renderThreeNodesFireMouseEnter()
 
-        act(() => {
-            fireEvent.mouseLeave(renderedNode)
-        })
+        this.fireMouseLeave(renderedNode)
 
         const node1 = screen.getByTestId('rf__node-1')
         const node2 = screen.getByTestId('rf__node-2')
@@ -561,6 +585,12 @@ export default class GraphRendererTest extends AbstractPackageTest {
         })
 
         return renderedNode
+    }
+
+    private static fireMouseLeave(renderedNode: HTMLElement) {
+        act(() => {
+            fireEvent.mouseLeave(renderedNode)
+        })
     }
 
     private static readonly onNodeClick = () => {
