@@ -6,7 +6,7 @@ import FakeLateralFlowGraph, {
     lastFakeLateralFlowGraphProps,
     resetFakeLateralFlowGraphProps,
 } from '../../testDoubles/FakeLateralFlowGraph'
-import App, { setRendererComponent } from '../../ui/App'
+import App, { setGraphComponent } from '../../ui/App'
 import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class AppTest extends AbstractPackageTest {
@@ -15,9 +15,7 @@ export default class AppTest extends AbstractPackageTest {
     protected static async beforeEach() {
         await super.beforeEach()
 
-        this.setFakeReactFlowProvider()
-
-        setRendererComponent(FakeLateralFlowGraph)
+        setGraphComponent(FakeLateralFlowGraph)
         resetFakeLateralFlowGraphProps()
 
         this.element = this.render()

@@ -6,11 +6,7 @@ import FakeHandle, { resetFakeHandleProps } from '../testDoubles/FakeHandle'
 import FakeReactFlow, {
     resetFakeReactFlowProps,
 } from '../testDoubles/FakeReactFlow'
-import FakeReactFlowProvider, {
-    resetProviderWasCreated,
-} from '../testDoubles/FakeReactFlowProvider'
 import { SimpleNode, SimpleEdge, LateralizedEdge } from '../types'
-import { setProviderComponentApp } from '../ui/App'
 import { setReactFlowComponent } from '../ui/GraphRenderer'
 import { EnrichedNode } from '../ui/LateralFlowGraph'
 import { setHandlePre } from '../ui/PreformattedNode'
@@ -26,13 +22,6 @@ export default class AbstractPackageTest extends AbstractSpruceTest {
 
     protected static async beforeEach() {
         await super.beforeEach()
-    }
-
-    protected static setFakeReactFlowProvider() {
-        setProviderComponentApp(
-            FakeReactFlowProvider as typeof ReactFlowProvider
-        )
-        resetProviderWasCreated()
     }
 
     protected static setFakeReactFlow() {
