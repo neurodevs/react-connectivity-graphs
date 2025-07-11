@@ -41,7 +41,8 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
 
     const defaultNodeStyle = {
         width: defaultNodeWidth,
-        height: '1.2rem',
+        boxSizing: 'border-box',
+        height: '2.2rem',
         fontFamily: 'sans-serif',
         fontSize: '0.9rem',
         fontWeight: 100,
@@ -113,8 +114,8 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
             const degrees = startDegrees + degreesPerNode * (idx + 1) * sign
             const radians = (Math.PI * degrees) / 180
 
-            const positionX = radius * Math.cos(radians)
-            const positionY = radius * Math.sin(radians)
+            const positionX = radius * Math.cos(radians) + 4
+            const positionY = radius * Math.sin(radians) + 4
 
             const rotationDegrees = onLeftSide ? degrees + 180 : degrees
 
