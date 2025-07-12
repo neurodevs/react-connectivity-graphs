@@ -62,8 +62,12 @@ export default class MultiGraphViewTest extends AbstractPackageTest {
     }
 
     @test()
-    protected static async rendersNineGraphs() {
-        assert.isLength(this.graphs, 9, 'Should render nine graphs!')
+    protected static async rendersCorrectNumberOfGraphs() {
+        assert.isLength(
+            this.graphs,
+            this.numNodes,
+            `Should render ${this.numNodes} graphs!`
+        )
     }
 
     @test()
@@ -99,7 +103,9 @@ export default class MultiGraphViewTest extends AbstractPackageTest {
         })
     }
 
+    private static readonly numNodes = 9
+
     private static render() {
-        return render(<MultiGraphView />)
+        return render(<MultiGraphView numNodes={this.numNodes} />)
     }
 }

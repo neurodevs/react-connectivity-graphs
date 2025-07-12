@@ -1,6 +1,12 @@
 import React from 'react'
+import { MultiGraphViewProps } from '../exports'
 
-const FakeMultiGraphView: React.FC = () => {
+export let lastFakeMultiGraphViewProps: MultiGraphViewProps | null = null
+
+const FakeMultiGraphView: React.FC<MultiGraphViewProps> = (
+    props: MultiGraphViewProps
+) => {
+    lastFakeMultiGraphViewProps = props
     return <div data-testid="graphs-container" />
 }
 

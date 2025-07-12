@@ -1,6 +1,6 @@
 import React from 'react'
 import { LateralFlowGraphProps } from '../ui/LateralFlowGraph'
-import MultiGraphView from './MultiGraphView'
+import MultiGraphView, { MultiGraphViewProps } from './MultiGraphView'
 
 const App: React.FC<LateralFlowGraphProps> = () => {
     return (
@@ -15,7 +15,7 @@ const App: React.FC<LateralFlowGraphProps> = () => {
                 alignItems: 'flex-start',
             }}
         >
-            <ViewComponent />
+            <ViewComponent numNodes={9} />
         </div>
     )
 }
@@ -24,8 +24,8 @@ export default App
 
 // For test doubles
 
-export let ViewComponent: React.FC = MultiGraphView
+export let ViewComponent: React.FC<MultiGraphViewProps> = MultiGraphView
 
-export function setViewComponent(component: React.FC) {
+export function setViewComponent(component: React.FC<MultiGraphViewProps>) {
     ViewComponent = component
 }
