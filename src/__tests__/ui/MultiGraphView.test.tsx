@@ -106,6 +106,6 @@ export default class MultiGraphViewTest extends AbstractPackageTest {
     private static readonly numNodes = 9
 
     private static render() {
-        return render(<MultiGraphView numNodes={this.numNodes} />)
+        return render(<MultiGraphView numGraphs={this.numNodes} />)
     }
 }

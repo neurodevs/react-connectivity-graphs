@@ -3,10 +3,10 @@ import generateGraph from '../scripts/generateGraph'
 import LateralFlowGraph, { LateralFlowGraphProps } from './LateralFlowGraph'
 
 export interface MultiGraphViewProps {
-    numNodes: number
+    numGraphs: number
 }
 
-const MultiGraphView: React.FC<MultiGraphViewProps> = ({ numNodes }) => {
+const MultiGraphView: React.FC<MultiGraphViewProps> = ({ numGraphs }) => {
     return (
         <div
             data-testid="graphs-container"
@@ -16,7 +16,7 @@ const MultiGraphView: React.FC<MultiGraphViewProps> = ({ numNodes }) => {
                 maxWidth: `calc(3 * 500px + 2 * 1rem)`,
             }}
         >
-            {Array.from({ length: numNodes }, (_, i) =>
+            {Array.from({ length: numGraphs }, (_, i) =>
                 generateGraphComponent(i + 1)
             )}
         </div>

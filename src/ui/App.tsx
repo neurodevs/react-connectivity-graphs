@@ -15,7 +15,7 @@ const App: React.FC<LateralFlowGraphProps> = () => {
                 alignItems: 'flex-start',
             }}
         >
-            <ViewComponent numNodes={9} />
+            <ViewComponent numGraphs={9} />
         </div>
     )
 }
