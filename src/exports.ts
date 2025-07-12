@@ -6,6 +6,14 @@ export * from './ui/LateralFlowGraph'
 export { default as FakeLateralFlowGraph } from './testDoubles/FakeLateralFlowGraph'
 export * from './testDoubles/FakeLateralFlowGraph'
 
+// MultiGraphView.tsx
+
+export { default as MultiGraphView } from './ui/MultiGraphView'
+export * from './ui/MultiGraphView'
+
+export { default as FakeMultiGraphView } from './testDoubles/FakeMultiGraphView'
+export * from './testDoubles/FakeMultiGraphView'
+
 // MultiNetworkRenderer.tsx
 
 export { default as MultiNetworkRenderer } from './ui/MultiNetworkRenderer'

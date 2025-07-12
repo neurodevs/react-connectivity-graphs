@@ -2,11 +2,8 @@ import { test, assert } from '@sprucelabs/test-utils'
 import { render, RenderResult, within } from '@testing-library/react'
 import React from 'react'
 
-import FakeLateralFlowGraph, {
-    lastFakeLateralFlowGraphProps,
-    resetFakeLateralFlowGraphProps,
-} from '../../testDoubles/FakeLateralFlowGraph'
-import App, { setGraphComponent } from '../../ui/App'
+import FakeMultiGraphView from '../../testDoubles/FakeMultiGraphView'
+import App, { setViewComponent } from '../../ui/App'
 import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class AppTest extends AbstractPackageTest {
@@ -14,34 +11,21 @@ export default class AppTest extends AbstractPackageTest {
 
     private static app: HTMLElement
     private static container: HTMLElement
-    private static graphs: HTMLElement[]
 
     protected static async beforeEach() {
         await super.beforeEach()
 
-        setGraphComponent(FakeLateralFlowGraph)
-        resetFakeLateralFlowGraphProps()
+        setViewComponent(FakeMultiGraphView)
 
         this.result = this.render()
 
         this.app = this.result.getByTestId('app')
         this.container = within(this.app).getByTestId('graphs-container')
-        this.graphs = within(this.container).getAllByTestId(/graph-\d+/)
     }
 
     @test()
     protected static async rendersResult() {
         assert.isTruthy(this.result, 'App failed to render!')
-    }
-
-    @test()
-    protected static async rendersLateralFlowGraphWithProps() {
-        this.render()
-
-        assert.isTruthy(
-            lastFakeLateralFlowGraphProps,
-            'Should render GraphRenderer with props!'
-        )
     }
 
     @test()
@@ -77,69 +61,8 @@ export default class AppTest extends AbstractPackageTest {
     }
 
     @test()
-    protected static async rendersGraphsInContainerForThreeFlexColumns() {
-        assert.isTruthy(this.container, 'Graphs container not found!')
-    }
-
-    @test()
-    protected static async rendersGraphsContainerWithStyles() {
-        const expected = {
-            display: 'flex',
-            flexWrap: 'wrap',
-            maxWidth: `calc(3 * 500px + 2 * 1rem)`,
-        }
-
-        const style = window.getComputedStyle(this.container)
-
-        const actual = {
-            display: style.display,
-            flexWrap: style.flexWrap,
-            maxWidth: style.maxWidth,
-        }
-
-        assert.isEqualDeep(
-            actual,
-            expected,
-            'Graphs container should have correct styles!'
-        )
-    }
-
-    @test()
-    protected static async rendersNineGraphs() {
-        assert.isLength(this.graphs, 9, 'Should render nine graphs!')
-    }
-
-    @test()
-    protected static async rendersGraphsWithStyles() {
-        this.graphs.forEach((graph, index) => {
-            const expected = {
-                height: '500px',
-                width: '500px',
-                border: '1px solid rgb(221, 221, 221)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                margin: '0rem',
-            }
-
-            const style = window.getComputedStyle(graph)
-
-            const actual = {
-                height: style.height,
-                width: style.width,
-                border: style.border,
-                display: style.display,
-                alignItems: style.alignItems,
-                justifyContent: style.justifyContent,
-                margin: style.margin,
-            }
-
-            assert.isEqualDeep(
-                actual,
-                expected,
-                `Graph ${index + 1} should have correct styles!`
-            )
-        })
+    protected static async rendersMultiGraphView() {
+        assert.isTruthy(this.container, 'MultiGraphView container not found!')
     }
 
     private static render() {

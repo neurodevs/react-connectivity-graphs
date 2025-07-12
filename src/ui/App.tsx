@@ -1,6 +1,6 @@
 import React from 'react'
-import generateGraph from '../scripts/generateGraph'
-import LateralFlowGraph, { LateralFlowGraphProps } from '../ui/LateralFlowGraph'
+import { LateralFlowGraphProps } from '../ui/LateralFlowGraph'
+import MultiGraphView from './MultiGraphView'
 
 const App: React.FC<LateralFlowGraphProps> = () => {
     return (
@@ -15,39 +15,7 @@ const App: React.FC<LateralFlowGraphProps> = () => {
                 alignItems: 'flex-start',
             }}
         >
-            <div
-                data-testid="graphs-container"
-                style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    maxWidth: `calc(3 * 500px + 2 * 1rem)`,
-                }}
-            >
-                {Array.from({ length: 9 }, (_, i) => wrap(i + 1))}
-            </div>
-        </div>
-    )
-}
-
-function wrap(numNodes: number) {
-    return (
-        <div
-            key={numNodes}
-            style={{
-                height: 500,
-                width: 500,
-                border: '1px solid #ddd',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                margin: '0rem',
-            }}
-            data-testid={`graph-${numNodes}`}
-        >
-            <GraphComponent
-                {...(generateGraph(numNodes) as any)}
-                viewPadding={10}
-            />
+            <ViewComponent />
         </div>
     )
 }
@@ -56,8 +24,8 @@ export default App
 
 // For test doubles
 
-export let GraphComponent: React.FC<LateralFlowGraphProps> = LateralFlowGraph
+export let ViewComponent: React.FC = MultiGraphView
 
-export function setGraphComponent(component: React.FC<LateralFlowGraphProps>) {
-    GraphComponent = component
+export function setViewComponent(component: React.FC) {
+    ViewComponent = component
 }
