@@ -1,10 +1,3 @@
-import React, {
-    useState,
-    useCallback,
-    useRef,
-    useEffect,
-    MouseEvent,
-} from 'react'
 import {
     Controls,
     Edge,
@@ -13,7 +6,14 @@ import {
     ReactFlow,
     ReactFlowInstance,
     ReactFlowProps,
-} from 'reactflow'
+} from '@xyflow/react'
+import React, {
+    useState,
+    useCallback,
+    useRef,
+    useEffect,
+    MouseEvent,
+} from 'react'
 import { EnrichedEdge, EnrichedNode } from './LateralFlowGraph'
 import PreformattedNode from './PreformattedNode'
 import RotatableNode from './RotatableNode'

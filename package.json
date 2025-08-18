@@ -1,6 +1,6 @@
 {
   "name": "@neurodevs/react-connectivity-graphs",
-  "version": "5.0.1",
+  "version": "5.0.0",
   "main": "build/exports.js",
   "files": [
     "build/",
@@ -10,7 +10,7 @@
   "scripts": {
     "build.ci": "yarn run build.tsc && yarn run build.resolve-paths && yarn run lint",
     "build.dev": "yarn run build.tsc --sourceMap && yarn run build.exports && yarn run build.dist && yarn run build.demo; yarn run resolve-paths.lint",
-    "build.exports": "esbuild src/exports.ts --bundle --outfile=build/index.js --platform=browser --loader:.tsx=tsx --loader:.css=css --external:react --external:react-dom --external:reactflow",
+    "build.exports": "esbuild src/exports.ts --bundle --outfile=build/index.js --platform=browser --loader:.tsx=tsx --loader:.css=css",
     "build.dist": "esbuild src/styles/index.css --bundle --outfile=dist/index.css --loader:.css=css",
     "build.demo": "esbuild src/index.tsx --bundle --outfile=public/dist/index.js --platform=browser --loader:.tsx=tsx --loader:.css=css",
     "build.copy-files": "mkdir -p build && rsync -avzq --exclude='*.ts' --exclude='*.tsx' ./src/ ./build/",
@@ -43,11 +43,8 @@
     "@testing-library/react": "^16.2.0",
     "@types/jsdom": "^21.1.7",
     "@types/node": "^22.7.5",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "reactflow": "^11.0.0",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
     "chokidar-cli": "^3.0.0",
     "esbuild": "^0.25.4",
     "esbuild-style-plugin": "^1.6.3",
@@ -88,9 +85,9 @@
       "<rootDir>/build/__tests__/setupTests.js"
     ]
   },
-  "peerDependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "reactflow": "^11.0.0"
+  "dependencies": {
+    "@xyflow/react": "^12.6.4",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   }
 }

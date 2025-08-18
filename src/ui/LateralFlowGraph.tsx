@@ -1,5 +1,6 @@
+import { ReactFlowProvider } from '@xyflow/react'
+import { ReactFlowProviderProps } from '@xyflow/react/dist/esm/components/ReactFlowProvider'
 import React, { useMemo } from 'react'
-import { ReactFlowProvider } from 'reactflow'
 import { LateralizedEdge, SimpleEdge, SimpleNode } from '../types'
 import GraphRenderer, {
     CustomNodeTypes,
@@ -377,10 +378,6 @@ export interface EnrichEdgeParams {
     type?: string
     stroke?: string
     strokeWidth?: number
-}
-
-export interface ReactFlowProviderProps {
-    children?: React.ReactNode
 }
 
 // For test doubles
