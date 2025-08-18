@@ -1,4 +1,4 @@
-@import '@xyflow/react/dist/style.css';
+@import 'reactflow/dist/style.css';
 
 html, body, #root, #app {
   height: 100%;

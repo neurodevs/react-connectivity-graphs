@@ -1,5 +1,5 @@
-import { ReactFlowProps } from '@xyflow/react'
 import React from 'react'
+import { ReactFlowProps } from 'reactflow'
 
 export let lastFakeReactFlowProps: ReactFlowProps | undefined
 

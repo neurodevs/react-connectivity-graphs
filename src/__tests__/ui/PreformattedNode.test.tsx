@@ -1,6 +1,6 @@
 import { assert, generateId, test } from '@sprucelabs/test-utils'
-import { Position } from '@xyflow/react'
 import React from 'react'
+import { Position } from 'reactflow'
 import { fakeHandleProps } from '../../testDoubles/FakeHandle'
 import PreformattedNode, {
     setUseEffectPre,

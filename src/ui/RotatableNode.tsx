@@ -1,16 +1,16 @@
-import {
-    Handle,
-    HandleProps,
-    Position,
-    useUpdateNodeInternals,
-} from '@xyflow/react'
-import { UpdateNodeInternals } from '@xyflow/system'
 import React, {
     CSSProperties,
     DependencyList,
     EffectCallback,
     useEffect,
 } from 'react'
+import {
+    Handle,
+    HandleProps,
+    Position,
+    useUpdateNodeInternals,
+    UpdateNodeInternals,
+} from 'reactflow'
 
 export interface RotatableNodeProps {
     data: {

@@ -1,4 +1,4 @@
-import { FitViewOptions } from '@xyflow/react'
+import { FitViewOptions } from 'reactflow'
 
 export default class FakeReactFlowInstance {
     public passedFitViewOptions?: FitViewOptions

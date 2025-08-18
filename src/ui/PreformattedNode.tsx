@@ -1,10 +1,3 @@
-import {
-    Handle,
-    HandleProps,
-    Position,
-    useUpdateNodeInternals,
-} from '@xyflow/react'
-import { UpdateNodeInternals } from '@xyflow/system'
 import React, {
     DependencyList,
     EffectCallback,
@@ -12,6 +5,13 @@ import React, {
     ReactElement,
     useEffect,
 } from 'react'
+import {
+    Handle,
+    HandleProps,
+    Position,
+    useUpdateNodeInternals,
+    UpdateNodeInternals,
+} from 'reactflow'
 
 export interface PreformattedNodeProps {
     data: {

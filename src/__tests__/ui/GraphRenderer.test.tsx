@@ -1,7 +1,7 @@
 import { test, assert } from '@sprucelabs/test-utils'
 import { act, fireEvent, screen } from '@testing-library/react'
-import { ReactFlow, ReactFlowInstance, ReactFlowProvider } from '@xyflow/react'
 import React from 'react'
+import { ReactFlow, ReactFlowInstance, ReactFlowProvider } from 'reactflow'
 import FakeReactFlow, {
     lastFakeReactFlowProps,
 } from '../../testDoubles/FakeReactFlow'

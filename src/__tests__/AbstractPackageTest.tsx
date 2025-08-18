@@ -1,7 +1,7 @@
 import AbstractSpruceTest, { generateId } from '@sprucelabs/test-utils'
 import { render } from '@testing-library/react'
-import { ReactFlowProvider } from '@xyflow/react'
 import React from 'react'
+import { ReactFlowProvider } from 'reactflow'
 import FakeHandle, { resetFakeHandleProps } from '../testDoubles/FakeHandle'
 import FakeReactFlow, {
     resetFakeReactFlowProps,
