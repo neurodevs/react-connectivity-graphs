@@ -1,6 +1,5 @@
 import { test, assert } from '@sprucelabs/test-utils'
 import { render, RenderResult, within } from '@testing-library/react'
-import React from 'react'
 
 import FakeMultiGraphView from '../../testDoubles/FakeMultiGraphView'
 import App, { setViewComponent } from '../../ui/App'
