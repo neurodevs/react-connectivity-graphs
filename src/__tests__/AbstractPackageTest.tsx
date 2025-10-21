@@ -1,4 +1,5 @@
-import AbstractSpruceTest, { generateId } from '@sprucelabs/test-utils'
+import AbstractSpruceTest from '@sprucelabs/test-utils'
+import generateId from '@neurodevs/generate-id'
 import { render } from '@testing-library/react'
 import { ReactFlowProvider } from '@xyflow/react'
 import React from 'react'
