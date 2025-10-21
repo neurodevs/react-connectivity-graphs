@@ -1,12 +1,27 @@
 {
   "name": "@neurodevs/react-connectivity-graphs",
   "version": "5.0.2",
-  "main": "build/exports.js",
+  "description": "Network connectivity graphs with nodes and edges",
+  "keywords": [
+    "nodejs",
+    "typescript",
+    "tdd"
+  ],
+  "license": "MIT",
+  "author": "Eric Yates <hello@ericthecurious.com>",
+  "homepage": "https://github.com/neurodevs/react-connectivity-graphs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neurodevs/react-connectivity-graphs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/neurodevs/react-connectivity-graphs/issues"
+  },
+  "main": "build/index.js",
   "files": [
     "build/",
     "dist/"
   ],
-  "repository": "https://github.com/neurodevs/react-connectivity-graphs.git",
   "scripts": {
     "build.ci": "yarn run build.tsc && yarn run build.resolve-paths && yarn run lint",
     "build.dev": "yarn run build.tsc --sourceMap && yarn run build.exports && yarn run build.dist && yarn run build.demo; yarn run resolve-paths.lint",
@@ -32,6 +47,11 @@
     "watch.build.dev": "tsc-watch --sourceMap --onCompilationComplete 'yarn run post.watch.build'",
     "watch.rebuild": "yarn run clean.all && yarn install && yarn run watch.build.dev",
     "watch.tsc": "tsc -w"
+  },
+  "dependencies": {
+    "@xyflow/react": "^12.6.4",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   },
   "devDependencies": {
     "@sprucelabs/jest-json-reporter": "^9.0.13",
@@ -60,10 +80,6 @@
     "tsx": "^4.19.4",
     "typescript": "^5.8.3"
   },
-  "description": "Network connectivity graphs with nodes and edges",
-  "skill": {
-    "namespace": "react-connectivity-graphs"
-  },
   "jest": {
     "testRunner": "jest-circus/runner",
     "maxWorkers": 4,
@@ -85,9 +101,7 @@
       "<rootDir>/build/__tests__/setupTests.js"
     ]
   },
-  "dependencies": {
-    "@xyflow/react": "^12.6.4",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+  "skill": {
+    "namespace": "react-connectivity-graphs"
   }
 }
