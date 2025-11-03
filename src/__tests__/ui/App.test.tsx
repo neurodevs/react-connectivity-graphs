@@ -1,9 +1,9 @@
-import { test, assert } from '@sprucelabs/test-utils'
+import { test, assert } from '@neurodevs/node-tdd'
 import { render, RenderResult, within } from '@testing-library/react'
 
-import FakeMultiGraphView from '../../testDoubles/FakeMultiGraphView'
-import App, { setViewComponent } from '../../ui/App'
-import AbstractPackageTest from '../AbstractPackageTest'
+import FakeMultiGraphView from '../../testDoubles/FakeMultiGraphView.js'
+import App, { setViewComponent } from '../../ui/App.js'
+import AbstractPackageTest from '../AbstractPackageTest.js'
 
 export default class AppTest extends AbstractPackageTest {
     private static result: RenderResult

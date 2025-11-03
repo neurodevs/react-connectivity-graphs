@@ -1,11 +1,11 @@
 import { ReactFlowProvider } from '@xyflow/react'
-import { ReactFlowProviderProps } from '@xyflow/react/dist/esm/components/ReactFlowProvider'
+
 import React, { useMemo } from 'react'
-import { LateralizedEdge, SimpleEdge, SimpleNode } from '../types'
+import { LateralizedEdge, SimpleEdge, SimpleNode } from '../types.js'
 import GraphRenderer, {
     CustomNodeTypes,
     GraphRendererProps,
-} from './GraphRenderer'
+} from './GraphRenderer.js'
 
 export interface LateralFlowGraphProps {
     nodes: SimpleNode[]
@@ -382,12 +382,9 @@ export interface EnrichEdgeParams {
 
 // For test doubles
 
-export let ProviderComponent: React.FC<ReactFlowProviderProps> =
-    ReactFlowProvider
+export let ProviderComponent: React.FC<any> = ReactFlowProvider
 
-export function setProviderComponentOnGraph(
-    component: React.FC<ReactFlowProviderProps>
-) {
+export function setProviderComponentOnGraph(component: React.FC<any>) {
     ProviderComponent = component
 }
 

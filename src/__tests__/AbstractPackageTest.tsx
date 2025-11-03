@@ -1,17 +1,18 @@
-import AbstractSpruceTest from '@sprucelabs/test-utils'
 import generateId from '@neurodevs/generate-id'
+import AbstractSpruceTest from '@neurodevs/node-tdd'
 import { render } from '@testing-library/react'
 import { ReactFlowProvider } from '@xyflow/react'
 import React from 'react'
-import FakeHandle, { resetFakeHandleProps } from '../testDoubles/FakeHandle'
+
+import FakeHandle, { resetFakeHandleProps } from '../testDoubles/FakeHandle.js'
 import FakeReactFlow, {
     resetFakeReactFlowProps,
-} from '../testDoubles/FakeReactFlow'
-import { SimpleNode, SimpleEdge, LateralizedEdge } from '../types'
-import { setReactFlowComponent } from '../ui/GraphRenderer'
-import { EnrichedNode } from '../ui/LateralFlowGraph'
-import { setHandlePre } from '../ui/PreformattedNode'
-import { setHandleComponentRotatable } from '../ui/RotatableNode'
+} from '../testDoubles/FakeReactFlow.js'
+import { SimpleNode, SimpleEdge, LateralizedEdge } from '../types.js'
+import { setReactFlowComponent } from '../ui/GraphRenderer.js'
+import { EnrichedNode } from '../ui/LateralFlowGraph.js'
+import { setHandlePre } from '../ui/PreformattedNode.js'
+import { setHandleComponentRotatable } from '../ui/RotatableNode.js'
 
 export default class AbstractPackageTest extends AbstractSpruceTest {
     protected static simpleNodes: SimpleNode[] = this.generateSimpleNodes(2)

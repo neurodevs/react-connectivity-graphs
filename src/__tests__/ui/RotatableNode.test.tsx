@@ -1,13 +1,14 @@
-import { assert, test } from '@sprucelabs/test-utils'
 import generateId from '@neurodevs/generate-id'
+import { assert, test } from '@neurodevs/node-tdd'
 import { Position } from '@xyflow/react'
 import React from 'react'
-import { fakeHandleProps } from '../../testDoubles/FakeHandle'
+
+import { fakeHandleProps } from '../../testDoubles/FakeHandle.js'
 import RotatableNode, {
     setUseEffectRotatable,
     setUseUpdateNodeInternalsRotatable,
-} from '../../ui/RotatableNode'
-import AbstractPackageTest from '../AbstractPackageTest'
+} from '../../ui/RotatableNode.js'
+import AbstractPackageTest from '../AbstractPackageTest.js'
 
 export default class RotatableNodeTest extends AbstractPackageTest {
     private static element: React.ReactElement

@@ -1,6 +1,7 @@
 import React from 'react'
-import generateGraph from '../scripts/generateGraph'
-import LateralFlowGraph, { LateralFlowGraphProps } from './LateralFlowGraph'
+
+import generateGraph from '../scripts/generateGraph.js'
+import LateralFlowGraph, { LateralFlowGraphProps } from './LateralFlowGraph.js'
 
 export interface MultiGraphViewProps {
     numGraphs: number

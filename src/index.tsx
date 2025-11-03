@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
-import props from './scripts/generateGraph'
-import App from './ui/App'
-import { LateralFlowGraphProps } from './ui/LateralFlowGraph'
+import props from './scripts/generateGraph.js'
+import App from './ui/App.js'
+import { LateralFlowGraphProps } from './ui/LateralFlowGraph.js'
 
 async function main() {
     const root = ReactDOM.createRoot(document.getElementById('root')!)

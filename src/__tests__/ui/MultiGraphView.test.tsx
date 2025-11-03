@@ -1,13 +1,14 @@
-import { test, assert } from '@sprucelabs/test-utils'
+import { test, assert } from '@neurodevs/node-tdd'
 import { render, RenderResult, within } from '@testing-library/react'
+
 import {
     FakeLateralFlowGraph,
     resetFakeLateralFlowGraphProps,
-} from '../../exports'
+} from '../../exports.js'
 import MultiGraphView, {
     setGraphComponentMultiView,
-} from '../../ui/MultiGraphView'
-import AbstractPackageTest from '../AbstractPackageTest'
+} from '../../ui/MultiGraphView.js'
+import AbstractPackageTest from '../AbstractPackageTest.js'
 
 export default class MultiGraphViewTest extends AbstractPackageTest {
     private static result: RenderResult

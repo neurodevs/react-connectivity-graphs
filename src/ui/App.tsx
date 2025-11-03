@@ -1,6 +1,7 @@
 import React from 'react'
-import { LateralFlowGraphProps } from '../ui/LateralFlowGraph'
-import MultiGraphView, { MultiGraphViewProps } from './MultiGraphView'
+
+import { LateralFlowGraphProps } from '../ui/LateralFlowGraph.js'
+import MultiGraphView, { MultiGraphViewProps } from './MultiGraphView.js'
 
 const App: React.FC<LateralFlowGraphProps> = () => {
     return (

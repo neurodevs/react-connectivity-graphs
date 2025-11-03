@@ -1,13 +1,14 @@
-import { test, assert } from '@sprucelabs/test-utils'
+import { test, assert } from '@neurodevs/node-tdd'
 import { render, RenderResult } from '@testing-library/react'
+
 import FakeGraphRenderer, {
     lastFakeGraphRendererProps,
     resetFakeGraphRendererProps,
-} from '../../testDoubles/FakeGraphRenderer'
+} from '../../testDoubles/FakeGraphRenderer.js'
 import FakeReactFlowProvider, {
     providerWasCreated,
-} from '../../testDoubles/FakeReactFlowProvider'
-import { LateralizedEdge, SimpleEdge, SimpleNode } from '../../types'
+} from '../../testDoubles/FakeReactFlowProvider.js'
+import { LateralizedEdge, SimpleEdge, SimpleNode } from '../../types.js'
 import LateralFlowGraph, {
     EnrichedEdge,
     EnrichEdgeParams,
@@ -18,8 +19,8 @@ import LateralFlowGraph, {
     setProviderComponentOnGraph,
     setRendererComponentGraph,
     Side,
-} from '../../ui/LateralFlowGraph'
-import AbstractPackageTest from '../AbstractPackageTest'
+} from '../../ui/LateralFlowGraph.js'
+import AbstractPackageTest from '../AbstractPackageTest.js'
 
 export default class LateralFlowGraphTest extends AbstractPackageTest {
     private static result: RenderResult

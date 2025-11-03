@@ -14,9 +14,9 @@ import React, {
     useEffect,
     MouseEvent,
 } from 'react'
-import { EnrichedEdge, EnrichedNode } from './LateralFlowGraph'
-import PreformattedNode from './PreformattedNode'
-import RotatableNode from './RotatableNode'
+import { EnrichedEdge, EnrichedNode } from './LateralFlowGraph.js'
+import PreformattedNode from './PreformattedNode.js'
+import RotatableNode from './RotatableNode.js'
 
 export interface GraphRendererProps {
     nodes: EnrichedNode[]

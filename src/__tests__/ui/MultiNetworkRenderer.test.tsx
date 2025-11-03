@@ -1,8 +1,9 @@
-import { test, assert } from '@sprucelabs/test-utils'
+import { test, assert } from '@neurodevs/node-tdd'
 import { render } from '@testing-library/react'
 import React from 'react'
-import MultiNetworkRenderer from '../../ui/MultiNetworkRenderer'
-import AbstractPackageTest from '../AbstractPackageTest'
+
+import MultiNetworkRenderer from '../../ui/MultiNetworkRenderer.js'
+import AbstractPackageTest from '../AbstractPackageTest.js'
 
 export default class MultiNetworkRendererTest extends AbstractPackageTest {
     private static element: React.ReactElement

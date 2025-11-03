@@ -1,5 +1,5 @@
 import React from 'react'
-import { MultiGraphViewProps } from '../exports'
+import { MultiGraphViewProps } from '../exports.js'
 
 export let lastFakeMultiGraphViewProps: MultiGraphViewProps | null = null
 

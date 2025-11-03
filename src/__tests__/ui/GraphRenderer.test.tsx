@@ -1,16 +1,17 @@
-import { test, assert } from '@sprucelabs/test-utils'
+import { test, assert } from '@neurodevs/node-tdd'
 import { act, fireEvent, screen } from '@testing-library/react'
 import { ReactFlow, ReactFlowInstance, ReactFlowProvider } from '@xyflow/react'
 import React from 'react'
+
 import FakeReactFlow, {
     lastFakeReactFlowProps,
-} from '../../testDoubles/FakeReactFlow'
-import FakeReactFlowInstance from '../../testDoubles/FakeReactFlowInstance'
-import GraphRenderer, { setReactFlowComponent } from '../../ui/GraphRenderer'
-import { EnrichedEdge, EnrichedNode } from '../../ui/LateralFlowGraph'
-import PreformattedNode from '../../ui/PreformattedNode'
-import RotatableNode from '../../ui/RotatableNode'
-import AbstractPackageTest from '../AbstractPackageTest'
+} from '../../testDoubles/FakeReactFlow.js'
+import FakeReactFlowInstance from '../../testDoubles/FakeReactFlowInstance.js'
+import GraphRenderer, { setReactFlowComponent } from '../../ui/GraphRenderer.js'
+import { EnrichedEdge, EnrichedNode } from '../../ui/LateralFlowGraph.js'
+import PreformattedNode from '../../ui/PreformattedNode.js'
+import RotatableNode from '../../ui/RotatableNode.js'
+import AbstractPackageTest from '../AbstractPackageTest.js'
 
 export default class GraphRendererTest extends AbstractPackageTest {
     private static element: React.ReactElement

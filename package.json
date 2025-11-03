@@ -1,7 +1,8 @@
 {
   "name": "@neurodevs/react-connectivity-graphs",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "description": "Network connectivity graphs with nodes and edges",
+  "type": "module",
   "keywords": [
     "nodejs",
     "typescript",
