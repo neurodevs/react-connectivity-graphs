@@ -1,37 +1,40 @@
 @import '@xyflow/react/dist/style.css';
 
-html, body, #root, #app {
-  height: 100%;
-  width: 100%;
+html,
+body,
+#root,
+#app {
+    height: 100%;
+    width: 100%;
 }
 
 .graph-renderer {
-  height: 100%;
-  width: 100%;
-  position: relative;
+    height: 100%;
+    width: 100%;
+    position: relative;
 }
 
 .react-flow__node {
-  pointer-events: none !important;
+    pointer-events: none !important;
 }
 
 .rotatable-node {
-  display: flex;
-  box-shadow: none;
-  background: white;
-  justify-content: left;
-  align-items: center;
-  pointer-events: auto;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
+    display: flex;
+    box-shadow: none;
+    background: white;
+    justify-content: left;
+    align-items: center;
+    pointer-events: auto;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .react-flow__handle {
-  opacity: 0;
+    opacity: 0;
 }
 
-[data-id="bottom-midline"],
-[data-id="top-midline"],
-[data-id="vertical-midline"] {
-  z-index: -1 !important;
+[data-id='bottom-midline'],
+[data-id='top-midline'],
+[data-id='vertical-midline'] {
+    z-index: -1 !important;
 }
