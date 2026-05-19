@@ -1,5 +1,5 @@
 import generateId from '@neurodevs/generate-id'
-import AbstractSpruceTest from '@neurodevs/node-tdd'
+import AbstractModuleTest from '@neurodevs/node-tdd'
 import { render } from '@testing-library/react'
 import { ReactFlowProvider } from '@xyflow/react'
 import React from 'react'
@@ -14,7 +14,7 @@ import { EnrichedNode } from '../ui/LateralFlowGraph.js'
 import { setHandlePre } from '../ui/PreformattedNode.js'
 import { setHandleComponentRotatable } from '../ui/RotatableNode.js'
 
-export default class AbstractPackageTest extends AbstractSpruceTest {
+export default class AbstractPackageTest extends AbstractModuleTest {
     protected static simpleNodes: SimpleNode[] = this.generateSimpleNodes(2)
 
     protected static simpleEdges: SimpleEdge[] = [
