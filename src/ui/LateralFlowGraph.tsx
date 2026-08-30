@@ -22,17 +22,17 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
     const defaultNodeWidthRem = 8 * 16
     const gapDegrees = 40
 
-    const topMidlineNode = {
+    const topMidlineNode: SimpleNode = {
         id: 'top-midline',
         label: 'Top Midline Node',
         abbreviation: 'L   R',
-    } as SimpleNode
+    }
 
-    const bottomMidlineNode = {
+    const bottomMidlineNode: SimpleNode = {
         id: 'bottom-midline',
         label: 'Bottom Midline Node',
         abbreviation: 'L   R',
-    } as SimpleNode
+    }
 
     const verticalMidlineEdge: SimpleEdge = {
         id: 'vertical-midline',
@@ -86,7 +86,7 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
                 ...mapSimpleEdges('right'),
                 ...getMidlineEdges(),
             ],
-        } as EnrichedGraph
+        } satisfies EnrichedGraph
     }
 
     function mapSimpleNodes(side: 'left' | 'right') {
@@ -267,7 +267,7 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
                     ...overrideStyles,
                 },
             },
-        } as EnrichedNode
+        } satisfies EnrichedNode
     }
 
     function enrichEdge(edge: SimpleEdge, params?: EnrichEdgeParams) {
@@ -286,7 +286,7 @@ const LateralFlowGraph: React.FC<LateralFlowGraphProps> = ({
                 strokeWidth,
                 stroke,
             },
-        } as EnrichedEdge
+        } satisfies EnrichedEdge
     }
 
     function opposite(side: string) {
@@ -352,6 +352,7 @@ export interface PositionXY {
 }
 
 export interface EnrichedEdge extends SimpleEdge {
+    type: string
     animated: boolean
     style: EnrichedEdgeStyle
 }
@@ -368,9 +369,9 @@ export interface EnrichNodeParams {
     positionY: number
     rotationDegrees: number
     sidedStyles: SidedNodeStyle
-    handlePosition?: string
-    overrideStyles?: React.CSSProperties
-    nodeType?: keyof CustomNodeTypes
+    handlePosition: string
+    overrideStyles?: Partial<NodeStyle>
+    nodeType?: keyof CustomNodeTypes & string
 }
 
 export interface EnrichEdgeParams {
